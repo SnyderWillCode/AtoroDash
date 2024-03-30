@@ -1,2 +1,0 @@
-ALTER TABLE `mythicaldash_servers` ADD `egg` TEXT NOT NULL AFTER `location`;
-ALTER TABLE `mythicaldash_servers` CHANGE `egg` `egg_id` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0';

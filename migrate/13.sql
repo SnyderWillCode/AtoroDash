@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `linkvertise_coins` TEXT NOT NULL DEFAULT '5' AFTER `linkvertise_code`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `lang` TEXT NOT NULL DEFAULT 'en_US' AFTER `name`;

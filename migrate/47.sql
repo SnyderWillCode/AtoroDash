@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `show_snow` ENUM('true','false') NOT NULL DEFAULT 'true' AFTER `maintenance`;

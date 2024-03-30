@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `allow_payments` ENUM('true','false') NOT NULL DEFAULT 'false' AFTER `discord_webhook`;

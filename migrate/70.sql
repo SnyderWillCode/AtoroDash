@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `enable_paypal` ENUM('true','false') NOT NULL DEFAULT 'false' AFTER `stripe_currency`, ADD `paypal_client_id` TEXT NULL DEFAULT NULL AFTER `enable_paypal`, ADD `paypal_client_secret` TEXT NULL DEFAULT NULL AFTER `paypal_client_id`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_servers_logs` ADD `title` TEXT NOT NULL DEFAULT '' AFTER `type`;

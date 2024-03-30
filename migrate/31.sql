@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `stripe_currency` TEXT NOT NULL DEFAULT 'eur' AFTER `stripe_coin_per_balance`;

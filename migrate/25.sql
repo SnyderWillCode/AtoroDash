@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `server_purge` ENUM('false','true') NOT NULL AFTER `privacy_policy`

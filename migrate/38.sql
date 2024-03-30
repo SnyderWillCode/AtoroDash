@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS `mythicaldash_eggs_config`;
-CREATE TABLE `mythicaldash_eggs_config` (`id` INT NOT NULL AUTO_INCREMENT , `setting_name` TEXT NOT NULL , `setting_value` TEXT NOT NULL , `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;

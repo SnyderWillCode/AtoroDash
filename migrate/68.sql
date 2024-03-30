@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `x` TEXT NOT NULL DEFAULT 'none' AFTER `landingpage`, ADD `website` TEXT NOT NULL DEFAULT 'none' AFTER `x`, ADD `status` TEXT NOT NULL DEFAULT 'none' AFTER `website`;

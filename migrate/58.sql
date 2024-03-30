@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_locations` ADD `host` TEXT NOT NULL DEFAULT '1.1.1.1' AFTER `name`;

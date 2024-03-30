@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `paypal_client_id` TEXT NULL DEFAULT NULL AFTER `enable_paypal`, ADD `paypal_client_secret` TEXT NULL DEFAULT NULL AFTER `paypal_client_id`;

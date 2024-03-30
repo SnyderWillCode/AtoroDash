@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `linkvertise_enabled` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `customhead_code`, ADD `linkvertise_code` TEXT NOT NULL AFTER `linkvertise_enabled`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_users` ADD `first_name` TEXT NOT NULL AFTER `username`, ADD `last_name` TEXT NOT NULL AFTER `first_name`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `bg` TEXT NOT NULL DEFAULT 'https://cdn.discordapp.com/attachments/1169010619815567503/1173222686374232154/minecraft-wallpaper-90.png' AFTER `logo`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_servers` ADD `purge` ENUM('true','false') NOT NULL DEFAULT 'true' AFTER `uid`;

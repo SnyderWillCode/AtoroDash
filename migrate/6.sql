@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `enable_afk` ENUM('true','false') NOT NULL DEFAULT 'true' AFTER `afk_coins_per_min`;

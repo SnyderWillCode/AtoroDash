@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS `mythicaldash_payments`;
-CREATE TABLE `mythicaldash_payments` (`id` INT NOT NULL AUTO_INCREMENT , `code` TEXT NOT NULL , `status` ENUM('pending','paid','processing','canceled') NOT NULL DEFAULT 'pending' , `date` DATETIME NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

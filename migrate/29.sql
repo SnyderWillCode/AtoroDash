@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `enable_stripe` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `discord_webhook`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `customhead_enabled` ENUM('false','true') NOT NULL DEFAULT 'true' AFTER `customcss_code`, ADD `customhead_code` TEXT NOT NULL DEFAULT '<link rel=\"manifest\" href=\"/manifest.webmanifest\">' AFTER `customhead_enabled`;

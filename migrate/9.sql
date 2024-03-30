@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `customcss_enabled` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `ads_code`, ADD `customcss_code` TEXT NOT NULL DEFAULT '.body { height: unset; }' AFTER `customcss_enabled`;

@@ -1,1 +1,0 @@
-ALTER TABLE `mythicaldash_settings` ADD `stripe_publishable_key` TEXT NOT NULL DEFAULT 'none' AFTER `discord_webhook`, ADD `stripe_secret_key` TEXT NOT NULL DEFAULT 'none' AFTER `stripe_publishable_key`;

@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS `mythicaldash_servers_logs`;
-CREATE TABLE `mythicaldash_servers_logs` (`id` INT NOT NULL AUTO_INCREMENT , `type` ENUM('error','warning','success','critical') NULL DEFAULT 'warning' , `text` TEXT NOT NULL , `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;

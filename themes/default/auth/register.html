@@ -1,0 +1,87 @@
+{include file='../components/head.html'}
+{include file='../requirements/css.html'}
+{include file='../components/alert.html'}
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+.rotate {
+  animation: rotation 3s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+
+<body>
+
+  <!-- Start wrapper-->
+  <div id="wrapper">
+    <div class="card card-authentication1 mx-auto my-5">
+      <div id="registerbox" class="card-body">
+        <div class="card-content p-2">
+          <div class="card-title text-uppercase text-center py-3">Sign Up to {$cfg_name}
+          </div>
+          <form>
+
+            <div class="form-group">
+              <label for="exampleInputUsername" class="sr-only">Name</label>
+              <div class="position-relative has-icon-right">
+                <input type="text" id="name" class="form-control input-shadow" placeholder="Enter Name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword" class="sr-only">Username</label>
+              <div class="position-relative has-icon-right">
+                <input type="text" id="username" class="form-control input-shadow" placeholder="Enter Username" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputUsername" class="sr-only">Email</label>
+              <div class="position-relative has-icon-right">
+                <input type="email" id="email" class="form-control input-shadow" placeholder="Enter Email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword" class="sr-only">Password</label>
+              <div class="position-relative has-icon-right">
+                <input type="password" id="password" class="form-control input-shadow" placeholder="Enter Password" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icheck-material-white">
+                <input type="checkbox" id="user-checkbox" />
+                <label for="user-checkbox">I Agree With <a href="/tos">Terms & Conditions</a></label>
+              </div>
+            </div>
+        </div>
+        <button id="submitButton" onclick="submitForm()" type="button" class="btn btn-light btn-block">Sign Up</button>
+        <div class="text-center mt-3">Sign Up With</div>
+        <div class="form-row mt-4">
+          <a href="/auth/discord/login" type="button" class="btn btn-light btn-block"><i class="bi bi-discord"></i> Discord</a>
+        </div>
+
+        </form>
+      </div>
+      <div id="loading" style="display: none;" class="card-content p-2">
+        <div class="text-center">
+          <img width="40px" src="{$cfg_logo}" class="rotate">
+        </div>
+      </div>
+      <div class="card-footer text-center py-3">
+        <p class="mb-0">Already Registered? <a href="./login"> Sign in here</a></p>
+      </div>
+    </div>
+
+{include file='../requirements/js.html'}

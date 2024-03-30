@@ -1,0 +1,52 @@
+/* Your existing CSS code here */
+
+/* Discord-style Preloader */
+.discord-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #161616;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+.discord-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.discord-logo img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.spinner {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-top: 8px solid #fb923c;
+  border-left: 8px solid #ec4899;
+  border-right: 8px solid #ff00;
+  animation: loader .7s infinite linear;
+}
+
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}

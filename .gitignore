@@ -22,3 +22,5 @@ migrates.ini
 /mythicaldash_backup.sql
 /caches/notifications.json
 /.mono/
+/compile/*.php
+/cache/*

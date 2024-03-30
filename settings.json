@@ -1,0 +1,46 @@
+{
+    "app": {
+        "name": "MythicalSystems",
+        "host": "mythicaldashx.mythicalsystems.me",
+        "logo": "https:\/\/avatars.githubusercontent.com\/u\/117385445",
+        "background": "https:\/\/i.pinimg.com\/originals\/92\/f1\/cc\/92f1cc4d0d3fbf35a99455c7ef7ae470.jpg",
+        "encryption_key": "4c0576eb-60b3-48a9-8b80-9dd42d485289",
+        "timezone": "Europe\/Bucharest",
+        "maintenance": "true",
+        "theme": "default"
+    },
+    "seo": {
+        "title": "MythicalSystems",
+        "description": "MythicalDash is a feature-rich and user-friendly client area for Pterodactyl, designed to simplify server management. With MythicalDash, you have unparalleled control over your hosting environment, effortlessly managing game servers, databases, files, and more. Experience seamless server administration, enhanced security, and optimized performance with MythicalDash, your ultimate solution for streamlined Pterodactyl server management.",
+        "image": "https:\/\/avatars.githubusercontent.com\/u\/117385445",
+        "keywords": "mythicalsystems, mythicaldash, mythicaldashx, mythicaldashthebest",
+        "author": "MythicalSystems LTD"
+    },
+    "mail": {
+        "enabled": "false",
+        "host": "",
+        "port": "",
+        "encryption": "SSL",
+        "username": "",
+        "password": "",
+        "from": ""
+    },
+    "discord": {
+        "invite": "",
+        "server_id": "",
+        "client_id": "",
+        "client_secret": ""
+    },
+    "legal": {
+        "terms_of_service": "",
+        "privacy_policy": ""
+    },
+    "developers": {
+        "debug": "true"
+    },
+    "meta": {
+        "version": "",
+        "branch": "develop"
+    },
+    "__last_updated": "2024-03-30 16:59:55"
+}

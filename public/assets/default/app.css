@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Urbanist&display=swap');
+
+body {
+    font-family: 'urbanist'
+}
+
+.font-nunito {
+    font-family: 'nunito'
+}
+
+div.close {
+    transition: 1000ms;
+    padding: 0;
+    cursor: pointer;
+    background: 0;
+    opacity: 0;
+    height: 0;
+}
+
+div.open {
+    transition: 700ms;
+    transform-origin: 0%;
+    margin-bottom: 64px;
+    opacity: 1;
+    height: auto;
+    visibility: visible;
+}
+
+.idktbh {
+    background-color: #141313;
+}
+
+@keyframes tilt {
+    0%, 50%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(0.5deg);
+    }
+    75% {
+        transform: rotate(-0.5deg);
+    }
+}
+
+.tilt {
+    animation: tilt 10s infinite linear;
+}
+
+@keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(2);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(2.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(1.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(2);
+    }
+  }
+  
+  .animation-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+  
+  .blinking-cursor {
+    user-select: none;
+    animation: blink 1s steps(2, start) infinite;
+  }
+  @keyframes blink {
+    to {
+      visibility: hidden;
+    }
+  }
+
+.animate-gradient {
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(270deg, #ff7356, #ff59e2 25.52%, #52ddf6 50%, #eadf4e 76.04%, #ff7356);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: gradient 6s linear infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+::selection {
+    background: rgba(255, 255, 255, .2)
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: inherit;
+    background-size: cover;
+    z-index: 0;
+}
+
+progress {
+    vertical-align: baseline
+}
+
+.progress {
+    border-radius: 9999px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    width: 100%
+}
+
+.progress .is-indeterminate {
+    animation: progress-increase 3s cubic-bezier(.4, 0, .2, 1) infinite
+}
+
+.progress .is-active:before {
+    --tw-content: "";
+    animation: progress-active 3s cubic-bezier(.55, .2, .3, .67) infinite;
+    background-color: #fff;
+    border-radius: .25rem;
+    content: var(--tw-content);
+    inset: 0;
+    position: absolute
+}
+
+@keyframes progress-increase {
+    0% {
+        left: -5%;
+        width: 5%
+    }
+
+    to {
+        left: 125%;
+        width: 100%
+    }
+}
+
+@keyframes progress-active {
+    0% {
+        opacity: .6;
+        transform: translateX(-100%)
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(0)
+    }
+}
+

@@ -1,0 +1,128 @@
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{$cfg_seo_description}">
+    <meta name="keywords" content="{$cfg_seo_keywords}">
+    <meta name="author" content="{$cfg_seo_author}">
+    <meta name="copyright" content="{$cfg_name}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{$cfg_seo_title}">
+    <meta property="og:description" content="{$cfg_seo_description}">
+    <meta property="og:image" content="{$cfg_seo_image}">
+    <meta name="twitter:card" content="{$cfg_seo_image}">
+    <meta name="twitter:title" content="{$cfg_seo_title}">
+    <meta name="twitter:description" content="{$cfg_seo_description}">
+    <meta name="twitter:image" content="{$cfg_seo_image}">
+    <meta name="twitter:image:src" content="{$cfg_seo_image}">
+    <!-- End Meta Tags -->
+    <link rel="shortcut icon" href="{$cfg_logo}" type="image/x-icon">
+    <title>{$cfg_name}</title>
+    <link rel="icon" type="image/png" href="{$cfg_logo}">
+    <script src="https://kit.fontawesome.com/cf4342c927.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nanobar/0.4.2/nanobar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+        integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+    <link href="/assets/{$cfg_theme}/css/app.css" rel="stylesheet">
+    <script src="/assets/{$cfg_theme}/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(37, 37, 37, 0.649);
+        z-index: 9999;
+    }
+
+    .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 4px solid #f3f3f300;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 500ms linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        20% {
+            transform: translate(-50%, -50%) rotate(72deg);
+        }
+
+        40% {
+            transform: translate(-50%, -50%) rotate(144deg);
+        }
+
+        60% {
+            transform: translate(-50%, -50%) rotate(216deg);
+        }
+
+        80% {
+            transform: translate(-50%, -50%) rotate(288deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+</style>
+
+
+
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        showHideTransition: 'slide',
+        positionClass: 'toast-bottom-right',
+        timeOut: 4000,
+        extendedTimeOut: 1000,
+        showDuration: 300,
+        hideDuration: 300,
+    };
+</script>
+<style>
+    .toast-success {
+        background-color: #22bb33 !important;
+        color: #ffffff !important;
+    }
+
+    .toast-error {
+        background-color: #e81c0d !important;
+        color: #ffffff !important;
+    }
+
+    .toast-warning {
+        background-color: #1a1616 !important;
+        color: #ffffff !important;
+    }
+
+    .toast-info {
+        background-color: #02a1db !important;
+        color: #ffffff !important;
+    }
+</style>

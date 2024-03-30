@@ -1,0 +1,70 @@
+{include file='../components/head.html'}
+{include file='../requirements/css.html'}
+{include file='../components/alert.html'}
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .rotate {
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<body>
+
+  <!-- Start wrapper-->
+  <div id="wrapper">
+    <div class="card card-authentication1 mx-auto my-5">
+      <div class="card-body">
+        <div id="loginbox" class="card-content p-2">
+          <div class="card-title text-uppercase text-center py-3">Sign In to {$cfg_name}
+          </div>
+          <form>
+            <div class="form-group">
+              <label for="" class="sr-only">Email</label>
+              <div class="position-relative has-icon-right">
+                <input type="text" id="user" class="form-control input-shadow" placeholder="Enter Username or Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="sr-only">Password</label>
+              <div class="position-relative has-icon-right">
+                <input type="password" id="password" class="form-control input-shadow" placeholder="Enter Password">
+              </div>
+            </div>
+            <button onclick="submitForm()" type="button" class="btn btn-light btn-block">Sign In</button>
+            <div class="text-center mt-3">Or login using</div>
+            <div class="form-row mt-4">
+              <a href="/auth/discord/login" type="button" class="btn btn-light btn-block"><i class="bi bi-discord"></i>
+                Discord</a>
+            </div>
+          </form>
+        </div>
+        <div id="loading" style="display: none;" class="card-content p-2">
+          <div class="text-center">
+            <img width="40px" src="{$cfg_logo}" class="rotate">
+          </div>
+        </div>
+      </div>
+      <div id="footer" class="card-footer text-center py-3">
+        <p class="mb-0">New to {$cfg_name}? <a href="/auth/register"> Sign Up here</a></p>
+      </div>
+
+    </div>
+
+    {include file='../requirements/js.html'}
+    <script src="/src/auth/login.js"></script>

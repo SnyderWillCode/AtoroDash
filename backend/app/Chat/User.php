@@ -33,12 +33,14 @@ namespace MythicalClient\Chat;
 
 use Gravatar\Gravatar;
 use MythicalClient\App;
+use MythicalClient\Chat\interface\UserActivitiesTypes;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Mail\templates\Verify;
 use MythicalClient\Mail\templates\NewLogin;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Mail\templates\ResetPassword;
 use MythicalClient\Chat\columns\EmailVerificationColumns;
+use MythicalSystems\CloudFlare\CloudFlare;
 
 class User extends Database
 {
@@ -222,7 +224,7 @@ class User extends Database
                             App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
                         }
                     }
-
+                    UserActivities::add($user['uuid'], UserActivitiesTypes::$login, CloudFlare::getRealUserIP());
                     return $user['token'];
                 }
 

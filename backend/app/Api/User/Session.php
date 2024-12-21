@@ -35,6 +35,7 @@ use MythicalClient\Chat\Roles;
 use MythicalClient\Chat\Billing;
 use MythicalClient\Chat\Session;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\UserActivities;
 
 $router->post('/api/user/session/info/update', function (): void {
     App::init();
@@ -180,4 +181,21 @@ $router->get('/api/user/session', function (): void {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN', 'error' => $e->getMessage()]);
     }
 
+});
+
+
+$router->get('/api/user/session/activities', function (): void {
+    App::init();
+    $appInstance = App::getInstance(true);
+    $config = $appInstance->getConfig();
+
+    $appInstance->allowOnlyGET();
+
+    $session = new Session($appInstance);
+
+    $accountToken = $session->SESSION_KEY;
+
+    $appInstance->OK('User activities', [
+        'activities' => UserActivities::get(User::getInfo($accountToken, UserColumns::UUID, false))
+    ]);
 });

@@ -69,7 +69,6 @@ CREATE TABLE
     `mythicalclient_users_activities` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `user` varchar(36) NOT NULL,
-        `description` text NOT NULL,
         `action` text NOT NULL,
         `ip_address` text NOT NULL,
         `deleted` enum ('false', 'true') NOT NULL DEFAULT 'false',

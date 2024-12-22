@@ -33,7 +33,7 @@ const sorting = ref<SortingState>([]);
 const filter = ref('');
 
 const table = useVueTable({
-    data: data.value,
+    data: data,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     columns: props.columns as ColumnDef<unknown, any>[],
     getCoreRowModel: getCoreRowModel(),

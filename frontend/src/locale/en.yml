@@ -313,6 +313,73 @@ account:
                     update_button:
                         label: Update
                         reset: Reset
+        emails: 
+            alerts:
+                success:
+                    title: Success
+                    update_success: Email preferences updated
+                    footer: Your email preferences have been updated
+                error:
+                    title: Error
+                    generic: An error occurred. Please try again later
+                    footer: Please contact support for assistance
+            page:
+                title: Emails
+                subTitle: See your emails!
+                table:
+                    columns:
+                        id: ID 
+                        subject: Subject
+                        date: Date
+                        from: From
+                        actions: Actions
+                    empty: No emails found
+                    results:
+                        viewButton: View
+        security:
+            alerts:
+                success:
+                    title: Success
+                    update_success: Security settings updated
+                    footer: Your security settings have been updated
+                error:
+                    title: Error
+                    generic: An error occurred. Please try again later
+                    footer: Please contact support for assistance
+            page:
+                title: Security
+                subTitle: Manage your security settings
+                cards:
+                    twofactor:
+                        title: Two-Factor Authentication (2FA)
+                        subTitle: You want to be sure your account will not be stolen?
+                        enable_button:
+                            description: "2FA is currently disabled. Enable it to secure your account."
+                            label: Enable
+                            loading: Enabling...
+                        disable_button:
+                            description: "2FA is currently enabled. Disable it to put your account into a less secure state."
+                            label: Disable
+                            loading: Disabling...
+                    password:
+                        title: Change your password
+                        subTitle: You want to change the password of your account?
+                        change_button:
+                            label: Change Password
+                            loading: Changing...
+        activity:
+            page:
+                title: Activity
+                subTitle: See your activity!
+                table:
+                    columns:
+                        action: Action
+                        date: Date
+                        ip: IP
+                    error: An error occurred while fetching your activity
+                    results:
+                        viewButton: View
+
 components:
     sidebar:
         dashboard: Dashboard

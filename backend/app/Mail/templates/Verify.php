@@ -32,6 +32,7 @@
 namespace MythicalClient\Mail\templates;
 
 use MythicalClient\App;
+use MythicalClient\Chat\Mails;
 use MythicalClient\Chat\User;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Chat\Database;
@@ -45,6 +46,7 @@ class Verify extends Mail
             $template = self::getFinalTemplate($uuid);
             $template = str_replace('${token}', $verifyToken, $template);
             $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
+            Mails::add('Verify your email', $template, $uuid);
             self::send($email, 'Verify your email', $template);
         } catch (\Exception $e) {
             App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/Verify.php) [sendMail] Failed to send email: ' . $e->getMessage());

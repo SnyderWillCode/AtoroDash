@@ -4,9 +4,13 @@ import LayoutAccount from './Layout.vue';
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
 import { useRouter } from 'vue-router';
 import Session from '@/mythicalclient/Session';
+import { useI18n } from 'vue-i18n';
 const router = useRouter();
+const { t } = useI18n();
 
 const is2FAEnabled = Session.getInfo('2fa_enabled') === 'true' ? ref(true) : ref(false);
+
+document.title = t('account.pages.security.page.title');
 
 const enable2FA = () => {
     // Add logic to enable 2FA
@@ -41,36 +45,36 @@ const disable2FA = () => {
     <LayoutAccount />
 
     <!-- Change Password -->
-    <CardComponent cardTitle="Change your Password" cardDescription="You want to change the password of your account?">
+    <CardComponent :cardTitle="t('account.pages.security.page.cards.password.title')" :cardDescription="t('account.pages.security.page.cards.password.subTitle')">
         <router-link
             to="/auth/forgot-password"
             class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
         >
-            Change Password
+            {{  t('account.pages.security.page.cards.password.change_button.label') }}
         </router-link>
     </CardComponent>
     <br />
     <!-- Two-Factor Authentication (2FA) -->
     <CardComponent
-        cardTitle="Two-Factor Authentication (2FA)"
-        cardDescription="You want to be sure your account will not be stolen?"
+        :cardTitle="t('account.pages.security.page.cards.twofactor.title')"
+        :cardDescription="t('account.pages.security.page.cards.twofactor.subTitle')"
     >
         <div v-if="is2FAEnabled" class="flex items-center justify-between">
-            <p class="text-sm text-gray-100">2FA is currently enabled.</p>
+            <p class="text-sm text-gray-100">{{ t('account.pages.security.page.cards.twofactor.disable_button.description')}}<</p>
             <button
                 @click="disable2FA"
                 class="ml-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
             >
-                Disable 2FA
+                {{ t('account.pages.security.page.cards.twofactor.disable_button.label')}}
             </button>
         </div>
         <div v-else class="flex items-center justify-between">
-            <p class="text-sm text-gray-100">2FA is currently disabled.</p>
+            <p class="text-sm text-gray-100">{{ t('account.pages.security.page.cards.twofactor.enable_button.description')}}</p>
             <button
                 @click="enable2FA"
                 class="ml-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
             >
-                Enable 2FA
+                {{  t('account.pages.security.page.cards.twofactor.enable_button.label')  }}
             </button>
         </div>
     </CardComponent>

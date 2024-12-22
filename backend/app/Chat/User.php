@@ -33,14 +33,14 @@ namespace MythicalClient\Chat;
 
 use Gravatar\Gravatar;
 use MythicalClient\App;
-use MythicalClient\Chat\interface\UserActivitiesTypes;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Mail\templates\Verify;
+use MythicalSystems\CloudFlare\CloudFlare;
 use MythicalClient\Mail\templates\NewLogin;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Mail\templates\ResetPassword;
+use MythicalClient\Chat\interface\UserActivitiesTypes;
 use MythicalClient\Chat\columns\EmailVerificationColumns;
-use MythicalSystems\CloudFlare\CloudFlare;
 
 class User extends Database
 {
@@ -225,6 +225,7 @@ class User extends Database
                         }
                     }
                     UserActivities::add($user['uuid'], UserActivitiesTypes::$login, CloudFlare::getRealUserIP());
+
                     return $user['token'];
                 }
 

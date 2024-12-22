@@ -32,6 +32,7 @@
 namespace MythicalClient\Mail\templates;
 
 use MythicalClient\App;
+use MythicalClient\Chat\Mails;
 use MythicalClient\Chat\User;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Chat\Database;
@@ -45,6 +46,7 @@ class NewLogin extends Mail
         try {
             $template = self::getFinalTemplate($uuid);
             $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
+            Mails::add('New Login Detected', $template, $uuid);
             self::send($email, 'New Login Detected', $template);
         } catch (\Exception $e) {
             App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/NewLogin.php) [sendMail] Failed to send email: ' . $e->getMessage());

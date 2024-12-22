@@ -30,12 +30,13 @@
  */
 
 use MythicalClient\App;
+use MythicalClient\Chat\Mails;
 use MythicalClient\Chat\User;
 use MythicalClient\Chat\Roles;
 use MythicalClient\Chat\Billing;
 use MythicalClient\Chat\Session;
-use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Chat\UserActivities;
+use MythicalClient\Chat\columns\UserColumns;
 
 $router->post('/api/user/session/info/update', function (): void {
     App::init();
@@ -183,7 +184,6 @@ $router->get('/api/user/session', function (): void {
 
 });
 
-
 $router->get('/api/user/session/activities', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
@@ -196,6 +196,8 @@ $router->get('/api/user/session/activities', function (): void {
     $accountToken = $session->SESSION_KEY;
 
     $appInstance->OK('User activities', [
-        'activities' => UserActivities::get(User::getInfo($accountToken, UserColumns::UUID, false))
+        'activities' => UserActivities::get(User::getInfo($accountToken, UserColumns::UUID, false)),
     ]);
 });
+
+

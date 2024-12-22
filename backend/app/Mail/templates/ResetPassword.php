@@ -32,6 +32,7 @@
 namespace MythicalClient\Mail\templates;
 
 use MythicalClient\App;
+use MythicalClient\Chat\Mails;
 use MythicalClient\Chat\User;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Chat\Database;
@@ -46,6 +47,7 @@ class ResetPassword extends Mail
             $template = self::getFinalTemplate($uuid);
             $template = str_replace('${token}', $resetToken, $template);
             $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
+            Mails::add('Password Reset', $template, $uuid);
             self::send($email, 'Password Reset', $template);
         } catch (\Exception $e) {
             App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/ResetPassword.php) [sendMail] Failed to send email: ' . $e->getMessage());

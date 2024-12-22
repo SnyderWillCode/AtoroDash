@@ -138,7 +138,7 @@ const resetFields = async () => {
                 <div>
                     <label class="block">
                         <span class="block text-sm font-medium text-gray-400 mb-1.5">{{
-                            t('account.pages.settings.page.form.background')
+                            t('account.pages.settings.page.form.background.label')
                         }}</span>
                         <TextInput type="url" v-model="form.background" name="background" id="background" />
                     </label>

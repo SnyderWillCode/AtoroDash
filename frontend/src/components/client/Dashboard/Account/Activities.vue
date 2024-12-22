@@ -4,6 +4,11 @@ import { format } from 'date-fns';
 import LayoutAccount from './Layout.vue';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
 import Activities from '@/mythicalclient/Activities';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+document.title = t('account.pages.activity.page.title');
 
 interface Activity {
   id: number;
@@ -24,7 +29,7 @@ const fetchActivities = async () => {
     const response = await Activities.get();
     activities.value = response;
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'An unknown error occurred';
+    error.value = err instanceof Error ? err.message : t('account.pages.activity.page.table.error');
   } finally {
     loading.value = false;
   }
@@ -41,15 +46,16 @@ onErrorCaptured((err) => {
 const columnsActivities = [
   {
     accessorKey: 'action',
-    header: 'Action',
+    header: t('account.pages.activity.page.table.columns.action'),
   },
   {
     accessorKey: 'ip_address',
-    header: 'Ip Address',
+    header: t('account.pages.activity.page.table.columns.ip'),
   },
   {
     accessorKey: 'date',
-    header: 'Created',
+    header: t('account.pages.activity.page.table.columns.date'),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cell: (info: any) => format(new Date(info.getValue()), 'MMM d, yyyy HH:mm'),
   },
 ];
@@ -69,7 +75,7 @@ const columnsActivities = [
     </div>
 
     <div v-else class="overflow-x-auto">
-      <TableTanstack :data="activities" :columns="columnsActivities" tableName="Activities" />
+      <TableTanstack :data="activities" :columns="columnsActivities" :tableName="t('account.pages.activity.page.title')" />
     </div>
   </div>
 </template>

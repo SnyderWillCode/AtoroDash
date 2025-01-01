@@ -31,19 +31,37 @@
  * SOFTWARE.
  */
 
-namespace MythicalClient\CloudFlare;
+namespace MythicalClient\Hooks;
 
-class CloudFlareRealIP
+use MythicalClient\Cache\Cache;
+
+class GitHub
 {
-    public static function getRealIP()
+    private $cacheKey = 'github_repo_data';
+    private $cacheTTL = 3600; // 1 hour in seconds
+
+    public function getRepoData()
     {
-        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            return $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        // Check if data is cached
+        if (Cache::exists($this->cacheKey)) {
+            return Cache::getJson($this->cacheKey);
         }
 
-        return $_SERVER['REMOTE_ADDR'];
+        // Make GET request to GitHub API
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/mythicalltd/mythicaldash');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/vnd.github+json',
+            'X-GitHub-Api-Version: 2022-11-28',
+            'User-Agent: MythicalClient',
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
 
+        // Cache the response
+        Cache::putJson($this->cacheKey, $response, $this->cacheTTL);
+
+        return $response;
     }
 }

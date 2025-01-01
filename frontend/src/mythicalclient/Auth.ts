@@ -1,5 +1,5 @@
 /* ---------------------------
- * Author: NaysKutzu Date: 2024-11-29
+ * Author: NaysKutzu Date: 2025-11-29
  *
  * Changes:
  * - Initial commit
@@ -7,7 +7,7 @@
  *
  * ---------------------------*/
 /* ---------------------------
- * Author: NaysKutzu Date: 2024-12-01
+ * Author: NaysKutzu Date: 2025-12-01
  *
  * Changes:
  * - Added support for changing the user info!
@@ -15,7 +15,7 @@
  * ---------------------------*/
 
 /* ---------------------------
- * Author: NaysKutzu Date: 2024-12-07
+ * Author: NaysKutzu Date: 2025-12-07
  *
  * Changes:
  * - Add support for 2fa!

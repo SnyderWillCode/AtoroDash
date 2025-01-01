@@ -2,22 +2,32 @@
     "recommendations": [
         "haorenlong-vscode.vue-i18n-translate-decoration",
         "vue-i18n-manage.vue-i18n-manage",
-        "vue.volar",
         "antfu.vite",
         "inferrinizzard.prettier-sql-vscode",
         "mblode.pretty-formatter",
         "fcoury.pretty-sql",
         "devsense.profiler-php-vscode",
-        "zobo.php-intellisense",
-        "bmewburn.vscode-intelephense-client",
         "xdebug.php-pack",
         "devsense.phptools-vscode",
-        "mythicalsystems.mythicalframework-utils",
         "pkief.material-icon-theme",
-        "oderwat.indent-rainbow",
         "github.copilot-chat",
         "github.copilot",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "yoavbls.pretty-ts-errors",
+        "editorconfig.editorconfig",
+        "streetsidesoftware.code-spell-checker",
+        "ms-vscode.vscode-typescript-next",
+        "mythicalsystems.mythicalframework-utils",
+        "esbenp.prettier-vscode",
+        "devsense.composer-php-vscode",
+        "ikappas.composer",
+        "muath-ye.composer-intelephense",
+        "fill-labs.dependi",
+        "dbaeumer.vscode-eslint",
+        "oderwat.indent-rainbow",
+        "devsense.intelli-php-vscode",
+        "xdebug.php-debug",
+        "redhat.vscode-yaml"
     ]
    
 }

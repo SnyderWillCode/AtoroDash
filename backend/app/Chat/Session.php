@@ -4,11 +4,13 @@
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
+ * 2021-2025 (c) All rights reserved
+ *
  * MIT License
  *
- * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
- * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
- * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ * (c) MythicalSystems - All rights reserved
+ * (c) NaysKutzu - All rights reserved
+ * (c) Cassian Gherman- All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -98,5 +100,20 @@ class Session extends Database
         } catch (\Exception $e) {
             $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Check if the user has access to the admin panel.
+     *
+     * @return bool true if the user has access to the admin panel, otherwise false
+     */
+    public function canAccessAdmin(): bool
+    {
+        if ($this->getInfo(UserColumns::ROLE_ID, false) == '1' || $this->getInfo(UserColumns::ROLE_ID, false) == '2') {
+            return false;
+        }
+
+        return true;
+
     }
 }

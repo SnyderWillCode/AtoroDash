@@ -31,19 +31,19 @@
  * SOFTWARE.
  */
 
-namespace MythicalClient\CloudFlare;
+namespace MythicalClient\Chat;
 
-class CloudFlareRealIP
+class Can
 {
-    public static function getRealIP()
+    /**
+     * Check if the user can access the admin UI.
+     *
+     * @param int $id The role id!
+     *
+     * @return bool Returns true if the user can access the admin UI
+     */
+    public static function canAccessAdminUI(int $id): bool
     {
-        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            return $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-
-        return $_SERVER['REMOTE_ADDR'];
-
+        return in_array($id, [3, 4, 5, 6, 7, 8], true);
     }
 }

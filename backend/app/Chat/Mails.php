@@ -4,11 +4,13 @@
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
+ * 2021-2025 (c) All rights reserved
+ *
  * MIT License
  *
- * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
- * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
- * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ * (c) MythicalSystems - All rights reserved
+ * (c) NaysKutzu - All rights reserved
+ * (c) Cassian Gherman- All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,8 +41,6 @@ class Mails
      * @param string $subject Mail subject
      * @param string $body Mail body
      * @param string $uuid User UUID
-     * 
-     * @return bool
      */
     public static function add(string $subject, string $body, string $uuid): bool
     {
@@ -59,13 +59,12 @@ class Mails
         }
 
     }
+
     /**
      * Delete a mail.
      *
      * @param string $id Mail ID
      * @param string $uuid User UUID
-     * 
-     * @return bool
      */
     public static function delete(string $id, string $uuid): bool
     {
@@ -80,12 +79,11 @@ class Mails
             return false;
         }
     }
+
     /**
      * Get all mails for a user.
      *
      * @param string $uuid User UUID
-     * 
-     * @return array
      */
     public static function getAll(string $uuid): array
     {
@@ -100,11 +98,12 @@ class Mails
             return [];
         }
     }
+
     /**
      * Get a mail.
-     * 
+     *
      * @param string $id Mail ID
-     * 
+     *
      * @return array Mail data
      */
     public static function get(string $id): array
@@ -120,11 +119,12 @@ class Mails
             return [];
         }
     }
+
     /**
      * Check if a mail exists.
-     * 
+     *
      * @param string $id Mail ID
-     * 
+     *
      * @return bool Does mail exist
      */
     public static function exists(string $id): bool
@@ -134,17 +134,19 @@ class Mails
             $stmt = $dbConn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE id = :id');
             $stmt->bindParam(':id', $id);
             $stmt->execute();
+
             return $stmt->rowCount() > 0;
         } catch (\Exception $e) {
             return false;
         }
     }
+
     /**
      * Get all mails for a user.
-     * 
+     *
      * @param string $uuid User UUID
      * @param string $id Mail ID
-     * 
+     *
      * @return bool Does user own email
      */
     public static function doesUserOwnEmail(string $uuid, string $id): bool

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* ---------------------------
- * Author: NaysKutzu Date: 2024-11-29
+ * Author: NaysKutzu Date: 2025-11-29
  *
  * Changes:
  * - Initial version

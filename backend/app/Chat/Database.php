@@ -4,11 +4,13 @@
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
+ * 2021-2025 (c) All rights reserved
+ *
  * MIT License
  *
- * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
- * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
- * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ * (c) MythicalSystems - All rights reserved
+ * (c) NaysKutzu - All rights reserved
+ * (c) Cassian Gherman- All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -77,5 +79,197 @@ class Database
         $con = new self($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
 
         return $con->getPdo();
+    }
+
+    /**
+     * Get the table row count.
+     *
+     * @param string $table the table name
+     */
+    public static function getTableRowCount(string $table): int
+    {
+        try {
+            $query = self::getPdoConnection()->query('SELECT COUNT(*) FROM ' . $table);
+
+            return (int) $query->fetchColumn();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get table row count: ' . $e->getMessage());
+
+            return 0;
+        }
+    }
+
+    /**
+     * Check if a table exists.
+     *
+     * @param string $table the table name
+     *
+     * @return bool true if the table exists, false otherwise
+     */
+    public static function tableExists(string $table): bool
+    {
+        try {
+            $query = self::getPdoConnection()->query("SHOW TABLES LIKE '$table'");
+
+            return $query->rowCount() > 0;
+        } catch (\Exception $e) {
+            self::db_Error('Failed to check if table exists: ' . $e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Get all tables in the database.
+     */
+    public static function getTables(): array
+    {
+        try {
+            $query = self::getPdoConnection()->query('SHOW TABLES');
+
+            return $query->fetchAll(\PDO::FETCH_COLUMN);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get tables: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Marks a record as deleted in the specified table by setting the 'deleted' column to 'true'.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to mark as deleted
+     */
+    public static function markRecordAsDeleted(string $table, int $row): void
+    {
+        try {
+            $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET deleted = 'true' WHERE id = " . $row);
+            $query->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to mark record as deleted: ' . $e->getMessage());
+
+            return;
+        }
+    }
+
+    /**
+     * Retrieves all records marked as deleted from the specified table.
+     *
+     * @param string $table the name of the table to query
+     *
+     * @return array array of deleted records in associative array format
+     */
+    public static function getDeletedRecords(string $table): array
+    {
+        try {
+            $query = self::getPdoConnection()->query('SELECT * FROM ' . $table . " WHERE deleted = 'true'");
+
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get deleted records: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Restores a previously deleted record by setting the 'deleted' column to 'false'.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to restore
+     */
+    public static function restoreRecord(string $table, int $row): void
+    {
+        try {
+            $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET deleted = 'false' WHERE id = " . $row);
+            $query->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to restore record: ' . $e->getMessage());
+
+            return;
+        }
+    }
+
+    /**
+     * Permanently deletes a record from the specified table.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to delete
+     */
+    public static function deleteRecord(string $table, int $row): void
+    {
+        try {
+            $query = self::getPdoConnection()->query('DELETE FROM ' . $table . ' WHERE id = ' . $row);
+            $query->execute();
+
+        } catch (\Exception $e) {
+            self::db_Error('Failed to delete record: ' . $e->getMessage());
+
+            return;
+        }
+    }
+
+    /**
+     * Locks a record in the specified table by setting the 'locked' column to 'true'.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to lock
+     */
+    public static function lockRecord(string $table, int $row): void
+    {
+        try {
+            $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET locked = 'true' WHERE id = " . $row);
+            $query->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to lock record: ' . $e->getMessage());
+
+            return;
+        }
+    }
+
+    /**
+     * Unlocks a record in the specified table by setting the 'locked' column to 'false'.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to unlock
+     */
+    public static function unlockRecord(string $table, int $row): void
+    {
+        try {
+            $query = self::getPdoConnection()->query('UPDATE ' . $table . " SET locked = 'false' WHERE id = " . $row);
+            $query->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to unlock record: ' . $e->getMessage());
+
+            return;
+        }
+    }
+
+    /**
+     * Checks if a specific record is locked.
+     *
+     * @param string $table the name of the table containing the record
+     * @param int $row the ID of the record to check
+     *
+     * @return bool returns true if the record is locked, false otherwise
+     */
+    public static function isLocked(string $table, int $row): bool
+    {
+        try {
+            $query = self::getPdoConnection()->query('SELECT locked FROM ' . $table . ' WHERE id = ' . $row);
+
+            return $query->fetch(\PDO::FETCH_ASSOC)['locked'] == 'true';
+        } catch (\Exception $e) {
+            self::db_Error('Failed to check for lock: ' . $e->getMessage());
+
+            return false;
+        }
+    }
+
+    public static function db_Error(string $message): void
+    {
+        $app = \MythicalClient\App::getInstance(true);
+        $app->getLogger()->error($message);
     }
 }

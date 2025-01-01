@@ -4,11 +4,13 @@
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
+ * 2021-2025 (c) All rights reserved
+ *
  * MIT License
  *
- * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
- * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
- * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ * (c) MythicalSystems - All rights reserved
+ * (c) NaysKutzu - All rights reserved
+ * (c) Cassian Gherman- All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,10 +36,11 @@ namespace MythicalClient;
 use Router\Router as rt;
 use MythicalClient\Chat\Database;
 use MythicalSystems\Utils\XChaCha20;
+use MythicalClient\Hooks\MythicalAPP;
 use MythicalClient\Config\ConfigFactory;
 use MythicalClient\Logger\LoggerFactory;
 
-class App extends \MythicalSystems\Api\Api
+class App extends MythicalAPP
 {
     public static App $instance;
     public Database $db;

@@ -4,11 +4,13 @@
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
+ * 2021-2025 (c) All rights reserved
+ *
  * MIT License
  *
- * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
- * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
- * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ * (c) MythicalSystems - All rights reserved
+ * (c) NaysKutzu - All rights reserved
+ * (c) Cassian Gherman- All rights reserved
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +40,7 @@ define('APP_START', microtime(true));
 define('APP_PUBLIC', $_SERVER['DOCUMENT_ROOT']);
 define('APP_DIR', APP_PUBLIC . '/../');
 define('APP_STORAGE_DIR', APP_DIR . 'storage/');
-define('APP_CACHE_DIR', APP_STORAGE_DIR . 'cache');
+define('APP_CACHE_DIR', APP_STORAGE_DIR . 'caches');
 define('APP_CRON_DIR', APP_STORAGE_DIR . 'cron');
 define('APP_LOGS_DIR', APP_STORAGE_DIR . 'logs');
 define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
@@ -47,8 +49,10 @@ define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
 define('APP_DEBUG', true);
 define('SYSTEM_OS_NAME', gethostname() . '/' . PHP_OS_FAMILY);
 define('SYSTEM_KERNEL_NAME', php_uname('s'));
-define('APP_VERSION', 'dev');
 define('TELEMETRY', true);
+define('APP_VERSION', '4.0.0.0-dev');
+define('APP_UPSTREAM', 'https://github.com/mythicalltd/mythicaldash');
+
 /**
  * Require the kernel.
  */

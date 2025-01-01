@@ -17,12 +17,33 @@ class Settings {
         }
     }
 
+    static async grabCore() {
+        try {
+            const response = await fetch('/api/system/settings');
+            const data = await response.json();
+            if (data.success) {
+                return data.core;
+            } else {
+                throw new Error(data.message || 'Failed to fetch core');
+            }
+        } catch (error) {
+            console.error('Error fetching core:', error);
+            throw error;
+        }
+    }
+
     static async initializeSettings() {
         try {
             const fetchedSettings = await Settings.grabSettings();
+            const fetchedCore = await Settings.grabCore();
             console.log('Settings fetched:', fetchedSettings);
+            console.log('Core fetched:', fetchedCore);
             for (const [key, value] of Object.entries(fetchedSettings)) {
                 localStorage.setItem(key, JSON.stringify(value));
+            }
+
+            for (const [key, value] of Object.entries(fetchedCore)) {
+                localStorage.setItem(key, JSON.stringify(value));   
             }
         } catch (error) {
             console.error('Failed to initialize settings:', error);

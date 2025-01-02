@@ -1,15 +1,20 @@
 {
 	"cSpell.words": [
 		"Adminannouncements",
+		"lucide",
+		"modyfi",
 		"mythicalclient",
 		"mythicaldash",
 		"Predis",
+		"qrcode",
 		"recommand",
 		"Regen",
 		"shortdescription",
 		"SOURCECODE",
+		"supportbuddy",
 		"Swal",
-		"sweetalert"
+		"sweetalert",
+		"vueuse"
 	],
 	"json.maxItemsComputed": 10000,
 	"editor.largeFileOptimizations": false,

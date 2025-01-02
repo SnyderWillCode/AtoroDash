@@ -1,7 +1,7 @@
 class Activities {
     /**
      * Get the activities for the current session
-     * 
+     *
      * @returns The response from the server
      */
     public static async get() {

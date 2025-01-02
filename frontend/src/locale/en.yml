@@ -313,7 +313,7 @@ account:
                     update_button:
                         label: Update
                         reset: Reset
-        emails: 
+        emails:
             alerts:
                 success:
                     title: Success
@@ -328,7 +328,7 @@ account:
                 subTitle: See your emails!
                 table:
                     columns:
-                        id: ID 
+                        id: ID
                         subject: Subject
                         date: Date
                         from: From
@@ -354,11 +354,11 @@ account:
                         title: Two-Factor Authentication (2FA)
                         subTitle: You want to be sure your account will not be stolen?
                         enable_button:
-                            description: "2FA is currently disabled. Enable it to secure your account."
+                            description: '2FA is currently disabled. Enable it to secure your account.'
                             label: Enable
                             loading: Enabling...
                         disable_button:
-                            description: "2FA is currently enabled. Disable it to put your account into a less secure state."
+                            description: '2FA is currently enabled. Disable it to put your account into a less secure state.'
                             label: Disable
                             loading: Disabling...
                     password:

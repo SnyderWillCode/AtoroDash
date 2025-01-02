@@ -1,7 +1,7 @@
 class Mails {
     /**
      * Get the Mails for the current session
-     * 
+     *
      * @returns The response from the server
      */
     public static async get() {

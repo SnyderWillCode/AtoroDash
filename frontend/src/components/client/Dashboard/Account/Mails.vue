@@ -62,14 +62,19 @@ const columnsEmails = [
         accessorKey: 'actions',
         header: t('account.pages.emails.page.table.columns.actions'),
         enableSorting: false,
-        cell: ({ row }: { row: { original: Email } }) => h('button', {
-            class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600', target: '_blank', rel: 'noopener noreferrer',
-            onClick: () => window.location.href = `/api/user/session/emails/${row.original.id}/raw`
-        }, t('account.pages.emails.page.table.results.viewButton')),
+        cell: ({ row }: { row: { original: Email } }) =>
+            h(
+                'button',
+                {
+                    class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600',
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                    onClick: () => (window.location.href = `/api/user/session/emails/${row.original.id}/raw`),
+                },
+                t('account.pages.emails.page.table.results.viewButton'),
+            ),
     },
 ];
-
-
 </script>
 <template>
     <LayoutAccount />

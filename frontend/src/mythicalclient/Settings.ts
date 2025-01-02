@@ -43,7 +43,7 @@ class Settings {
             }
 
             for (const [key, value] of Object.entries(fetchedCore)) {
-                localStorage.setItem(key, JSON.stringify(value));   
+                localStorage.setItem(key, JSON.stringify(value));
             }
         } catch (error) {
             console.error('Failed to initialize settings:', error);

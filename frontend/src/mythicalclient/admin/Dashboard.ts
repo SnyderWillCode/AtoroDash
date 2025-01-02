@@ -1,7 +1,7 @@
 class Dashboard {
     /**
      * Get the dashboard data
-     * 
+     *
      * @returns
      */
     public static async get() {

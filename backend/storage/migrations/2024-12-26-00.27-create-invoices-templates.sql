@@ -1,5 +1,5 @@
-CREATE TABLE
-    `mythicalclient_invoice_templates` (
+CREATE TABLE IF NOT EXISTS
+`mythicalclient_invoice_templates` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `name` INT NOT NULL,
         `content` INT NOT NULL,

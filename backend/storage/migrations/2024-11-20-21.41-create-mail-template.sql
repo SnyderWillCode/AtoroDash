@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_mail_templates` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `name` TEXT NOT NULL,

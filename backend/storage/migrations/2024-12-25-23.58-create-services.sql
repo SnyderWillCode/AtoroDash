@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_services` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `category` INT NOT NULL,
@@ -7,7 +7,6 @@ CREATE TABLE
         `quantity` INT NOT NULL,
         `stock` INT NOT NULL,
         `stock_enabled` ENUM ('false', 'true') NOT NULL DEFAULT 'false',
-        
         `uri` TEXT NOT NULL,
         `shortdescription` TEXT NOT NULL,
         `description` TEXT NOT NULL,

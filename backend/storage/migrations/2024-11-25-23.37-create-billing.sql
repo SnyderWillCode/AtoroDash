@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_billing` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `user` varchar(36) NOT NULL,

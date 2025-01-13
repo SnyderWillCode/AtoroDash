@@ -1,7 +1,7 @@
 SET
     foreign_key_checks = 0;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `username` text NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE
         FOREIGN KEY (`role`) REFERENCES `mythicalclient_roles` (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_roles` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `name` text NOT NULL,
@@ -50,7 +50,7 @@ VALUES
     ('Admin', 'admin'),
     ('Administrator','administrator');
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users_mails` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `subject` text NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE
         FOREIGN KEY (`user`) REFERENCES `mythicalclient_users` (`uuid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users_activities` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `user` varchar(36) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE
         FOREIGN KEY (`user`) REFERENCES `mythicalclient_users` (`uuid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users_apikeys` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `name` text NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE
         FOREIGN KEY (`user`) REFERENCES `mythicalclient_users` (`uuid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users_email_verification` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `code` text NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE
         FOREIGN KEY (`user`) REFERENCES `mythicalclient_users` (`uuid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci AUTO_INCREMENT = 2;
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_users_notifications` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `user` varchar(36) NOT NULL,

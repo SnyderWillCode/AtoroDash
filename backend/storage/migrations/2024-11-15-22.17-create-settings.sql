@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_settings` (
         `id` INT NOT NULL AUTO_INCREMENT COMMENT 'The id of the setting!',
         `name` TEXT NOT NULL COMMENT 'The name of the setting',

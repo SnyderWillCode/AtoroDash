@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     `mythicalclient_services_price` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `service` INT NOT NULL,

@@ -174,20 +174,7 @@
                     </CardComponent>
 
                     <!-- Announcements -->
-                    <CardComponent>
-                        <h2 class="text-lg font-semibold text-white mb-4">Announcements</h2>
-                        <div class="space-y-4">
-                            <div
-                                v-for="announcement in announcements"
-                                :key="announcement.id"
-                                class="border-b border-purple-700 last:border-0 pb-4 last:pb-0"
-                            >
-                                <h3 class="text-white font-medium mb-1">{{ announcement.title }}</h3>
-                                <p class="text-purple-200 text-sm mb-2">{{ announcement.content }}</p>
-                                <span class="text-purple-500 text-xs">{{ announcement.date }}</span>
-                            </div>
-                        </div>
-                    </CardComponent>
+                   <Announcements></Announcements>
                 </div>
             </div>
         </div>
@@ -207,7 +194,7 @@ import {
     Menu as MenuIcon,
     BookMarkedIcon as MarketIcon,
 } from 'lucide-vue-next';
-
+import Announcements from '@/components/client/Dashboard/Main/Announcements.vue';
 const stats = [
     { icon: ServerIcon, value: '2', label: 'Services' },
     { icon: FileTextIcon, value: '0', label: 'Unpaid Invoices' },
@@ -231,18 +218,5 @@ const recentTickets = ref([
     { id: 3, title: 'Domain Transfer Request', date: '2023-06-25', status: 'Open' },
 ]);
 
-const announcements = ref([
-    {
-        id: 1,
-        title: 'Scheduled Maintenance',
-        content: 'We will be performing scheduled maintenance on July 15th from 2 AM to 4 AM UTC.',
-        date: '2023-07-05',
-    },
-    {
-        id: 2,
-        title: 'New Feature: Two-Factor Authentication',
-        content: 'Enhance your account security with our new two-factor authentication feature.',
-        date: '2023-06-30',
-    },
-]);
+
 </script>

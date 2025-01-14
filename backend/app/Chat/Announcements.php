@@ -106,85 +106,149 @@
 namespace MythicalClient\Chat;
 
 use MythicalClient\App;
-use MythicalClient\Chat\columns\UserColumns;
-use MythicalClient\CloudFlare\CloudFlareRealIP;
 
-class Session extends Database
+class Announcements extends Database
 {
-    public App $app;
-    public string $SESSION_KEY;
+    public const TABLE_NAME = 'mythicalclient_announcements';
 
-    public function __construct(App $app)
-    {
-        if (isset($_COOKIE['user_token']) && !$_COOKIE['user_token'] == '') {
-            if (User::exists(UserColumns::ACCOUNT_TOKEN, $_COOKIE['user_token'])) {
-                try {
-                    header('Access-Control-Allow-Origin: *');
-                    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-                    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-                    $this->app = $app;
-                    $this->SESSION_KEY = $_COOKIE['user_token'];
-                    $this->updateLastSeen();
-                    if ($this->getInfo(UserColumns::TWO_FA_BLOCKED, false) == 'true') {
-                        $app->Unauthorized('Please verify 2fa to access this endpoint.', ['error_code' => 'TW0_FA_BLOCKED']);
-                    }
-                } catch (\Exception) {
-                    $app->Unauthorized('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
-                }
-            } else {
-                $app->Unauthorized('Login info provided are invalid!', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
-            }
-        } else {
-            $app->Unauthorized('Please login to access this endpoint.', ['error_code' => 'MISSING_ACCOUNT_TOKEN']);
-        }
-    }
-
-    public function __destruct()
-    {
-        unset($this->app);
-    }
-
-    public function getInfo(string|UserColumns $info, bool $encrypted): string
-    {
-        if (!in_array($info, UserColumns::getColumns())) {
-            throw new \InvalidArgumentException('Invalid column name: ' . $info);
-        }
-
-        return User::getInfo($this->SESSION_KEY, $info, $encrypted);
-    }
-
-    public function setInfo(string|UserColumns $info, string $value, bool $encrypted): void
-    {
-        if (!in_array($info, UserColumns::getColumns())) {
-            throw new \InvalidArgumentException('Invalid column name: ' . $info);
-        }
-        User::updateInfo($this->SESSION_KEY, $info, $value, $encrypted);
-    }
-
-    public function updateLastSeen(): void
+    /**
+     * Create a new announcement.
+     */
+    public static function create(string $title, string $shortDescription, string $description): void
     {
         try {
             $con = self::getPdoConnection();
-            $ip = CloudFlareRealIP::getRealIP();
-            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE token = "' . $this->SESSION_KEY . '";');
-            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_ip = "' . $ip . '" WHERE token = "' . $this->SESSION_KEY . '";');
+            $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (title, shortDescription, description, date) VALUES (:title, :shortDescription, :description, NOW())';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':shortDescription', $shortDescription);
+            $stmt->bindParam(':description', $description);
+            $stmt->execute();
         } catch (\Exception $e) {
-            $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
+            App::getInstance(true)->getLogger()->error('Failed to create announcement: ' . $e->getMessage());
         }
     }
 
     /**
-     * Check if the user has access to the admin panel.
-     *
-     * @return bool true if the user has access to the admin panel, otherwise false
+     * Update an existing announcement.
      */
-    public function canAccessAdmin(): bool
+    public static function update(int $id, string $title, string $shortDescription, string $description): void
     {
-        if ($this->getInfo(UserColumns::ROLE_ID, false) == '1' || $this->getInfo(UserColumns::ROLE_ID, false) == '2') {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'UPDATE ' . self::TABLE_NAME . ' SET title = :title, shortDescription = :shortDescription, description = :description WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':shortDescription', $shortDescription);
+            $stmt->bindParam(':description', $description);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to update announcement: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete an announcement.
+     */
+    public static function delete(int $id): void
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to delete announcement: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get an announcement by ID.
+     */
+    public static function get(int $id)
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            return $stmt->fetch();
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to get announcement: ' . $e->getMessage());
+
+            return null;
+        }
+    }
+
+    /**
+     * Get all announcements.
+     */
+    public static function getAll(): array
+    {
+        try {
+            $announcements = Announcements::getAllSortedBy('date');
+
+            if (empty($announcements)) {
+                return [];
+            }
+
+            for ($i = 0; $i < count($announcements); ++$i) {
+                $announcements[$i]['tags'] = AnnouncementsTags::getAll($announcements[$i]['id']);
+                $announcements[$i]['assets'] = AnnouncementsAssets::getAll($announcements[$i]['id']);
+            }
+
+            return $announcements;
+
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to get all announcements: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Get all announcements sorted by a specific column.
+     */
+    public static function getAllSortedBy(string $column, string $order = 'DESC'): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' ORDER BY ' . $column . ' ' . $order;
+            $stmt = $con->query($sql);
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error("Failed to get all announcements sorted by $column: " . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Check if an announcement exists.
+     *
+     * @param int $id The id of the announcement
+     *
+     * @return bool True if the announcement exists, false otherwise
+     */
+    public static function exists(int $id): bool
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT COUNT(*) FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            return $stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to check if announcement exists: ' . $e->getMessage());
+
             return false;
         }
-
-        return true;
-
     }
 }

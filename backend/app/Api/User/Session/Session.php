@@ -217,12 +217,8 @@ $router->post('/api/user/session/billing/update', function (): void {
 $router->get('/api/user/session', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
-    $config = $appInstance->getConfig();
-
     $appInstance->allowOnlyGET();
-
     $session = new Session($appInstance);
-
     $accountToken = $session->SESSION_KEY;
     try {
         $billing = Billing::getBillingData(User::getInfo($accountToken, UserColumns::UUID, false));
@@ -269,14 +265,9 @@ $router->get('/api/user/session', function (): void {
 $router->get('/api/user/session/activities', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
-    $config = $appInstance->getConfig();
-
     $appInstance->allowOnlyGET();
-
     $session = new Session($appInstance);
-
     $accountToken = $session->SESSION_KEY;
-
     $appInstance->OK('User activities', [
         'activities' => UserActivities::get(User::getInfo($accountToken, UserColumns::UUID, false)),
     ]);

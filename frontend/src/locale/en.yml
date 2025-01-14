@@ -1,4 +1,29 @@
 ---
+
+#-------------------------------------------------------------#
+#
+# Global Components
+#
+# @public
+#
+#-------------------------------------------------------------#
+Components:
+  ErrorsPage:
+    Buttons:
+      GoBack: "Go Back"
+      GoHome: "Go Home"
+  Global: 
+    Navigation: 
+      Loading: "Loading..."
+      Copy: 
+        Title: "Copied"
+        Success: "Copied to clipboard just like a boss."
+        Footer: "Yay it worked ;)"
+      Error: "An error occurred. Please try again later."
+  Announcements: 
+    Title: "Announcements"
+    Card: 
+      ReadMore: "Read More"
 #-------------------------------------------------------------#
 #
 # Auth Pages (/auth/*)

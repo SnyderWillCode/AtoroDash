@@ -106,85 +106,85 @@
 namespace MythicalClient\Chat;
 
 use MythicalClient\App;
-use MythicalClient\Chat\columns\UserColumns;
-use MythicalClient\CloudFlare\CloudFlareRealIP;
 
-class Session extends Database
+class AnnouncementsTags extends Database
 {
-    public App $app;
-    public string $SESSION_KEY;
+    public const TABLE_NAME = 'mythicalclient_announcements_tags';
 
-    public function __construct(App $app)
-    {
-        if (isset($_COOKIE['user_token']) && !$_COOKIE['user_token'] == '') {
-            if (User::exists(UserColumns::ACCOUNT_TOKEN, $_COOKIE['user_token'])) {
-                try {
-                    header('Access-Control-Allow-Origin: *');
-                    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-                    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-                    $this->app = $app;
-                    $this->SESSION_KEY = $_COOKIE['user_token'];
-                    $this->updateLastSeen();
-                    if ($this->getInfo(UserColumns::TWO_FA_BLOCKED, false) == 'true') {
-                        $app->Unauthorized('Please verify 2fa to access this endpoint.', ['error_code' => 'TW0_FA_BLOCKED']);
-                    }
-                } catch (\Exception) {
-                    $app->Unauthorized('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
-                }
-            } else {
-                $app->Unauthorized('Login info provided are invalid!', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
-            }
-        } else {
-            $app->Unauthorized('Please login to access this endpoint.', ['error_code' => 'MISSING_ACCOUNT_TOKEN']);
-        }
-    }
-
-    public function __destruct()
-    {
-        unset($this->app);
-    }
-
-    public function getInfo(string|UserColumns $info, bool $encrypted): string
-    {
-        if (!in_array($info, UserColumns::getColumns())) {
-            throw new \InvalidArgumentException('Invalid column name: ' . $info);
-        }
-
-        return User::getInfo($this->SESSION_KEY, $info, $encrypted);
-    }
-
-    public function setInfo(string|UserColumns $info, string $value, bool $encrypted): void
-    {
-        if (!in_array($info, UserColumns::getColumns())) {
-            throw new \InvalidArgumentException('Invalid column name: ' . $info);
-        }
-        User::updateInfo($this->SESSION_KEY, $info, $value, $encrypted);
-    }
-
-    public function updateLastSeen(): void
+    /**
+     * Create a new announcement tag.
+     */
+    public static function create(int $announcementId, string $tag): void
     {
         try {
             $con = self::getPdoConnection();
-            $ip = CloudFlareRealIP::getRealIP();
-            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE token = "' . $this->SESSION_KEY . '";');
-            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_ip = "' . $ip . '" WHERE token = "' . $this->SESSION_KEY . '";');
+            $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (announcements, tag, date) VALUES (:announcementId, :tag, NOW())';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':announcementId', $announcementId);
+            $stmt->bindParam(':tag', $tag);
+            $stmt->execute();
         } catch (\Exception $e) {
-            $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
+            App::getInstance(true)->getLogger()->error('Failed to create announcement tag: ' . $e->getMessage());
         }
     }
 
     /**
-     * Check if the user has access to the admin panel.
-     *
-     * @return bool true if the user has access to the admin panel, otherwise false
+     * Delete an announcement tag.
      */
-    public function canAccessAdmin(): bool
+    public static function delete(int $id): void
     {
-        if ($this->getInfo(UserColumns::ROLE_ID, false) == '1' || $this->getInfo(UserColumns::ROLE_ID, false) == '2') {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to delete announcement tag: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get all announcement tags.
+     */
+    public static function getAll(int $id): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE announcements = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to get all announcement tags: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Check if an announcement tag exists.
+     *
+     * @param int $id The id of the announcement tag
+     *
+     * @return bool True if the announcement tag exists, false otherwise
+     */
+    public static function exists(int $id): bool
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT COUNT(*) FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            return $stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to check if announcement tag exists: ' . $e->getMessage());
+
             return false;
         }
-
-        return true;
-
     }
 }

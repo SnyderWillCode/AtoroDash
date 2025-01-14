@@ -112,14 +112,9 @@ use MythicalClient\Chat\columns\UserColumns;
 $router->get('/api/user/session/emails', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
-    $config = $appInstance->getConfig();
-
     $appInstance->allowOnlyGET();
-
     $session = new Session($appInstance);
-
     $accountToken = $session->SESSION_KEY;
-
     $appInstance->OK('User emails', [
         'emails' => Mails::getAll(User::getInfo($accountToken, UserColumns::UUID, false)),
     ]);
@@ -127,7 +122,6 @@ $router->get('/api/user/session/emails', function (): void {
 
 $router->get('/api/user/session/emails/(.*)/raw', function (string $id): void {
     $appInstance = App::getInstance(true);
-    $config = $appInstance->getConfig();
     if ($id == '') {
         exit(header('location: /account'));
     }
@@ -159,22 +153,16 @@ $router->get('/api/user/session/emails/(.*)/raw', function (string $id): void {
 
 $router->delete('/api/user/session/emails/(.*)/delete', function (string $id): void {
     $appInstance = App::getInstance(true);
-    $config = $appInstance->getConfig();
     if ($id == '') {
         $appInstance->BadRequest('Email not found!', ['error_code' => 'EMAIL_NOT_FOUND']);
     }
-
     if (!is_numeric($id)) {
         $appInstance->BadRequest('Email not found!', ['error_code' => 'EMAIL_NOT_FOUND']);
     }
     $id = (int) $id;
-
     $appInstance->allowOnlyDELETE();
-
     $session = new Session($appInstance);
-
     $accountToken = $session->SESSION_KEY;
-
     if (Mails::exists($id)) {
         if (Mails::doesUserOwnEmail(User::getInfo($accountToken, UserColumns::UUID, false), $id)) {
             Mails::delete($id, User::getInfo($accountToken, UserColumns::UUID, false));

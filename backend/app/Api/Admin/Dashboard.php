@@ -131,7 +131,7 @@ $router->get('/api/admin', function (): void {
 
             $appInstance->OK('Dashboard data retrieved successfully.', [
                 'core' => [
-                    'github_data' => json_decode($github_data, true),
+                    'github_data' => $github_data,
                 ],
                 'count' => [
                     'user_count' => $userCount,
@@ -148,7 +148,7 @@ $router->get('/api/admin', function (): void {
             ]);
 
         } catch (Exception $e) {
-            $appInstance->ServiceUnavailable($e->getMessage(), ['error_code' => 'SERVICE_UNAVAILABLE']);
+            $appInstance->InternalServerError($e->getMessage(), ['error_code' => 'SERVICE_UNAVAILABLE']);
         }
     } else {
         $appInstance->Unauthorized('You do not have permission to access this endpoint.', ['error_code' => 'NO_PERMISSION']);

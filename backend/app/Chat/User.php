@@ -368,6 +368,32 @@ class User extends Database
     }
 
     /**
+     * Get the user info.
+     *
+     * @param string $token The token
+     *
+     * @return array The user info
+     */
+    public static function getInfoArray(string $token, array $columns, array $columns_encrypted): array
+    {
+        $con = self::getPdoConnection();
+        $columns_str = implode(', ', $columns);
+        $stmt = $con->prepare('SELECT ' . $columns_str . ' FROM ' . self::TABLE_NAME . ' WHERE token = :token');
+        $stmt->bindParam(':token', $token);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        foreach ($columns as $index => $column) {
+            if (in_array($column, $columns_encrypted)) {
+                $result[$column] = App::getInstance(true)->decrypt($result[$column]);
+            }
+        }
+
+        return $result ? $result : [];
+    }
+
+    /**
      * Update the user info.
      *
      * @param UserColumns|string $info The column name

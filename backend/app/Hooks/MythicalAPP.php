@@ -240,6 +240,13 @@ class MythicalAPP extends \MythicalSystems\Api\Api
                 'debug_debug' => APP_DEBUG,
                 'debug_version' => APP_VERSION,
                 'debug_telemetry' => TELEMETRY,
+                'debug' => [
+                    'useRedis' => REDIS_ENABLED,
+                    'rateLimit' => [
+                        'enabled' => REDIS_ENABLED,
+                        'limit' => RATE_LIMIT,
+                    ],
+                ],
             ],
         ];
 

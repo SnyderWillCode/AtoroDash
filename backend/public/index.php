@@ -123,7 +123,8 @@ define('SYSTEM_OS_NAME', gethostname() . '/' . PHP_OS_FAMILY);
 define('SYSTEM_KERNEL_NAME', php_uname('s'));
 define('TELEMETRY', true);
 define('APP_VERSION', '4.0.0.0-dev');
-define('APP_UPSTREAM', 'https://github.com/mythicalltd/mythicaldash');
+define('APP_UPSTREAM', 'github.com/mythicalltd/mythicaldash');
+define('RATE_LIMIT', 50);
 
 /**
  * Require the kernel.

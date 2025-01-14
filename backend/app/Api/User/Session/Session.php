@@ -226,31 +226,40 @@ $router->get('/api/user/session', function (): void {
     $accountToken = $session->SESSION_KEY;
     try {
         $billing = Billing::getBillingData(User::getInfo($accountToken, UserColumns::UUID, false));
+        $columns = [
+            UserColumns::USERNAME,
+            UserColumns::EMAIL,
+            UserColumns::VERIFIED,
+            UserColumns::BANNED,
+            UserColumns::TWO_FA_BLOCKED,
+            UserColumns::TWO_FA_ENABLED,
+            UserColumns::TWO_FA_KEY,
+            UserColumns::FIRST_NAME,
+            UserColumns::LAST_NAME,
+            UserColumns::AVATAR,
+            UserColumns::UUID,
+            UserColumns::ROLE_ID,
+            UserColumns::FIRST_IP,
+            UserColumns::LAST_IP,
+            UserColumns::DELETED,
+            UserColumns::LAST_SEEN,
+            UserColumns::FIRST_SEEN,
+            UserColumns::BACKGROUND,
+        ];
+
+        $info = User::getInfoArray($accountToken, $columns, [
+            UserColumns::FIRST_NAME,
+            UserColumns::LAST_NAME,
+            UserColumns::TWO_FA_KEY,
+        ]);
+        $info['role_name'] = Roles::getUserRoleName($info[UserColumns::UUID]);
+        $info['role_real_name'] = strtolower($info['role_name']);
+
         $appInstance->OK('Account token is valid', [
-            'user_info' => [
-                'username' => User::getInfo($accountToken, UserColumns::USERNAME, false),
-                'email' => User::getInfo($accountToken, UserColumns::EMAIL, false),
-                'verified' => User::getInfo($accountToken, UserColumns::VERIFIED, false),
-                'banned' => User::getInfo($accountToken, UserColumns::BANNED, false),
-                '2fa_blocked' => User::getInfo($accountToken, UserColumns::TWO_FA_BLOCKED, false),
-                '2fa_enabled' => User::getInfo($accountToken, UserColumns::TWO_FA_ENABLED, false),
-                '2fa_secret' => User::getInfo($accountToken, UserColumns::TWO_FA_KEY, false),
-                'first_name' => User::getInfo($accountToken, UserColumns::FIRST_NAME, true),
-                'last_name' => User::getInfo($accountToken, UserColumns::LAST_NAME, true),
-                'avatar' => User::getInfo($accountToken, UserColumns::AVATAR, false),
-                'uuid' => User::getInfo($accountToken, UserColumns::UUID, false),
-                'role_id' => User::getInfo($accountToken, UserColumns::ROLE_ID, false),
-                'first_ip' => User::getInfo($accountToken, UserColumns::FIRST_IP, false),
-                'last_ip' => User::getInfo($accountToken, UserColumns::LAST_IP, false),
-                'deleted' => User::getInfo($accountToken, UserColumns::DELETED, false),
-                'last_seen' => User::getInfo($accountToken, UserColumns::LAST_SEEN, false),
-                'first_seen' => User::getInfo($accountToken, UserColumns::FIRST_SEEN, false),
-                'background' => User::getInfo($accountToken, UserColumns::BACKGROUND, false),
-                'role_name' => Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false)),
-                'role_real_name' => strtolower(Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false))),
-            ],
+            'user_info' => $info,
             'billing' => $billing,
         ]);
+
     } catch (Exception $e) {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN', 'error' => $e->getMessage()]);
     }

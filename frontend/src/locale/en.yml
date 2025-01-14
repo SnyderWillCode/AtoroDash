@@ -24,6 +24,18 @@ Components:
     Title: "Announcements"
     Card: 
       ReadMore: "Read More"
+  SupportPin: 
+    title: "Support PIN"
+    copy: "Copy"
+    alerts: 
+      success: 
+        title: "Success"
+        pin_success: "Support PIN generated"
+        footer: "Your support PIN has been generated"
+      error:
+        title: "Error"
+        generic: "An error occurred. Please try again later"
+        footer: "Please contact support for assistance"
 #-------------------------------------------------------------#
 #
 # Auth Pages (/auth/*)
@@ -31,6 +43,10 @@ Components:
 # @public
 #
 #-------------------------------------------------------------#
+dashboard: 
+  title: Dashboard
+  
+
 auth:
     logic:
         errors:

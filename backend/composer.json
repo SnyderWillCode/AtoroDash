@@ -37,10 +37,10 @@
     },
     "prefer-stable": true,
     "support": {
-        "wiki": "https://docs.mythical.systems",
+        "wiki": "https://www.mythical.systems",
         "chat": "https://discord.mythical.systems",
-        "issues": "https://github.com/mythicalltd/mythicalcore/issues",
-        "docs": "https://docs.mythical.systems",
+        "issues": "https://github.com/mythicalltd/mythicalldash/issues",
+        "docs": "https://www.mythical.systems",
         "forum": "https://discord.mythical.systems"
     },
     "funding": [

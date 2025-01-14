@@ -124,8 +124,12 @@ define('SYSTEM_KERNEL_NAME', php_uname('s'));
 define('TELEMETRY', true);
 define('APP_VERSION', '4.0.0.0-dev');
 define('APP_UPSTREAM', 'github.com/mythicalltd/mythicaldash');
-define('RATE_LIMIT', 50);
 
+if (APP_DEBUG) {
+    define('RATE_LIMIT', 500000);
+} else {
+    define('RATE_LIMIT', 50);
+}
 /**
  * Require the kernel.
  */

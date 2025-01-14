@@ -165,9 +165,9 @@ class User extends Database
              */
             $stmt = $pdoConnection->prepare('
             INSERT INTO ' . self::TABLE_NAME . ' 
-            (username, first_name, last_name, email, password, avatar, background, uuid, token, role, first_ip, last_ip, banned, verified) 
+            (username, first_name, last_name, email, password, avatar, background, uuid, token, role, first_ip, last_ip, banned, verified, support_pin) 
             VALUES 
-            (:username, :first_name, :last_name, :email, :password, :avatar, :background, :uuid, :token, :role, :first_ip, :last_ip, :banned, :verified)
+            (:username, :first_name, :last_name, :email, :password, :avatar, :background, :uuid, :token, :role, :first_ip, :last_ip, :banned, :verified, :support_pin)
         ');
             $password = App::getInstance(true)->encrypt($password);
 
@@ -186,6 +186,7 @@ class User extends Database
                 ':last_ip' => $ip,
                 ':banned' => 'NO',
                 ':verified' => 'false',
+                ':support_pin' => App::getInstance(true)->generatePin(),
             ]);
             \MythicalClient\MythicalSystems\Telemetry::send(\MythicalClient\MythicalSystems\TelemetryCollection::USER_NEW);
             /**

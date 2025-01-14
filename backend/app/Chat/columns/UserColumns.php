@@ -120,6 +120,7 @@ class UserColumns
     public const LAST_IP = 'last_ip';
     public const BANNED = 'banned';
     public const VERIFIED = 'verified';
+    public const SUPPORT_PIN = 'support_pin';
     public const TWO_FA_ENABLED = '2fa_enabled';
     public const TWO_FA_KEY = '2fa_key';
     public const TWO_FA_BLOCKED = '2fa_blocked';
@@ -143,6 +144,7 @@ class UserColumns
             self::FIRST_IP,
             self::LAST_IP,
             self::BANNED,
+            self::SUPPORT_PIN,
             self::VERIFIED,
             self::TWO_FA_ENABLED,
             self::TWO_FA_KEY,

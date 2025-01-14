@@ -357,6 +357,9 @@ class App extends MythicalAPP
         return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'], true);
     }
 
+    /**
+     * Generate a random code.
+     */
     public function generateCode(): string
     {
         $code = base64_encode(random_bytes(64));
@@ -365,5 +368,13 @@ class App extends MythicalAPP
         $code = str_replace('/', '', $code);
 
         return $code;
+    }
+
+    /**
+     * Generate a random pin.
+     */
+    public function generatePin(): int
+    {
+        return random_int(100000, 999999);
     }
 }

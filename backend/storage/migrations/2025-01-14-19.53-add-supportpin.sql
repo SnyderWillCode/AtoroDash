@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_users` ADD `support_pin` TEXT NULL DEFAULT NULL AFTER `verified`;

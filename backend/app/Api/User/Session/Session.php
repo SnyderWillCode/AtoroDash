@@ -214,6 +214,21 @@ $router->post('/api/user/session/billing/update', function (): void {
     }
 });
 
+$router->add('/api/user/session/newPin', function (): void {
+    App::init();
+    $appInstance = App::getInstance(true);
+    $appInstance->allowOnlyPOST();
+    $session = new Session($appInstance);
+    $pin = $appInstance->generatePin();
+    try {
+        $session->setInfo(UserColumns::SUPPORT_PIN, $pin, false);
+        $appInstance->OK('Support pin updated successfully!', ['pin' => $pin]);
+    } catch (Exception $e) {
+        $appInstance->getLogger()->error('Failed to generate new pin: ' . $e->getMessage());
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'DB_ERROR', 'error' => $e->getMessage()]);
+    }
+});
+
 $router->get('/api/user/session', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
@@ -226,6 +241,7 @@ $router->get('/api/user/session', function (): void {
             UserColumns::USERNAME,
             UserColumns::EMAIL,
             UserColumns::VERIFIED,
+            UserColumns::SUPPORT_PIN,
             UserColumns::BANNED,
             UserColumns::TWO_FA_BLOCKED,
             UserColumns::TWO_FA_ENABLED,

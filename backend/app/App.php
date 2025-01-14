@@ -105,6 +105,10 @@
 
 namespace MythicalClient;
 
+use MythicalClient\CloudFlare\CloudFlareRealIP;
+use RateLimit\Exception\LimitExceeded;
+use RateLimit\Rate;
+use RateLimit\RedisRateLimiter;
 use Router\Router as rt;
 use MythicalClient\Chat\Database;
 use MythicalSystems\Utils\XChaCha20;
@@ -142,6 +146,33 @@ class App extends MythicalAPP
             return;
         }
 
+		/**
+		 * Redis.
+		 */
+		$redis = new FastChat\Redis();
+		if ($redis->testConnection() == false) {
+			define('REDIS_ENABLED', false);
+		} else {
+			define('REDIS_ENABLED', true);
+		}
+		
+		// @phpstan-ignore-next-line
+		$rateLimiter = new RedisRateLimiter(Rate::perMinute(RATE_LIMIT), new \Redis(), "rate_limiting");
+		try {
+			$rateLimiter->limit(CloudFlareRealIP::getRealIP());
+		} catch (LimitExceeded $e) {
+			self::getLogger()->error('User: '. $e->getMessage());
+			self::init();
+			self::ServiceUnavailable('You are being rate limited!', ['error_code' => 'RATE_LIMITED']);
+		} catch (\Exception $e) {
+			self::getLogger()->error("-----------------------------");
+			self::getLogger()->error("REDIS SERVER IS DOWN");
+			self::getLogger()->error("RATE LIMITING IS DISABLED");
+			self::getLogger()->error("YOU SHOULD FIX THIS ASAP");
+			self::getLogger()->error("NO SUPPORT WILL BE PROVIDED");
+			self::getLogger()->error("-----------------------------");
+		}
+
         /**
          * Database Connection.
          */
@@ -156,15 +187,6 @@ class App extends MythicalAPP
          */
         if ($this->getConfig()->getSetting('app_url', null) == null) {
             $this->getConfig()->setSetting('app_url', $_SERVER['HTTP_HOST']);
-        }
-
-        /**
-         * Redis.
-         */
-        $redis = new FastChat\Redis();
-        if ($redis->testConnection() == false) {
-            self::init();
-            self::InternalServerError('Failed to connect to Redis', null);
         }
 
         /**

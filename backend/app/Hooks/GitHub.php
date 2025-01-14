@@ -106,34 +106,45 @@
 namespace MythicalClient\Hooks;
 
 use MythicalClient\Cache\Cache;
+use GuzzleHttp\Client;
 
 class GitHub
 {
-    private $cacheKey = 'github_repo_data';
-    private $cacheTTL = 3600; // 1 hour in seconds
+	private $cacheKey = 'github_repo_data';
+	private $cacheTTL = 3600; // 1 hour in seconds
+	private $client;
 
-    public function getRepoData()
-    {
-        // Check if data is cached
-        if (Cache::exists($this->cacheKey)) {
-            return Cache::getJson($this->cacheKey);
-        }
+	public function __construct()
+	{
+		$this->client = new Client();
+	}
 
-        // Make GET request to GitHub API
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/mythicalltd/mythicaldash');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/vnd.github+json',
-            'X-GitHub-Api-Version: 2022-11-28',
-            'User-Agent: MythicalClient',
-        ]);
-        $response = curl_exec($ch);
-        curl_close($ch);
+	/**
+	 * Retrieves repository data from GitHub API, using cache if available.
+	 *
+	 * @return array The repository data.
+	 */
+	public function getRepoData()
+	{
+		// Check if data is cached
+		if (Cache::exists($this->cacheKey)) {
+			return Cache::getJson($this->cacheKey);
+		}
 
-        // Cache the response
-        Cache::putJson($this->cacheKey, $response, $this->cacheTTL);
+		// Make GET request to GitHub API
+		$response = $this->client->request('GET', 'https://api.github.com/repos/mythicalltd/mythicaldash', [
+			'headers' => [
+				'Accept' => 'application/vnd.github+json',
+				'X-GitHub-Api-Version' => '2022-11-28',
+				'User-Agent' => 'MythicalClient',
+			],
+		]);
 
-        return $response;
-    }
+		$data = json_decode($response->getBody()->getContents(), true);
+
+		// Cache the response
+		Cache::putJson($this->cacheKey, $data, $this->cacheTTL);
+
+		return $data;
+	}
 }

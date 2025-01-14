@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
         xml \
         mbstring \
         curl \
-        zip
+        zip \
+		redis
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html

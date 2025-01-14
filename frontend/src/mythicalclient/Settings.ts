@@ -31,8 +31,20 @@ class Settings {
             throw error;
         }
     }
-
     static async initializeSettings() {
+        const response = await fetch('/api/system/settings');
+        if (response.status === 503) {
+            document.body.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #333; color: #fff; font-family: Arial, sans-serif;">
+        <div style="text-align: center;">
+        <h1 style="font-size: 3em; margin-bottom: 0.5em;">Rate Limited</h1>
+        <p style="font-size: 1.5em;">You have been rate limited. Please try again later.</p>
+        <button onclick="location.reload()" style="margin-top: 1em; padding: 0.5em 1em; font-size: 1em; color: #fff; background-color: #444; border: none; border-radius: 5px; cursor: pointer;">Retry</button>
+        </div>
+        </div>
+        `;
+            return;
+        }
         try {
             const fetchedSettings = await Settings.grabSettings();
             const fetchedCore = await Settings.grabCore();
@@ -48,13 +60,14 @@ class Settings {
         } catch (error) {
             console.error('Failed to initialize settings:', error);
             document.body.innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8d7da; color: #721c24; font-family: Arial, sans-serif;">
-                    <div style="text-align: center;">
-                        <h1 style="font-size: 3em; margin-bottom: 0.5em;">We are so sorry</h1>
-                        <p style="font-size: 1.5em;">Our backend is down at this moment :(</p>
-                    </div>
-                </div>
-            `;
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #333; color: #fff; font-family: Arial, sans-serif;">
+        <div style="text-align: center;">
+          <h1 style="font-size: 3em; margin-bottom: 0.5em;">We are so sorry</h1>
+          <p style="font-size: 1.5em;">Our backend is down at this moment :(</p>
+          <button onclick="location.reload()" style="margin-top: 1em; padding: 0.5em 1em; font-size: 1em; color: #fff; background-color: #444; border: none; border-radius: 5px; cursor: pointer;">Retry</button>
+        </div>
+        </div>
+      `;
         }
     }
 

@@ -15,9 +15,6 @@ Please view the LICENSE file that was distributed with this source code.
 Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
 HEADER;
 
-
-
-
 $finder = (new Finder())
     ->in(__DIR__)
     ->exclude([

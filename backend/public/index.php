@@ -38,6 +38,7 @@ if (APP_DEBUG) {
 } else {
     define('RATE_LIMIT', 50);
 }
+
 /**
  * Require the kernel.
  */

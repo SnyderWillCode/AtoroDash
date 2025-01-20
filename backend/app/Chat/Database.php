@@ -242,7 +242,6 @@ class Database
             return $query->fetch(\PDO::FETCH_ASSOC)['locked'] == 'true';
         } catch (\Exception $e) {
             self::db_Error('Failed to check for lock: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -250,6 +249,6 @@ class Database
     public static function db_Error(string $message): void
     {
         $app = \MythicalClient\App::getInstance(true);
-        $app->getLogger()->error($message);
+        $app->getLogger()->error($message, true);
     }
 }

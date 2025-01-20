@@ -29,7 +29,8 @@
         "pragmarx/google2fa": "^8.0",
         "predis/predis": "^2.3",
         "nikolaposa/rate-limit": "^3.2",
-		"guzzlehttp/guzzle": "^7.0"
+		"guzzlehttp/guzzle": "^7.0",
+        "sentry/sentry": "^4.10"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.1",

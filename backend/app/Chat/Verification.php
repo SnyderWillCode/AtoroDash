@@ -41,8 +41,8 @@ class Verification extends Database
                 return;
             }
         } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to add code to verify table: ' . $e->getMessage());
-        }
+			self::db_Error("Failed to add new email verification: ". $e->getMessage());
+		}
     }
 
     /**
@@ -64,8 +64,7 @@ class Verification extends Database
 
             return true;
         } catch (\Exception $e) {
-            App::getInstance(softBoot: true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to verify code table: ' . $e->getMessage());
-
+			self::db_Error('Failed to verify code: '. $e->getMessage());
             return false;
         }
     }
@@ -84,8 +83,7 @@ class Verification extends Database
 
             return;
         } catch (\Exception $e) {
-            App::getInstance(softBoot: true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to delete verify code from table: ' . $e->getMessage());
-
+self::db_Error('Failed to delete code from verify table: '. $e->getMessage());
             return;
         }
     }
@@ -111,9 +109,8 @@ class Verification extends Database
             return $result['user'];
 
         } catch (\Exception $e) {
-            App::getInstance(softBoot: true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to get user UUID from code: ' . $e->getMessage());
-
-            return '';
+			self::db_Error('Failed to compute uuid: '. $e->getMessage());
+			return '';
         }
     }
 }

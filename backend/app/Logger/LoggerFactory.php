@@ -31,22 +31,33 @@ class LoggerFactory
         $this->appendLog('[INFO] [' . $caller . '] ' . $message);
     }
 
-    public function warning(string $message): void
+    public function warning(string $message, bool $sendTelemetry = false): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[WARNING] [' . $caller . '] ' . $message);
+        if ($sendTelemetry) {
+
+            $eventID = \Sentry\captureMessage($message, \Sentry\Severity::warning(), null);
+        }
+        $this->appendLog('[WARNING] (' . $eventID . ')[' . $caller . '] ' . $message);
     }
 
-    public function error(string $message): void
+    public function error(string $message, bool $sendTelemetry = false): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[ERROR] [' . $caller . '] ' . $message);
+        if ($sendTelemetry) {
+            $eventID = \Sentry\captureMessage($message, \Sentry\Severity::error(), null);
+        }
+        $this->appendLog('[ERROR] (' . $eventID . ') [' . $caller . '] ' . $message);
     }
 
-    public function critical(string $message): void
+    public function critical(string $message, bool $sendTelemetry = false): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[CRITICAL] [' . $caller . '] ' . $message);
+        if ($sendTelemetry) {
+
+            $eventID = \Sentry\captureMessage($message, \Sentry\Severity::fatal(), null);
+        }
+        $this->appendLog('[CRITICAL] (' . $eventID . ') [' . $caller . '] ' . $message);
     }
 
     public function debug(string $message): void

@@ -17,80 +17,83 @@ use MythicalClient\Chat\interface\UserActivitiesTypes;
 
 class UserActivities extends Database
 {
-	/**
-	 * Add user activity.
-	 *
-	 * @param string $uuid User UUID
-	 * @param string|UserActivitiesTypes $type Activity type
-	 * @param string $ipv4 IP address
-	 */
-	public static function add(string $uuid, string|UserActivitiesTypes $type, string $ipv4): bool
-	{
-		try {
-			$dbConn = Database::getPdoConnection();
+    /**
+     * Add user activity.
+     *
+     * @param string $uuid User UUID
+     * @param string|UserActivitiesTypes $type Activity type
+     * @param string $ipv4 IP address
+     */
+    public static function add(string $uuid, string|UserActivitiesTypes $type, string $ipv4): bool
+    {
+        try {
+            $dbConn = Database::getPdoConnection();
 
-			$stmt = $dbConn->prepare('INSERT INTO ' . self::getTable() . ' (user, action, ip_address) VALUES (:user, :action, :ip_address)');
+            $stmt = $dbConn->prepare('INSERT INTO ' . self::getTable() . ' (user, action, ip_address) VALUES (:user, :action, :ip_address)');
 
-			return $stmt->execute([
-				':user' => $uuid,
-				':action' => $type,
-				':ip_address' => $ipv4,
-			]);
-		} catch (\Exception $e) {
-			self::db_Error('Failed to add user activity: ' . $e->getMessage());
-			return false;
-		}
-	}
+            return $stmt->execute([
+                ':user' => $uuid,
+                ':action' => $type,
+                ':ip_address' => $ipv4,
+            ]);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to add user activity: ' . $e->getMessage());
 
-	/**
-	 * Get user activities.
-	 *
-	 * @param string $uuid User UUID
-	 */
-	public static function get(string $uuid): array
-	{
-		try {
-			$dbConn = Database::getPdoConnection();
+            return false;
+        }
+    }
 
-			$stmt = $dbConn->prepare('SELECT * FROM ' . self::getTable() . ' WHERE user = :user LIMIT 125');
-			$stmt->execute([
-				':user' => $uuid,
-			]);
+    /**
+     * Get user activities.
+     *
+     * @param string $uuid User UUID
+     */
+    public static function get(string $uuid): array
+    {
+        try {
+            $dbConn = Database::getPdoConnection();
 
-			return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		} catch (\Exception $e) {
-			self::db_Error('Failed to get user activities: ' . $e->getMessage());
-			return [];
-		}
-	}
+            $stmt = $dbConn->prepare('SELECT * FROM ' . self::getTable() . ' WHERE user = :user LIMIT 125');
+            $stmt->execute([
+                ':user' => $uuid,
+            ]);
 
-	/**
-	 * Get all user activities.
-	 *
-	 * @param int $limit Limit
-	 */
-	public static function getAll(int $limit = 50): array
-	{
-		try {
-			$dbConn = Database::getPdoConnection();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get user activities: ' . $e->getMessage());
 
-			$stmt = $dbConn->prepare('SELECT * FROM ' . self::getTable() . ' LIMIT ' . $limit);
-			$stmt->execute();
+            return [];
+        }
+    }
 
-			return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		} catch (\Exception $e) {
-			self::db_Error('Failed to get all user activities: ' . $e->getMessage());
-			return [];
-		}
-	}
+    /**
+     * Get all user activities.
+     *
+     * @param int $limit Limit
+     */
+    public static function getAll(int $limit = 50): array
+    {
+        try {
+            $dbConn = Database::getPdoConnection();
 
-	/**
-	 * Get table name.
-	 *
-	 * @return string Table name
-	 */
-	public static function getTable(): string
-	{
-		return 'mythicalclient_users_activities';
-	}
+            $stmt = $dbConn->prepare('SELECT * FROM ' . self::getTable() . ' LIMIT ' . $limit);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all user activities: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Get table name.
+     *
+     * @return string Table name
+     */
+    public static function getTable(): string
+    {
+        return 'mythicalclient_users_activities';
+    }
 }

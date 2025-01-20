@@ -13,86 +13,84 @@
 
 namespace MythicalClient\Chat;
 
-use MythicalClient\App;
-
 class AnnouncementsTags extends Database
 {
-	public const TABLE_NAME = 'mythicalclient_announcements_tags';
+    public const TABLE_NAME = 'mythicalclient_announcements_tags';
 
-	/**
-	 * Create a new announcement tag.
-	 */
-	public static function create(int $announcementId, string $tag): void
-	{
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'INSERT INTO ' . self::TABLE_NAME . ' (announcements, tag) VALUES (:announcementId, :tag)';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam(':announcementId', $announcementId);
-			$stmt->bindParam(':tag', $tag);
-			$stmt->execute();
-		} catch (\Exception $e) {
-			self::db_Error('Failed to create announcement tag: ' . $e->getMessage());
-		}
-	}
+    /**
+     * Create a new announcement tag.
+     */
+    public static function create(int $announcementId, string $tag): void
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (announcements, tag) VALUES (:announcementId, :tag)';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':announcementId', $announcementId);
+            $stmt->bindParam(':tag', $tag);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to create announcement tag: ' . $e->getMessage());
+        }
+    }
 
-	/**
-	 * Delete an announcement tag.
-	 */
-	public static function delete(int $id): void
-	{
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
-		} catch (\Exception $e) {
-			self::db_Error('Failed to delete announcement tag: ' . $e->getMessage());
-		}
-	}
+    /**
+     * Delete an announcement tag.
+     */
+    public static function delete(int $id): void
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to delete announcement tag: ' . $e->getMessage());
+        }
+    }
 
-	/**
-	 * Get all announcement tags.
-	 */
-	public static function getAll(int $id): array
-	{
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE announcements = :id';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
+    /**
+     * Get all announcement tags.
+     */
+    public static function getAll(int $id): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE announcements = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
 
-			return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		} catch (\Exception $e) {
-			self::db_Error('Failed to get all announcement tags: ' . $e->getMessage());
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all announcement tags: ' . $e->getMessage());
 
-			return [];
-		}
-	}
+            return [];
+        }
+    }
 
-	/**
-	 * Check if an announcement tag exists.
-	 *
-	 * @param int $id The id of the announcement tag
-	 *
-	 * @return bool True if the announcement tag exists, false otherwise
-	 */
-	public static function exists(int $id): bool
-	{
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'SELECT COUNT(*) FROM ' . self::TABLE_NAME . ' WHERE id = :id';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
+    /**
+     * Check if an announcement tag exists.
+     *
+     * @param int $id The id of the announcement tag
+     *
+     * @return bool True if the announcement tag exists, false otherwise
+     */
+    public static function exists(int $id): bool
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT COUNT(*) FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
 
-			return $stmt->fetchColumn() > 0;
-		} catch (\Exception $e) {
-			self::db_Error('Failed to check if announcement tag exists: ' . $e->getMessage());
+            return $stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            self::db_Error('Failed to check if announcement tag exists: ' . $e->getMessage());
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 }

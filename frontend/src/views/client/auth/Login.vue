@@ -11,8 +11,8 @@ import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import Auth from '@/mythicalclient/Auth';
-import { useI18n } from 'vue-i18n';
 import Cookies from 'js-cookie';
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);

@@ -13,8 +13,6 @@
 
 namespace MythicalClient\Chat;
 
-use MythicalClient\App;
-
 class Tickets extends Database
 {
     public const TABLE_NAME = 'mythicalclient_tickets';
@@ -26,56 +24,92 @@ class Tickets extends Database
         ?int $service,
         string $title,
         string $description,
-    ): void {
+        string $priority,
+    ): int {
         try {
             $con = self::getPdoConnection();
-            $sql = 'INSET INTO ' . self::TABLE_NAME . ' (uuid, department, service, title, description) VALUES (:uuid, :department, :service, :title, :description)';
+            $sql = 'INSERT INTO ' . self::TABLE_NAME . ' (user, department, priority, title, description' . ($service === null ? '' : ', service') . ') VALUES (:uuid, :department, :priority, :title, :description' . ($service === null ? '' : ', :service') . ')';
             $stmt = $con->prepare($sql);
             $stmt->bindParam('uuid', $uuid, \PDO::PARAM_STR);
             $stmt->bindParam('department', $department, \PDO::PARAM_INT);
-            $stmt->bindParam('service', $service, \PDO::PARAM_INT);
+            $stmt->bindParam('priority', $priority, \PDO::PARAM_STR);
+            if ($service !== null) {
+                $stmt->bindParam('service', $service, \PDO::PARAM_INT);
+            }
             $stmt->bindParam('title', $title, \PDO::PARAM_STR);
             $stmt->bindParam('description', $description, \PDO::PARAM_STR);
             $stmt->execute();
-        } catch (\Exception $e) {
-			self::db_Error("Failed to create ticket: " . $e->getMessage());
-		}
-	}
 
-	public static function update(
-		int $id,
-		string $uuid,
-		int $department,
-		?int $service,
-		string $title,
-		string $description,
-	): void {
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'UPDATE ' . self::TABLE_NAME . ' SET uuid = :uuid, department = :department, service = :service, title = :title, description = :description WHERE id = :id';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam('id', $id, \PDO::PARAM_INT);
-			$stmt->bindParam('uuid', $uuid, \PDO::PARAM_STR);
-			$stmt->bindParam('department', $department, \PDO::PARAM_INT);
-			$stmt->bindParam('service', $service, \PDO::PARAM_INT);
-			$stmt->bindParam('title', $title, \PDO::PARAM_STR);
-			$stmt->bindParam('description', $description, \PDO::PARAM_STR);
-			$stmt->execute();
-		} catch (\Exception $e) {
-			self::db_Error("Failed to update ticket: " . $e->getMessage());
-		}
+            return (int) $con->lastInsertId();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to create ticket: ' . $e->getMessage());
+
+            return 0;
+        }
     }
 
-	public static function delete(int $id): void
-	{
-		try {
-			$con = self::getPdoConnection();
-			$sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
-			$stmt = $con->prepare($sql);
-			$stmt->bindParam('id', $id, \PDO::PARAM_INT);
-			$stmt->execute();
-		} catch (\Exception $e) {
-			self::db_Error("Failed to delete ticket: " . $e->getMessage());
-		}
-	}
+    public static function delete(int $id): void
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam('id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to delete ticket: ' . $e->getMessage());
+        }
+
+    }
+
+    public static function exists(int $id): bool
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT COUNT(*) FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam('id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            self::db_Error('Failed to check if ticket exists: ' . $e->getMessage());
+
+            return false;
+        }
+    }
+
+    public static function getAllTickets(int $limit = 150): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' ORDER BY id DESC LIMIT :limit';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam('limit', $limit, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all tickets: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    public static function getTicket(int $id): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam('id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get ticket: ' . $e->getMessage());
+
+            return [];
+        }
+    }
 }

@@ -148,8 +148,8 @@ const menuSections = ref([
                     {
                         name: 'Open Ticket',
                         icon: AlertTriangleIcon,
-                        href: '/ticket/open',
-                        active: isActiveRoute(['/ticket/open']),
+                        href: '/ticket/create',
+                        active: isActiveRoute(['/ticket/create']),
                     },
                     {
                         name: 'All Tickets',

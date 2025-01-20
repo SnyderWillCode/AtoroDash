@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_tickets` ADD `priority` ENUM('low','medium','high','urgent') NOT NULL DEFAULT 'low' AFTER `department`;

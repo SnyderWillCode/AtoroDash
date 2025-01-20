@@ -41,8 +41,8 @@ class Verification extends Database
                 return;
             }
         } catch (\Exception $e) {
-			self::db_Error("Failed to add new email verification: ". $e->getMessage());
-		}
+            self::db_Error('Failed to add new email verification: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -64,7 +64,8 @@ class Verification extends Database
 
             return true;
         } catch (\Exception $e) {
-			self::db_Error('Failed to verify code: '. $e->getMessage());
+            self::db_Error('Failed to verify code: ' . $e->getMessage());
+
             return false;
         }
     }
@@ -83,7 +84,8 @@ class Verification extends Database
 
             return;
         } catch (\Exception $e) {
-self::db_Error('Failed to delete code from verify table: '. $e->getMessage());
+            self::db_Error('Failed to delete code from verify table: ' . $e->getMessage());
+
             return;
         }
     }
@@ -109,8 +111,9 @@ self::db_Error('Failed to delete code from verify table: '. $e->getMessage());
             return $result['user'];
 
         } catch (\Exception $e) {
-			self::db_Error('Failed to compute uuid: '. $e->getMessage());
-			return '';
+            self::db_Error('Failed to compute uuid: ' . $e->getMessage());
+
+            return '';
         }
     }
 }

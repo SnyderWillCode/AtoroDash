@@ -242,6 +242,7 @@ class Database
             return $query->fetch(\PDO::FETCH_ASSOC)['locked'] == 'true';
         } catch (\Exception $e) {
             self::db_Error('Failed to check for lock: ' . $e->getMessage());
+
             return false;
         }
     }

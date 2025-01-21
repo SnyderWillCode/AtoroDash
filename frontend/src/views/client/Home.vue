@@ -1,33 +1,31 @@
 <template>
-  <LayoutDashboard>
-    <div class="p-6 space-y-6">
-      <Header />
+    <LayoutDashboard>
+        <div class="p-6 space-y-6">
+            <Header />
 
-      <div class="grid gap-6 lg:grid-cols-4">
-        <!-- Left Column -->
-        <div class="space-y-6">
-          <SupportPin />
-          <!-- User Info -->
-          <UserInfo />
-          <!-- Billing Summary -->
-          <BillingInfo />
+            <div class="grid gap-6 lg:grid-cols-4">
+                <!-- Left Column -->
+                <div class="space-y-6">
+                    <SupportPin />
+                    <!-- User Info -->
+                    <UserInfo />
+                    <!-- Billing Summary -->
+                    <BillingInfo />
+                </div>
+                <!-- Main Content -->
+                <div class="lg:col-span-3 space-y-6">
+                    <!-- Stats Grid -->
+                    <Stats />
+                    <!-- Active Products -->
+                    <ProductList />
+                    <!-- Recent Tickets -->
+                    <TicketList />
+                    <!-- Announcements -->
+                </div>
+            </div>
+            <Announcements />
         </div>
-        <!-- Main Content -->
-        <div class="lg:col-span-3 space-y-6">
-          <!-- Stats Grid -->
-          <Stats />
-          <!-- Active Products -->
-          <ProductList />
-          <!-- Recent Tickets -->
-          <TicketList />
-          <!-- Announcements -->
-        </div>
-
-      </div>
-      <Announcements />
-
-    </div>
-  </LayoutDashboard>
+    </LayoutDashboard>
 </template>
 
 <script setup lang="ts">
@@ -44,5 +42,5 @@ import Header from '@/components/client/Dashboard/Main/Header.vue';
 import Settings from '@/mythicalclient/Settings';
 const { t } = useI18n();
 
-document.title = Settings.getSetting('app_name') + " - " + t("dashboard.title");
+document.title = Settings.getSetting('app_name') + ' - ' + t('dashboard.title');
 </script>

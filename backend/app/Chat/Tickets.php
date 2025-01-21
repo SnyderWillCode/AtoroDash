@@ -96,6 +96,44 @@ class Tickets extends Database
         }
     }
 
+    public static function getAllTicketsByUser(string $uuid, int $limit = 150): array
+    {
+        try {
+            $con = self::getPdoConnection();
+            $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE user = :uuid ORDER BY id DESC LIMIT ' . $limit;
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam('uuid', $uuid, \PDO::PARAM_STR);
+            $stmt->execute();
+
+            $tickets = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            foreach ($tickets as $key => $ticket) {
+                $tickets[$key]['department_id'] = $ticket['department'];
+                $tickets[$key]['department'] = Departments::get((int) $ticket['department']);
+
+                if (empty($tickets[$key]['department'])) {
+                    $tickets[$key]['department'] = [
+                        'id' => 0,
+                        'name' => 'Deleted Department',
+                        'description' => 'This department has been deleted.',
+                        'time_open' => '08:30',
+                        'time_close' => '17:30',
+                        'enabled' => 'true',
+                        'deleted' => 'false',
+                        'locked' => 'false',
+                        'date' => '2024-12-25 22:25:09',
+                    ];
+                }
+            }
+
+            return $tickets;
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all tickets by user: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
     public static function getTicket(int $id): array
     {
         try {

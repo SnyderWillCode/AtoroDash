@@ -48,12 +48,14 @@ $router->post('/api/user/ticket/create', function () {
     if (isset($_POST['department_id']) && $_POST['department_id'] != '') {
         $departmentId = $_POST['department_id'];
         if (Departments::exists((int) $departmentId)) {
+            /**
+             * Make that every info needed is provided.
+             */
             if (isset($_POST['service_id']) && $_POST['service_id'] != '') {
                 $serviceId = $_POST['service_id'];
             } else {
                 $serviceId = null;
             }
-
             if (isset($_POST['subject']) && $_POST['subject'] != '') {
                 $subject = $_POST['subject'];
             } else {
@@ -73,8 +75,19 @@ $router->post('/api/user/ticket/create', function () {
             }
 
             // TODO: Check if service exists
-            // TODO: Limit to 3 open tickets user
-
+            /**
+             * Check if the user has more than 3 open tickets.
+             */
+            $userTickets = Tickets::getAllTicketsByUser($session->getInfo(UserColumns::UUID, false), 150);
+            $openTickets = array_filter($userTickets, function ($ticket) {
+                return in_array($ticket['status'], ['open', 'waiting', 'replied', 'inprogress']);
+            });
+            if (count($openTickets) >= 3) {
+                $appInstance->BadRequest('You have reached the limit of 3 open tickets!', ['error_code' => 'LIMIT_REACHED']);
+            }
+            /**
+             * Create the ticket.
+             */
             $ticketId = Tickets::create($session->getInfo(UserColumns::UUID, false), $departmentId, $serviceId, $subject, $message, $priority);
             if ($ticketId == 0) {
                 $appInstance->BadRequest('Failed to create ticket!', ['error_code' => 'FAILED_TO_CREATE_TICKET']);

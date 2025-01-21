@@ -1,99 +1,237 @@
 <script setup lang="ts">
+import { ref, onMounted, onErrorCaptured, computed, h } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { format } from 'date-fns';
 import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
-import { h } from 'vue';
-import { useRouter } from 'vue-router';
+import Tickets from '@/mythicalclient/Tickets';
+import { AlertCircle, Plus, Ticket } from 'lucide-vue-next';
 
 const router = useRouter();
+const { t } = useI18n();
 
-const Tickets = [
-    {
-        id: 1,
-        department: 'IT Support',
-        subject: 'Computer not starting',
-        status: 'Open',
-        category: 'Hardware',
-        created_at: '2023-10-01',
-    },
-    {
-        id: 2,
-        department: 'HR',
-        subject: 'Payroll issue',
-        status: 'In Progress',
-        category: 'Payroll',
-        created_at: '2023-10-01',
-    },
-    {
-        id: 3,
-        department: 'IT Support',
-        subject: 'Email not working',
-        status: 'Closed',
-        category: 'Software',
-        created_at: '2023-10-01',
-    },
-    {
-        id: 4,
-        department: 'Facilities',
-        subject: 'Broken AC',
-        status: 'Open',
-        category: 'Maintenance',
-        created_at: '2023-10-01',
-    },
-];
+interface Department {
+    id: number;
+    name: string;
+    description: string;
+    time_open: string;
+    time_close: string;
+    enabled: string;
+    deleted: string;
+    locked: string;
+    date: string;
+}
+
+interface Ticket {
+    id: number;
+    user: string;
+    department: Department;
+    priority: string;
+    status: string;
+    service: number | null;
+    title: string;
+    description: string;
+    deleted: string;
+    locked: string;
+    date: string;
+    department_id: number;
+}
+
+const tickets = ref<Ticket[]>([]);
+const loading = ref(true);
+const error = ref<string | null>(null);
+
+const fetchTickets = async () => {
+    try {
+        const response = await Tickets.getTickets();
+        if (response.success && Array.isArray(response.tickets)) {
+            tickets.value = response.tickets;
+        } else {
+            throw new Error(response.error || 'Failed to fetch tickets');
+        }
+    } catch (err) {
+        error.value = err instanceof Error ? err.message : t('account.pages.tickets.alerts.error.generic');
+    } finally {
+        loading.value = false;
+    }
+};
+
+onMounted(fetchTickets);
+
+onErrorCaptured((err) => {
+    error.value = t('account.pages.tickets.alerts.error.generic');
+    console.error('Error captured:', err);
+    return false;
+});
+
+const filteredTickets = computed(() => {
+    return tickets.value.filter((ticket) => ticket.status.toUpperCase() !== 'CLOSED');
+});
 const columnsTickets = [
     {
-        accessorKey: 'department',
-        header: 'Department',
-    },
-    {
-        accessorKey: 'subject',
-        header: 'Subject',
+        accessorKey: 'title',
+        header: t('account.pages.tickets.table.subject'),
     },
     {
         accessorKey: 'status',
-        header: 'Status',
+        header: t('account.pages.tickets.table.status'),
+        cell: (info: { getValue: () => string }) => {
+            const status = info.getValue().toUpperCase();
+            let statusClass = '';
+            switch (status) {
+                case 'OPEN':
+                    statusClass = 'bg-green-100 text-green-800';
+                    break;
+                case 'CLOSED':
+                    statusClass = 'bg-red-100 text-red-800';
+                    break;
+                case 'WAITING':
+                    statusClass = 'bg-yellow-100 text-yellow-800';
+                    break;
+                case 'REPLIED':
+                    statusClass = 'bg-blue-100 text-blue-800';
+                    break;
+                case 'INPROGRESS':
+                    statusClass = 'bg-orange-100 text-orange-800';
+                    break;
+                default:
+                    statusClass = 'bg-gray-100 text-gray-800';
+            }
+            return h(
+                'span',
+                { class: `px-2 py-1 rounded-full text-xs font-semibold ${statusClass} dark:bg-opacity-50` },
+                status === 'INPROGRESS' ? 'IN PROGRESS' : status,
+            );
+        },
     },
     {
-        accessorKey: 'category',
-        header: 'Category',
+        accessorKey: 'priority',
+        header: t('account.pages.tickets.table.priority'),
+        cell: (info: { getValue: () => string }) => {
+            const priority = info.getValue().toUpperCase();
+            let priorityClass = '';
+            switch (priority) {
+                case 'LOW':
+                    priorityClass = 'bg-green-100 text-green-800';
+                    break;
+                case 'MEDIUM':
+                    priorityClass = 'bg-yellow-100 text-yellow-800';
+                    break;
+                case 'HIGH':
+                    priorityClass = 'bg-orange-100 text-orange-800';
+                    break;
+                case 'URGENT':
+                    priorityClass = 'bg-red-100 text-red-800';
+                    break;
+                default:
+                    priorityClass = 'bg-gray-100 text-gray-800';
+            }
+            return h(
+                'span',
+                { class: `px-2 py-1 rounded-full text-xs font-semibold ${priorityClass} dark:bg-opacity-50` },
+                priority,
+            );
+        },
     },
     {
-        accessorKey: 'created_at',
-        header: 'Created',
+        accessorKey: 'department.name',
+        header: t('account.pages.tickets.table.department'),
+    },
+    {
+        accessorKey: 'date',
+        header: t('account.pages.tickets.table.created'),
+        cell: (info: { getValue: () => string | number | Date }) => format(new Date(info.getValue()), 'MMM d, yyyy'),
     },
     {
         accessorKey: 'actions',
-        header: 'Actions',
+        header: t('account.pages.tickets.table.actions'),
+        enableSorting: false,
         cell: ({ row }: { row: { original: { id: number } } }) =>
             h(
                 'button',
                 {
-                    onClick: () => callMovetoTicket(row.original.id),
+                    onClick: () => viewTicket(row.original.id),
                     class: 'text-purple-500 hover:underline',
                 },
-                'View',
+                t('account.pages.tickets.actions.view'),
             ),
     },
 ];
 
-function callMovetoTicket(id: number) {
-    console.log('Move to ticket with ID:', id);
+function viewTicket(id: number) {
     router.push(`/ticket/${id}`);
+}
+
+function createNewTicket() {
+    router.push('/ticket/create');
 }
 </script>
 
 <template>
     <LayoutDashboard>
-        <div class="space-y-6">
+        <div class="space-y-6 p-6">
             <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-semibold text-gray-100">Support Tickets</h1>
+                <h1 class="text-3xl font-bold text-gray-100">{{ t('account.pages.tickets.title') }}</h1>
                 <button
-                    class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors"
+                    @click="createNewTicket"
+                    class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
                 >
-                    New Ticket
+                    <Plus class="w-4 h-4" />
+                    <span>{{ t('account.pages.tickets.actions.newTicket') }}</span>
                 </button>
             </div>
-            <TableTanstack :data="Tickets" :columns="columnsTickets" tableName="Your tickets" />
+
+            <Transition name="fade" mode="out-in">
+                <div v-if="loading" class="space-y-4" key="loading">
+                    <div v-for="i in 5" :key="i" class="bg-gray-800 rounded-lg p-4 animate-pulse">
+                        <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
+                        <div class="h-4 bg-gray-700 rounded w-1/2"></div>
+                    </div>
+                </div>
+
+                <div
+                    v-else-if="error"
+                    class="bg-red-900 border border-red-700 text-red-100 px-4 py-3 rounded-lg flex items-center space-x-2"
+                    role="alert"
+                    key="error"
+                >
+                    <AlertCircle class="w-5 h-5 flex-shrink-0" />
+                    <p>{{ error }}</p>
+                </div>
+
+                <div v-else-if="tickets.length === 0" class="text-center py-12 bg-gray-800 rounded-lg" key="empty">
+                    <Ticket class="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                    <p class="text-xl font-semibold text-gray-300">{{ t('account.pages.tickets.noTickets') }}</p>
+                    <p class="text-gray-400 mt-2">{{ t('account.pages.tickets.createNewTicket') }}</p>
+                    <button
+                        @click="createNewTicket"
+                        class="mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
+                        {{ t('account.pages.tickets.actions.newTicket') }}
+                    </button>
+                </div>
+
+                <div v-else key="table">
+                    <TableTanstack
+                        :data="filteredTickets"
+                        :columns="columnsTickets"
+                        :tableName="t('account.pages.tickets.table.title')"
+                    />
+                </div>
+            </Transition>
         </div>
     </LayoutDashboard>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>

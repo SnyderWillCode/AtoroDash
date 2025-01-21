@@ -47,7 +47,7 @@ class Departments extends Database
         string $close,
     ): void {
         try {
-            if (self::exists($id)) {
+            if (!self::exists($id)) {
                 App::getInstance(true)->getLogger()->warning('Department does not exist but tried to update it.', true);
 
                 return;
@@ -72,7 +72,7 @@ class Departments extends Database
             $con = self::getPdoConnection();
             $sql = 'SELECT id FROM ' . self::TABLE_NAME . ' WHERE id = :id';
             $stmt = $con->prepare($sql);
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->rowCount() > 0;
@@ -86,8 +86,8 @@ class Departments extends Database
     public static function delete(int $id): bool
     {
         try {
-            if (self::exists($id)) {
-                App::getInstance(true)->getLogger()->warning('Department does not exist but tried to update it.', true);
+            if (!self::exists($id)) {
+                App::getInstance(true)->getLogger()->warning('Department does not exist but tried to delete it.', true);
 
                 return false;
             }
@@ -124,8 +124,8 @@ class Departments extends Database
     public static function get(int $id): array
     {
         try {
-            if (self::exists($id)) {
-                App::getInstance(true)->getLogger()->warning('Department does not exist but tried to update it.', true);
+            if (!self::exists($id)) {
+                App::getInstance(true)->getLogger()->warning('Department does not exist but tried to get it: ' . $id . '.', true);
 
                 return [];
             }

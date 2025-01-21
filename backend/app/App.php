@@ -13,6 +13,7 @@
 
 namespace MythicalClient;
 
+use MythicalClient\MythicalSystems\Telemetry;
 use RateLimit\Rate;
 use Router\Router as rt;
 use RateLimit\RedisRateLimiter;

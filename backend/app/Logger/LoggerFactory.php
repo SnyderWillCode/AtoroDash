@@ -35,7 +35,6 @@ class LoggerFactory
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
         if ($sendTelemetry) {
-
             $eventID = \Sentry\captureMessage($message, \Sentry\Severity::warning(), null);
         }
         $this->appendLog('[WARNING] (' . $eventID . ')[' . $caller . '] ' . $message);

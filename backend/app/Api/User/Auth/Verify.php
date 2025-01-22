@@ -12,8 +12,8 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Chat\Verification;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Verification;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Chat\columns\EmailVerificationColumns;
 

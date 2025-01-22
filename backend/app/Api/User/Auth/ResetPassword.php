@@ -12,9 +12,9 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Chat\Verification;
+use MythicalClient\Chat\User\User;
 use MythicalSystems\CloudFlare\Turnstile;
+use MythicalClient\Chat\User\Verification;
 use MythicalClient\Config\ConfigInterface;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\CloudFlare\CloudFlareRealIP;

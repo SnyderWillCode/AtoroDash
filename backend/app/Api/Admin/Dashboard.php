@@ -12,12 +12,23 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\Can;
-use MythicalClient\Chat\Session;
 use MythicalClient\Hooks\GitHub;
 use MythicalClient\Chat\Database;
-use MythicalClient\Chat\UserActivities;
+use MythicalClient\Chat\User\Can;
+use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\User\UserActivities;
+
+/*
+ * This file is part of MythicalClient.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * # MythicalSystems License v2.0
+ *
+ * ## Copyright (c) 2021–2025 MythicalSystems and Cassian Gherman
+ *
+ * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
+ */
 
 $router->get('/api/admin', function (): void {
     App::init();

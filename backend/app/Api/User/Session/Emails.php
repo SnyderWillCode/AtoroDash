@@ -12,9 +12,9 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Chat\Mails;
-use MythicalClient\Chat\Session;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Mails;
+use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\columns\UserColumns;
 
 $router->get('/api/user/session/emails', function (): void {

@@ -11,11 +11,12 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalClient\Chat;
+namespace MythicalClient\Chat\User;
 
 use Gravatar\Gravatar;
 use MythicalClient\App;
 use MythicalClient\Mail\Mail;
+use MythicalClient\Chat\Database;
 use MythicalClient\Mail\templates\Verify;
 use MythicalSystems\CloudFlare\CloudFlare;
 use MythicalClient\Mail\templates\NewLogin;
@@ -96,7 +97,6 @@ class User extends Database
                 ':verified' => 'false',
                 ':support_pin' => App::getInstance(true)->generatePin(),
             ]);
-            \MythicalClient\MythicalSystems\Telemetry::send(\MythicalClient\MythicalSystems\TelemetryCollection::USER_NEW);
             /**
              * Check if the mail is enabled.
              *

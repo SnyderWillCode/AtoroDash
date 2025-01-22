@@ -12,12 +12,13 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Chat\Session;
 use PragmaRX\Google2FA\Google2FA;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Session;
 use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\CloudFlare\CloudFlareRealIP;
 
 $router->get('/api/user/auth/2fa/setup', function (): void {
     App::init();
@@ -47,7 +48,7 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
-        if (!Turnstile::validate($cfTurnstileResponse, MythicalClient\CloudFlare\CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
+        if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }

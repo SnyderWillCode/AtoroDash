@@ -12,8 +12,8 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\Session;
-use MythicalClient\Chat\Announcements;
+use MythicalClient\Chat\User\Session;
+use MythicalClient\Chat\Announcements\Announcements;
 
 $router->add('/api/user/announcements', function (): void {
     App::init();

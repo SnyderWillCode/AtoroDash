@@ -12,8 +12,8 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\Session;
-use MythicalClient\Chat\Tickets;
+use MythicalClient\Chat\User\Session;
+use MythicalClient\Chat\Tickets\Tickets;
 use MythicalClient\Chat\columns\UserColumns;
 
 $router->get('/api/user/ticket/list', function () {

@@ -11,7 +11,9 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalClient\Chat;
+namespace MythicalClient\Chat\Announcements;
+
+use MythicalClient\Chat\Database;
 
 class AnnouncementsAssets extends Database
 {

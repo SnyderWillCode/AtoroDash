@@ -12,12 +12,12 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Chat\Roles;
-use MythicalClient\Chat\Billing;
-use MythicalClient\Chat\Session;
-use MythicalClient\Chat\UserActivities;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Roles;
+use MythicalClient\Chat\User\Billing;
+use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\User\UserActivities;
 
 $router->post('/api/user/session/info/update', function (): void {
     App::init();

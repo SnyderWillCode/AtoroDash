@@ -174,6 +174,62 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
                 $this->sendOutput($this->prefix . 'Failed to start watch process.');
             }
             exit;
+        } elseif ($cmdName == 'push') {
+            $process = popen('cd backend && export COMPOSER_ALLOW_SUPERUSER=1 && composer run lint 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to lint backend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Backend linted successfully.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start backend lint process.');
+            }
+
+            $process = popen('cd frontend && yarn lint 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to lint frontend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Frontend linted successfully.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start frontend lint process.');
+            }
+
+            $process = popen('cd frontend && yarn format 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to format frontend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Frontend formatted successfully.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start frontend format process.');
+            }
+
+            exit;
         }
     }
 }

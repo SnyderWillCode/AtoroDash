@@ -11,7 +11,9 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-namespace MythicalClient\Chat;
+namespace MythicalClient\Chat\User;
+
+use MythicalClient\Chat\Database;
 
 class Mails extends Database
 {

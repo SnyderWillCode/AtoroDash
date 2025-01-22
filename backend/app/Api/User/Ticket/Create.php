@@ -12,10 +12,11 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\Session;
-use MythicalClient\Chat\Tickets;
-use MythicalClient\Chat\Departments;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Session;
+use MythicalClient\Chat\Tickets\Tickets;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\Tickets\Departments;
 
 $router->get('/api/user/ticket/create', function () {
     App::init();
@@ -43,7 +44,6 @@ $router->post('/api/user/ticket/create', function () {
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyPOST();
     $session = new Session($appInstance);
-    $accountToken = $session->SESSION_KEY;
 
     if (isset($_POST['department_id']) && $_POST['department_id'] != '') {
         $departmentId = $_POST['department_id'];

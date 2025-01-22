@@ -15,14 +15,14 @@ namespace MythicalClient\MythicalSystems;
 
 use MythicalClient\App;
 
-class Telemetry 
+class Telemetry
 {
     public static function send(string $telemetryCollection): void
     {
         try {
             App::getInstance(true)->getLogger()->debug('Sending telemetry data: ' . $telemetryCollection);
 
-		} catch (\Exception $e) {
+        } catch (\Exception $e) {
             App::getInstance(true)->getLogger()->debug('Failed to send telemetry data: ' . $e->getMessage());
             // No one cares!
         }

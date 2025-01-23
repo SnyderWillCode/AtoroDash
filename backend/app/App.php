@@ -46,7 +46,7 @@ class App extends MythicalAPP
          *
          * If the soft boot is true, we do not want to initialize the database connection or the router.
          *
-         * This is usefull for commands or other things that do not require the database connection.
+         * This is useful for commands or other things that do not require the database connection.
          *
          * This is also a lite way to boot the application without initializing the database connection or the router!.
          */

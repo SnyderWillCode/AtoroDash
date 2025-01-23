@@ -14,11 +14,11 @@
 namespace MythicalClient\Mail\templates;
 
 use MythicalClient\App;
-use MythicalClient\Chat\User;
-use MythicalClient\Mail\Mail;
-use MythicalClient\Chat\Mails;
-use MythicalClient\Chat\Database;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\Database;
+use MythicalClient\Chat\User\Mails;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Mail\Mail;
 
 class Verify extends Mail
 {

@@ -23,6 +23,9 @@ Components:
         Title: 'Announcements'
         Card:
             ReadMore: 'Read More'
+    Tickets: 
+      title: 'Recent tickets'
+      viewMore: 'View more'
     SupportPin:
         title: 'Support PIN'
         copy: 'Copy'

@@ -14,11 +14,11 @@
 namespace MythicalClient\Mail\templates;
 
 use MythicalClient\App;
-use MythicalClient\Chat\columns\UserColumns;
-use MythicalClient\Chat\Database;
-use MythicalClient\Chat\User\Mails;
-use MythicalClient\Chat\User\User;
 use MythicalClient\Mail\Mail;
+use MythicalClient\Chat\Database;
+use MythicalClient\Chat\User\User;
+use MythicalClient\Chat\User\Mails;
+use MythicalClient\Chat\columns\UserColumns;
 
 class ResetPassword extends Mail
 {

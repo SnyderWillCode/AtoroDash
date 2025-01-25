@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onErrorCaptured, computed, h } from 'vue';
+import { ref, onMounted, onErrorCaptured , h } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { format } from 'date-fns';
@@ -65,9 +65,7 @@ onErrorCaptured((err) => {
     return false;
 });
 
-const filteredTickets = computed(() => {
-    return tickets.value.filter((ticket) => ticket.status.toUpperCase() !== 'CLOSED');
-});
+
 const columnsTickets = [
     {
         accessorKey: 'title',
@@ -152,7 +150,7 @@ const columnsTickets = [
                 'button',
                 {
                     onClick: () => viewTicket(row.original.id),
-                    class: 'text-purple-500 hover:underline',
+                    class: 'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-medium bg-purple-600 text-white hover:bg-purple-700',
                 },
                 t('account.pages.tickets.actions.view'),
             ),
@@ -214,7 +212,7 @@ function createNewTicket() {
 
                 <div v-else key="table">
                     <TableTanstack
-                        :data="filteredTickets"
+                        :data="tickets"
                         :columns="columnsTickets"
                         :tableName="t('account.pages.tickets.table.title')"
                     />

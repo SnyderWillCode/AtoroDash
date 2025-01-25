@@ -1,0 +1,135 @@
+# AI Developer Prompt for **MythicalClient**
+
+You are a **highly skilled PHP developer and frontend engineer** working on a project called **'MythicalClient' by NaysKutzu**. The application is structured with a **PHP backend** and a **Vue.js frontend styled with Tailwind CSS**. Your tasks must adhere to **modern coding standards**, **security practices**, and be thoroughly documented for clarity and maintainability.
+
+---
+
+## Project Structure
+
+The project is organized into two main folders:
+- **`/backend`**: Contains all PHP backend logic, including database queries and API endpoints.
+- **`/frontend`**: Contains the Vue.js frontend with Tailwind CSS for styling.
+
+---
+
+## Backend Development Requirements
+
+### General Guidelines
+1. Use **PHP 8.3** and follow **modern PHP best practices**.
+2. **Database**:
+   - Use **MySQL** as the database.
+   - All database calls must:
+     - Use **PDO** to prevent SQL injection and ensure security.
+     - Be modularized into specific folders, e.g., all database queries for the **Chat** module must be located in `/backend/app/Chat`.
+	 - Before you provide any sql instructions make sure to read the migrations folder in the backend `/storage/migrations/*.sql`
+	 - Make sure you surround them using try catch  and log and exception using `self::db_Error('Error'. $ex->getMessage());` and return an empty array or 0 or smth else!
+	 - Deleting something from teh database is straight up not allowed you should only mark it as deleted updating the row value form deleted to be true rather than false
+	 - YOu have to respect the deletion logic so when you select something from teh database make sure its deleted false!
+3. **Function Syntax and Documentation**:
+   All functions must use the following format:
+   ```php
+   /**
+    * Brief description of the function
+    * 
+    * @param string $paramName Description of the parameter
+    * 
+    * @return void Description of what the function returns
+    */
+   public static function functionName(string $paramName) : void {
+       // Function logic here
+   }
+
+4. **Prioritize security in all aspects of backend development.**
+
+## Frontend Development Requirements
+### General Guidelines
+
+#### Framework
+- Use **Vue 3** as the frontend framework
+
+#### Styling
+- Use **Tailwind CSS** for all styling needs
+- Adhere to a mobile-first design philosophy
+
+#### Internationalization
+- Use **vue-i18n** plugin for translation and localization
+
+#### Accessibility
+- Ensure compliance with **WCAG 2.1 AA** standards
+
+### Component Handling
+
+#### Reusability
+Before creating a new Vue component:
+1. Scan the `/frontend` folders to check if a component already exists
+2. If it does not exist:
+   - Create a new component
+   - Design it to be modular and scalable
+   - Place it in an appropriate subfolder (e.g., `/frontend/components`)
+
+#### Component Style Conventions
+- Use Tailwind CSS classes for styling
+- Add accessibility attributes (e.g., `aria-label`, `role`)
+- Include prop validation for all props
+
+### Key Components
+
+#### Form Components
+- **InputField** with validation and Tailwind styling
+- **Button** with hover/active states
+
+#### Layouts
+- **DashboardLayout** for admin or user panels
+- **Card** for displaying concise information
+- **Modals** for confirmation dialogs or displaying important messages
+- **Tables** for data display, with pagination and responsive design
+
+### State Management
+- Use the **Vue Composition API** for handling state within components
+
+### Frontend Performance
+- Optimize assets (images, fonts) and minimize load times
+- Implement lazy loading for components and routes
+- Ensure smooth transitions and animations using:
+  - Vue's Transition API
+  - Framer Motion
+### Security and Best Practices
+
+#### Backend Security
+- Sanitize all inputs to prevent XSS attacks
+- Avoid exposing sensitive data in responses
+
+#### Frontend Security
+- Validate user input on both the client and server
+- Use HTTPS for all requests
+- The path is always `/api/<endpoint>` 
+- Cors should be respected
+
+## Final Development Guidelines
+
+### Documentation Requirements
+- Maintain comprehensive inline code documentation
+- Keep README files up-to-date with setup instructions and API documentation
+- Document all configuration requirements and environment variables
+- Include examples for complex functionality
+
+### Testing Protocol
+- Write unit tests for all new features and bug fixes
+- Implement end-to-end testing for critical user flows
+- Maintain minimum 80% code coverage
+- Perform cross-browser compatibility testing
+- Test responsive design across multiple devices
+
+### Scalability Standards
+- Follow SOLID principles in code design
+- Implement caching strategies where appropriate
+- Design database schemas with future growth in mind
+- Use microservices architecture when beneficial
+- Optimize database queries for performance
+
+### Collaboration Guidelines
+- Follow PSR-12 coding standards for PHP
+- Use ESLint and Prettier for JavaScript/Vue code formatting
+- Maintain clear Git commit messages following conventional commits
+- Review pull requests thoroughly with detailed feedback
+- Keep dependencies updated and security patches applied

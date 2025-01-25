@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_roles` ADD `deleted` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `real_name`, ADD `locked` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `deleted`;

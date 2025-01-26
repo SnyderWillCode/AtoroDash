@@ -25,16 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { AlertTriangle as AlertTriangleIcon, Server as ServerIcon, Database as DatabaseIcon } from 'lucide-vue-next';
+import Session from '@/mythicalclient/Session';
+import { AlertTriangle as AlertTriangleIcon } from 'lucide-vue-next';
 
 defineProps<{
     isOpen: boolean;
 }>();
 
 const notifications = [
-    { id: 1, title: 'High CPU Usage Alert', time: '5 minutes ago', icon: AlertTriangleIcon },
-    { id: 2, title: 'System Update Available', time: '1 hour ago', icon: ServerIcon },
-    { id: 3, title: 'Backup Completed', time: '2 hours ago', icon: DatabaseIcon },
+    { id: 1, title: 'You have '+ Session.getInfo('credits') +' credits left', time: new Date().toLocaleTimeString(), icon: AlertTriangleIcon },
 ];
 </script>
 

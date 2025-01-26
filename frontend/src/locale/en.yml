@@ -26,6 +26,12 @@ Components:
     Tickets:
         title: 'Recent tickets'
         viewMore: 'View more'
+        status:
+            Open: 'Open'
+            Closed: 'Closed'
+            Waiting: 'Waiting'
+            Replied: 'Replied'
+            InProgress: 'In Progress'
     SupportPin:
         title: 'Support PIN'
         copy: 'Copy'
@@ -284,57 +290,6 @@ errors:
 #-------------------------------------------------------------#
 account:
     pages:
-        tickets:
-            title: Tickets
-            actions:
-                newTicket: 'Tickets'
-                view: 'View'
-            alerts:
-                error:
-                    generic: 'An error occurred. Please try again later'
-            table:
-                title: 'Tickets'
-                subject: 'Subject'
-                status: 'Status'
-                priority: 'Priority'
-                department: 'Department'
-                created: 'Created'
-                actions: 'Actions'
-            noTickets: 'No tickets found'
-        create_ticket:
-            title: 'New Ticket'
-            subTitle: 'Create a new ticket'
-            form:
-                service: 'Related Service (if any)'
-                subject: 'Subject'
-                department: 'Department'
-                priority: 'Priority'
-                message: 'Message'
-                submit: 'Submit'
-                loading: 'Submitting...'
-                reset: 'Reset'
-                back: 'Back'
-            types:
-                priority:
-                    low: 'Low'
-                    medium: 'Medium'
-                    high: 'High'
-                    urgent: 'Urgent'
-            alerts:
-                success:
-                    title: 'Success'
-                    ticket_success: 'Ticket created'
-                    footer: 'Your ticket has been created'
-                error:
-                    title: 'Error'
-                    generic: 'An error occurred. Please try again later'
-                    footer: 'Please contact support for assistance'
-                    department_not_found: 'Department not found'
-                    department_id_missing: 'Department ID is missing'
-                    message_missing: 'Message is missing'
-                    subject_missing: 'Subject is missing'
-                    limit_reached: 'You have reached the limit of tickets you can create'
-                    failed_to_create_ticket: 'Cluster is down, try again later'
         settings:
             alerts:
                 success:
@@ -473,6 +428,79 @@ account:
                     error: An error occurred while fetching your activity
                     results:
                         viewButton: View
+
+tickets:
+    pages:
+        ticket:
+            title: Ticket
+            subTitle: View your ticket
+            alerts:
+                error:
+                    title: Error
+                    generic: 'An error occurred. Please try again later'
+                    message_timeout: 'Failed to load ticket. Invalid ticket ID or ticket not found.'
+                    footer: 'Please contact support for assistance'
+                    failed_reply: 'Failed to submit reply'
+                    failed_status: 'Failed to update ticket status'
+                    ticket_not_found: 'Ticket not found'
+                    maximum_files: 'Maximum 5 files allowed'
+                    file_too_large: 'The file {file} is too large'
+                    invalid_file_type: 'The file {file} must be PNG, JPG or GIF'
+                success:
+                    title: Success
+                    reply_success: 'Reply submitted'
+                    footer: 'Your reply has been sent, and the ticket has been updated'
+        tickets:
+            title: Tickets
+            actions:
+                newTicket: 'Tickets'
+                view: 'View'
+            alerts:
+                error:
+                    generic: 'An error occurred. Please try again later'
+            table:
+                title: 'Tickets'
+                subject: 'Subject'
+                status: 'Status'
+                priority: 'Priority'
+                department: 'Department'
+                created: 'Created'
+                actions: 'Actions'
+            noTickets: 'No tickets found'
+        create_ticket:
+            title: 'New Ticket'
+            subTitle: 'Create a new ticket'
+            form:
+                service: 'Related Service (if any)'
+                subject: 'Subject'
+                department: 'Department'
+                priority: 'Priority'
+                message: 'Message'
+                submit: 'Submit'
+                loading: 'Submitting...'
+                reset: 'Reset'
+                back: 'Back'
+            types:
+                priority:
+                    low: 'Low'
+                    medium: 'Medium'
+                    high: 'High'
+                    urgent: 'Urgent'
+            alerts:
+                success:
+                    title: 'Success'
+                    ticket_success: 'Ticket created'
+                    footer: 'Your ticket has been created'
+                error:
+                    title: 'Error'
+                    generic: 'An error occurred. Please try again later'
+                    footer: 'Please contact support for assistance'
+                    department_not_found: 'Department not found'
+                    department_id_missing: 'Department ID is missing'
+                    message_missing: 'Message is missing'
+                    subject_missing: 'Subject is missing'
+                    limit_reached: 'You have reached the limit of tickets you can create'
+                    failed_to_create_ticket: 'Cluster is down, try again later'
 
 components:
     sidebar:

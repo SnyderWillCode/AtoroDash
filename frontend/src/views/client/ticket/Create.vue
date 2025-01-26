@@ -18,7 +18,7 @@ const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 
-document.title = t('account.pages.create_ticket.title');
+document.title = t('tickets.pages.create_ticket.title');
 
 interface Department {
     id: number;
@@ -75,10 +75,10 @@ const ticket = ref({
 });
 
 const priorities = [
-    { value: 'low', label: t('account.pages.create_ticket.types.priority.low') },
-    { value: 'medium', label: t('account.pages.create_ticket.types.priority.medium') },
-    { value: 'high', label: t('account.pages.create_ticket.types.priority.high') },
-    { value: 'urgent', label: t('account.pages.create_ticket.types.priority.urgent') },
+    { value: 'low', label: t('tickets.pages.create_ticket.types.priority.low') },
+    { value: 'medium', label: t('tickets.pages.create_ticket.types.priority.medium') },
+    { value: 'high', label: t('tickets.pages.create_ticket.types.priority.high') },
+    { value: 'urgent', label: t('tickets.pages.create_ticket.types.priority.urgent') },
 ];
 
 const submitTicket = async () => {
@@ -99,21 +99,21 @@ const submitTicket = async () => {
             const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
-                LIMIT_REACHED: t('account.pages.create_ticket.alerts.error.limit_reached'),
-                FAILED_TO_CREATE_TICKET: t('account.pages.create_ticket.alerts.error.generic'),
-                DEPARTMENT_NOT_FOUND: t('account.pages.create_ticket.alerts.error.department_not_found'),
-                DEPARTMENT_ID_MISSING: t('account.pages.create_ticket.alerts.error.department_id_missing'),
-                MESSAGE_MISSING: t('account.pages.create_ticket.alerts.error.message_missing'),
-                SUBJECT_MISSING: t('account.pages.create_ticket.alerts.error.subject_missing'),
+                LIMIT_REACHED: t('tickets.pages.create_ticket.alerts.error.limit_reached'),
+                FAILED_TO_CREATE_TICKET: t('tickets.pages.create_ticket.alerts.error.generic'),
+                DEPARTMENT_NOT_FOUND: t('tickets.pages.create_ticket.alerts.error.department_not_found'),
+                DEPARTMENT_ID_MISSING: t('tickets.pages.create_ticket.alerts.error.department_id_missing'),
+                MESSAGE_MISSING: t('tickets.pages.create_ticket.alerts.error.message_missing'),
+                SUBJECT_MISSING: t('tickets.pages.create_ticket.alerts.error.subject_missing'),
             };
 
             if (errorMessages[error_code]) {
                 playError();
                 Swal.fire({
                     icon: 'error',
-                    title: t('account.pages.create_ticket.alerts.error.title'),
+                    title: t('tickets.pages.create_ticket.alerts.error.title'),
                     text: errorMessages[error_code],
-                    footer: t('account.pages.create_ticket.alerts.error.footer'),
+                    footer: t('tickets.pages.create_ticket.alerts.error.footer'),
                     showConfirmButton: true,
                 });
                 loading.value = false;
@@ -122,9 +122,9 @@ const submitTicket = async () => {
                 playError();
                 Swal.fire({
                     icon: 'error',
-                    title: t('account.pages.create_ticket.alerts.error.title'),
-                    text: t('account.pages.create_ticket.alerts.error.generic'),
-                    footer: t('account.pages.create_ticket.alerts.error.footer'),
+                    title: t('tickets.pages.create_ticket.alerts.error.title'),
+                    text: t('tickets.pages.create_ticket.alerts.error.generic'),
+                    footer: t('tickets.pages.create_ticket.alerts.error.footer'),
                     showConfirmButton: true,
                 });
                 loading.value = false;
@@ -134,9 +134,9 @@ const submitTicket = async () => {
             playSuccess();
             Swal.fire({
                 icon: 'success',
-                title: t('account.pages.create_ticket.alerts.success.title'),
-                text: t('account.pages.create_ticket.alerts.success.ticket_success'),
-                footer: t('account.pages.create_ticket.alerts.success.footer'),
+                title: t('tickets.pages.create_ticket.alerts.success.title'),
+                text: t('tickets.pages.create_ticket.alerts.success.ticket_success'),
+                footer: t('tickets.pages.create_ticket.alerts.success.footer'),
                 showConfirmButton: true,
             });
             loading.value = false;
@@ -159,24 +159,24 @@ const submitTicket = async () => {
     <LayoutDashboard>
         <div class="space-y-6">
             <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-semibold text-gray-100">{{ t('account.pages.create_ticket.title') }}</h1>
+                <h1 class="text-2xl font-semibold text-gray-100">{{ t('tickets.pages.create_ticket.title') }}</h1>
                 <router-link to="/ticket">
                     <button
                         class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200"
                     >
-                        {{ t('account.pages.create_ticket.form.back') }}
+                        {{ t('tickets.pages.create_ticket.form.back') }}
                     </button>
                 </router-link>
             </div>
             <CardComponent
-                :cardTitle="t('account.pages.create_ticket.title')"
-                :cardDescription="t('account.pages.create_ticket.subTitle')"
+                :cardTitle="t('tickets.pages.create_ticket.title')"
+                :cardDescription="t('tickets.pages.create_ticket.subTitle')"
             >
                 <form @submit.prevent="submitTicket" class="space-y-6">
                     <!-- Service Selection -->
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-2">
-                            {{ t('account.pages.create_ticket.form.service') }}
+                            {{ t('tickets.pages.create_ticket.form.service') }}
                         </label>
                         <SelectInput
                             v-model="ticket.service"
@@ -192,7 +192,7 @@ const submitTicket = async () => {
                     <!-- Department -->
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-2">
-                            {{ t('account.pages.create_ticket.form.department') }}
+                            {{ t('tickets.pages.create_ticket.form.department') }}
                         </label>
                         <SelectInput
                             v-model="ticket.department"
@@ -210,7 +210,7 @@ const submitTicket = async () => {
                     <!-- Priority -->
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-2">
-                            {{ t('account.pages.create_ticket.form.priority') }}
+                            {{ t('tickets.pages.create_ticket.form.priority') }}
                         </label>
                         <SelectInput v-model="ticket.priority" :options="priorities" />
                     </div>
@@ -218,7 +218,7 @@ const submitTicket = async () => {
                     <!-- Subject -->
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-2">
-                            {{ t('account.pages.create_ticket.form.subject') }}
+                            {{ t('tickets.pages.create_ticket.form.subject') }}
                         </label>
                         <TextInput v-model="ticket.subject" type="text" required placeholder="Enter ticket subject" />
                     </div>
@@ -226,7 +226,7 @@ const submitTicket = async () => {
                     <!-- Message -->
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-2">
-                            {{ t('account.pages.create_ticket.form.message') }}
+                            {{ t('tickets.pages.create_ticket.form.message') }}
                         </label>
                         <TextArea v-model="ticket.message" rows="6" required placeholder="Describe your issue..." />
                     </div>
@@ -238,8 +238,8 @@ const submitTicket = async () => {
                             :disabled="loading"
                             class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200"
                         >
-                            <span v-if="loading">{{ t('account.pages.create_ticket.form.loading') }}</span>
-                            <span v-else>{{ t('account.pages.create_ticket.form.submit') }}</span>
+                            <span v-if="loading">{{ t('tickets.pages.create_ticket.form.loading') }}</span>
+                            <span v-else>{{ t('tickets.pages.create_ticket.form.submit') }}</span>
                         </button>
                     </div>
                 </form>

@@ -21,6 +21,7 @@ class UserColumns
     public const FIRST_NAME = 'first_name';
     public const LAST_NAME = 'last_name';
     public const AVATAR = 'avatar';
+	public const CREDITS = 'credits';
     public const UUID = 'uuid';
     public const ACCOUNT_TOKEN = 'token';
     public const ROLE_ID = 'role';
@@ -46,6 +47,7 @@ class UserColumns
             self::FIRST_NAME,
             self::LAST_NAME,
             self::AVATAR,
+			self::CREDITS,
             self::UUID,
             self::ACCOUNT_TOKEN,
             self::ROLE_ID,

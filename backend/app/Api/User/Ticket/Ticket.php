@@ -73,9 +73,12 @@ $router->get('/api/user/ticket/(.*)/messages', function ($ticketId) {
 				'uuid' => $ticketInfo['user']
 			];
 
+			$attachments = Attachments::getAttachmentsByTicketId($ticketId);
+
 			$appInstance->OK(200, [
 				'messages' => $messages,
-				'ticket' => $ticketInfo
+				'ticket' => $ticketInfo,
+				'attachments' => $attachments
 			]);
 		} else {
 			$appInstance->BadRequest('Ticket not found', ['error_code' => 'ERROR_TICKET_NOT_FOUND']);
@@ -148,100 +151,95 @@ $router->post('/api/user/ticket/(.*)/attachments', function ($ticketId) {
 	$s = new Session($appInstance);
 	$ticketId = (int) $ticketId;
 
-	try {
-		if (!isset($_FILES['attachments'])) {
-			$appInstance->BadRequest('Attachments are required', ['error_code' => 'ERROR_ATTACHMENTS_REQUIRED']);
+	if (!isset($_FILES['attachments'])) {
+		$appInstance->BadRequest('Attachments are required', ['error_code' => 'ERROR_ATTACHMENTS_REQUIRED']);
+		return;
+	}
+
+	$attachments = $_FILES['attachments'];
+
+	// Always treat as single file since frontend sends one at a time
+	$attachments = array(
+		'name' => [$attachments['name']],
+		'type' => [$attachments['type']],
+		'tmp_name' => [$attachments['tmp_name']],
+		'error' => [$attachments['error']],
+		'size' => [$attachments['size']]
+	);
+
+	if (Tickets::exists($ticketId)) {
+		$ticketInfo = Tickets::getTicket($ticketId);
+		if ($ticketInfo['user'] !== $s->getInfo(UserColumns::UUID, false)) {
+			$appInstance->Forbidden('You do not have permission to upload attachments to this ticket', ['error_code' => 'ERROR_PERMISSION_DENIED']);
 			return;
 		}
-		$attachments = $_FILES['attachments'];
-		if (Tickets::exists($ticketId)) {
-			$ticketInfo = Tickets::getTicket($ticketId);
-			if ($ticketInfo['user'] !== $s->getInfo(UserColumns::UUID, false)) {
-				$appInstance->Forbidden('You do not have permission to upload attachments to this ticket', ['error_code' => 'ERROR_PERMISSION_DENIED']);
+
+		// Validate file types and sizes
+		$allowedTypes = ['image/png', 'image/jpeg', 'image/gif'];
+		$maxSize = 2 * 1024 * 1024; // 2MB
+		$maxFiles = 5;
+
+		// Now we can safely check count
+		if (count($attachments['name']) > $maxFiles) {
+			$appInstance->BadRequest("Maximum {$maxFiles} files allowed", ['error_code' => 'ERROR_TOO_MANY_FILES']);
+			return;
+		}
+
+		// Validate files first
+		for ($i = 0; $i < count($attachments['name']); $i++) {
+			if (!in_array($attachments['type'][$i], $allowedTypes)) {
+				$appInstance->BadRequest('Invalid file type. Only PNG, JPG and GIF allowed', ['error_code' => 'ERROR_INVALID_FILE_TYPE']);
 				return;
 			}
-	
-			// Validate file types and sizes
-			$allowedTypes = ['image/png', 'image/jpeg', 'image/gif'];
-			$maxSize = 2 * 1024 * 1024; // 2MB
-			$maxFiles = 5;
-	
-			// Convert single file upload to array format
-			if (!is_array($attachments['name'])) {
-				$attachments = array(
-					'name'     => [$attachments['name']],
-					'type'     => [$attachments['type']],
-					'tmp_name' => [$attachments['tmp_name']],
-					'error'    => [$attachments['error']],
-					'size'     => [$attachments['size']]
-				);
-			}
-	
-			// Now we can safely check count
-			if (count($attachments['name']) > $maxFiles) {
-				$appInstance->BadRequest("Maximum {$maxFiles} files allowed", ['error_code' => 'ERROR_TOO_MANY_FILES']);
+
+			if ($attachments['size'][$i] > $maxSize) {
+				$appInstance->BadRequest('File too large. Maximum size is 2MB', ['error_code' => 'ERROR_FILE_TOO_LARGE']);
 				return;
 			}
-	
-			// Validate files first
+
+			if ($attachments['error'][$i] !== UPLOAD_ERR_OK) {
+				$appInstance->BadRequest('File upload failed', ['error_code' => 'ERROR_UPLOAD_FAILED']);
+				return;
+			}
+		}
+
+		// Upload files
+		try {
+			// Create date-based folder structure
+			$currentDate = date('Y-m-d');
+			$uploadPath = APP_PUBLIC . '/attachments/tickets/' . $ticketId . '/' . $currentDate;
+
+			if (!file_exists($uploadPath)) {
+				mkdir($uploadPath, 0755, true);
+			}
+
+			$uploadedFiles = [];
 			for ($i = 0; $i < count($attachments['name']); $i++) {
-				if (!in_array($attachments['type'][$i], $allowedTypes)) {
-					$appInstance->BadRequest('Invalid file type. Only PNG, JPG and GIF allowed', ['error_code' => 'ERROR_INVALID_FILE_TYPE']);
-					return;
+				$extension = pathinfo($attachments['name'][$i], PATHINFO_EXTENSION);
+				$filename = uniqid() . '.' . $extension;
+				$destination = $uploadPath . '/' . $filename;
+
+				if (!move_uploaded_file($attachments['tmp_name'][$i], $destination)) {
+					throw new Exception('Failed to move uploaded file');
 				}
-	
-				if ($attachments['size'][$i] > $maxSize) {
-					$appInstance->BadRequest('File too large. Maximum size is 2MB', ['error_code' => 'ERROR_FILE_TOO_LARGE']);
-					return;
-				}
-	
-				if ($attachments['error'][$i] !== UPLOAD_ERR_OK) {
-					$appInstance->BadRequest('File upload failed', ['error_code' => 'ERROR_UPLOAD_FAILED']);
-					return;
-				}
+
+				// Store attachment info in database
+				$relativePath = 'tickets/' . $ticketId . '/' . $currentDate . '/' . $filename;
+				Attachments::addAttachment($ticketId, $relativePath);
+				$uploadedFiles[] = $relativePath;
 			}
-	
-			// Upload files
-			try {
-				// Create date-based folder structure
-				$currentDate = date('Y-m-d');
-				$uploadPath = APP_PUBLIC . '/attachments/tickets/' . $ticketId . '/' . $currentDate;
-				
-				if (!file_exists($uploadPath)) {
-					mkdir($uploadPath, 0755, true);
-				}
-	
-				$uploadedFiles = [];
-				for ($i = 0; $i < count($attachments['name']); $i++) {
-					$extension = pathinfo($attachments['name'][$i], PATHINFO_EXTENSION);
-					$filename = uniqid() . '.' . $extension;
-					$destination = $uploadPath . '/' . $filename;
-	
-					if (!move_uploaded_file($attachments['tmp_name'][$i], $destination)) {
-						throw new Exception('Failed to move uploaded file');
-					}
-	
-					// Store attachment info in database
-					$relativePath = 'tickets/' . $ticketId . '/' . $currentDate . '/' . $filename;
-					Attachments::addAttachment($ticketId, $relativePath);
-					$uploadedFiles[] = $relativePath;
-				}
-	
-				$appInstance->OK(200, [
-					'message' => 'Attachments uploaded successfully',
-					'files' => $uploadedFiles
-				]);
-				
-			} catch (Exception $e) {
-				$appInstance->InternalServerError('Failed to process attachments', ['error_code' => 'ERROR_PROCESSING_ATTACHMENTS']);
-				return;
-			}
-		} else {
-			$appInstance->BadRequest('Ticket not found', ['error_code' => 'ERROR_TICKET_NOT_FOUND']);
+
+			$appInstance->OK(200, [
+				'message' => 'Attachments uploaded successfully',
+				'files' => $uploadedFiles
+			]);
+
+		} catch (Exception $e) {
+			$appInstance->InternalServerError('Failed to process attachments', ['error_code' => 'ERROR_PROCESSING_ATTACHMENTS']);
 			return;
 		}
-	} catch (Exception $e) {
-		$appInstance->InternalServerError('Failed to process attachments', ['error_code' => 'ERROR_PROCESSING_ATTACHMENTS']);
+	} else {
+		$appInstance->BadRequest('Ticket not found', ['error_code' => 'ERROR_TICKET_NOT_FOUND']);
 		return;
 	}
 });

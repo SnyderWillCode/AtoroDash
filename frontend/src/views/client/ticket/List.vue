@@ -51,7 +51,7 @@ const fetchTickets = async () => {
             throw new Error(response.error || 'Failed to fetch tickets');
         }
     } catch (err) {
-        error.value = err instanceof Error ? err.message : t('account.pages.tickets.alerts.error.generic');
+        error.value = err instanceof Error ? err.message : t('tickets.pages.tickets.alerts.error.generic');
     } finally {
         loading.value = false;
     }
@@ -60,7 +60,7 @@ const fetchTickets = async () => {
 onMounted(fetchTickets);
 
 onErrorCaptured((err) => {
-    error.value = t('account.pages.tickets.alerts.error.generic');
+    error.value = t('tickets.pages.tickets.alerts.error.generic');
     console.error('Error captured:', err);
     return false;
 });
@@ -69,11 +69,11 @@ onErrorCaptured((err) => {
 const columnsTickets = [
     {
         accessorKey: 'title',
-        header: t('account.pages.tickets.table.subject'),
+        header: t('tickets.pages.tickets.table.subject'),
     },
     {
         accessorKey: 'status',
-        header: t('account.pages.tickets.table.status'),
+        header: t('tickets.pages.tickets.table.status'),
         cell: (info: { getValue: () => string }) => {
             const status = info.getValue().toUpperCase();
             let statusClass = '';
@@ -105,7 +105,7 @@ const columnsTickets = [
     },
     {
         accessorKey: 'priority',
-        header: t('account.pages.tickets.table.priority'),
+        header: t('tickets.pages.tickets.table.priority'),
         cell: (info: { getValue: () => string }) => {
             const priority = info.getValue().toUpperCase();
             let priorityClass = '';
@@ -134,16 +134,16 @@ const columnsTickets = [
     },
     {
         accessorKey: 'department.name',
-        header: t('account.pages.tickets.table.department'),
+        header: t('tickets.pages.tickets.table.department'),
     },
     {
         accessorKey: 'date',
-        header: t('account.pages.tickets.table.created'),
+        header: t('tickets.pages.tickets.table.created'),
         cell: (info: { getValue: () => string | number | Date }) => format(new Date(info.getValue()), 'MMM d, yyyy'),
     },
     {
         accessorKey: 'actions',
-        header: t('account.pages.tickets.table.actions'),
+        header: t('tickets.pages.tickets.table.actions'),
         enableSorting: false,
         cell: ({ row }: { row: { original: { id: number } } }) =>
             h(
@@ -152,7 +152,7 @@ const columnsTickets = [
                     onClick: () => viewTicket(row.original.id),
                     class: 'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-medium bg-purple-600 text-white hover:bg-purple-700',
                 },
-                t('account.pages.tickets.actions.view'),
+                t('tickets.pages.tickets.actions.view'),
             ),
     },
 ];
@@ -170,13 +170,13 @@ function createNewTicket() {
     <LayoutDashboard>
         <div class="space-y-6 p-6">
             <div class="flex justify-between items-center">
-                <h1 class="text-3xl font-bold text-gray-100">{{ t('account.pages.tickets.title') }}</h1>
+                <h1 class="text-3xl font-bold text-gray-100">{{ t('tickets.pages.tickets.title') }}</h1>
                 <button
                     @click="createNewTicket"
                     class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
                 >
                     <Plus class="w-4 h-4" />
-                    <span>{{ t('account.pages.tickets.actions.newTicket') }}</span>
+                    <span>{{ t('tickets.pages.tickets.actions.newTicket') }}</span>
                 </button>
             </div>
 
@@ -200,13 +200,13 @@ function createNewTicket() {
 
                 <div v-else-if="tickets.length === 0" class="text-center py-12 bg-gray-800 rounded-lg" key="empty">
                     <Ticket class="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p class="text-xl font-semibold text-gray-300">{{ t('account.pages.tickets.noTickets') }}</p>
-                    <p class="text-gray-400 mt-2">{{ t('account.pages.tickets.createNewTicket') }}</p>
+                    <p class="text-xl font-semibold text-gray-300">{{ t('tickets.pages.tickets.noTickets') }}</p>
+                    <p class="text-gray-400 mt-2">{{ t('tickets.pages.tickets.createNewTicket') }}</p>
                     <button
                         @click="createNewTicket"
                         class="mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors"
                     >
-                        {{ t('account.pages.tickets.actions.newTicket') }}
+                        {{ t('tickets.pages.tickets.actions.newTicket') }}
                     </button>
                 </div>
 
@@ -214,7 +214,7 @@ function createNewTicket() {
                     <TableTanstack
                         :data="tickets"
                         :columns="columnsTickets"
-                        :tableName="t('account.pages.tickets.table.title')"
+                        :tableName="t('tickets.pages.tickets.table.title')"
                     />
                 </div>
             </Transition>

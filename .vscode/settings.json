@@ -110,4 +110,8 @@
 		"[x]",
 		"REFACTOR"
 	],
+	"i18n-ally.localesPaths": [
+		"frontend/src/locale",
+		"backend/storage/packages/phpmailer/phpmailer/language"
+	],
 }

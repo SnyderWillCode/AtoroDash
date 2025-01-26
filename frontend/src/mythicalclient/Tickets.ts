@@ -65,9 +65,12 @@ class Tickets {
     }
 
     static async uploadAttachment(ticketId: number, file: File) {
+        const formData = new FormData();
+        formData.append('attachments', file);
+
         const response = await fetch(`/api/user/ticket/${ticketId}/attachments`, {
             method: 'POST',
-            body: file,
+            body: formData
         });
         const data = await response.json();
         return data;

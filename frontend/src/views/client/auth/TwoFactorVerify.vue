@@ -14,6 +14,7 @@ import { useRouter } from 'vue-router';
 import Session from '@/mythicalclient/Session';
 import StorageMonitor from '@/mythicalclient/StorageMonitor';
 import Auth from '@/mythicalclient/Auth';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 new StorageMonitor();
 
@@ -32,7 +33,7 @@ const form = reactive({
     turnstileResponse: '',
 });
 
-document.title = t('auth.pages.twofactor_verify.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.twofactor_verify.page.title'));
 
 const handleSubmit = async () => {
     if (!form.code) {

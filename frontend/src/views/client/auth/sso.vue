@@ -7,11 +7,12 @@ import { useRouter } from 'vue-router';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
 const router = useRouter();
 
-document.title = t('auth.pages.sso.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.sso.page.title'));
 
 const loading = ref(false);
 const form = reactive({

@@ -12,7 +12,7 @@ import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
 import Auth from '@/mythicalclient/Auth';
-
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
@@ -24,7 +24,7 @@ const form = reactive({
     turnstileResponse: '',
 });
 
-document.title = t('auth.pages.forgot_password.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.forgot_password.page.title'));
 
 const handleSubmit = async () => {
     loading.value = true;

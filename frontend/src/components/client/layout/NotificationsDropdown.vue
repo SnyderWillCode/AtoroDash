@@ -4,7 +4,7 @@
         class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown"
     >
         <div class="p-4">
-            <h3 class="font-semibold mb-4 text-purple-400">Notifications</h3>
+            <h3 class="font-semibold mb-4 text-purple-400">{{ t('components.notifications.title') }}</h3>
             <div class="space-y-4">
                 <div
                     v-for="notification in notifications"
@@ -27,13 +27,20 @@
 <script setup lang="ts">
 import Session from '@/mythicalclient/Session';
 import { AlertTriangle as AlertTriangleIcon } from 'lucide-vue-next';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 defineProps<{
     isOpen: boolean;
 }>();
 
 const notifications = [
-    { id: 1, title: 'You have '+ Session.getInfo('credits') +' credits left', time: new Date().toLocaleTimeString(), icon: AlertTriangleIcon },
+    {
+        id: 1,
+        title: t('components.notifications.credits', { credits: Session.getInfo('credits') }),
+        time: new Date().toLocaleTimeString(),
+        icon: AlertTriangleIcon,
+    },
 ];
 </script>
 

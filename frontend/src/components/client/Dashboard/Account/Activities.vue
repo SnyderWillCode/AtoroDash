@@ -5,10 +5,10 @@ import LayoutAccount from './Layout.vue';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
 import Activities from '@/mythicalclient/Activities';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
-
-document.title = t('account.pages.activity.page.title');
+MythicalDOM.setPageTitle(t('account.pages.activity.page.title'));
 
 interface Activity {
     id: number;

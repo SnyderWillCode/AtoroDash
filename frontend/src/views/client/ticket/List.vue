@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onErrorCaptured , h } from 'vue';
+import { ref, onMounted, onErrorCaptured, h } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { format } from 'date-fns';
@@ -7,9 +7,11 @@ import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
 import TableTanstack from '@/components/client/ui/Table/TableTanstack.vue';
 import Tickets from '@/mythicalclient/Tickets';
 import { AlertCircle, Plus, Ticket } from 'lucide-vue-next';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const router = useRouter();
 const { t } = useI18n();
+MythicalDOM.setPageTitle(t('tickets.pages.tickets.title'));
 
 interface Department {
     id: number;
@@ -64,7 +66,6 @@ onErrorCaptured((err) => {
     console.error('Error captured:', err);
     return false;
 });
-
 
 const columnsTickets = [
     {

@@ -26,7 +26,7 @@
                     <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                     <input
                         type="text"
-                        placeholder="Search (Ctrl + /)"
+                        :placeholder="t('components.search.placeholder')"
                         class="px-10 py-2 w-64 bg-gray-800/50 border border-gray-700/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                         @click="$emit('toggle-search')"
                         readonly
@@ -46,8 +46,19 @@
                     <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-purple-500 rounded-full"></span>
                 </button>
 
-                <button @click="$emit('toggle-profile')" class="p-2 hover:bg-gray-800/50 rounded-lg">
+                <button @click="$emit('toggle-profile')" class="lg:hidden p-2 hover:bg-gray-800/50 rounded-lg">
                     <UserIcon class="w-5 h-5" />
+                </button>
+
+                <button
+                    @click="$emit('toggle-profile')"
+                    class="hidden lg:flex p-2 hover:bg-gray-800/50 rounded-lg items-center gap-2 relative"
+                >
+                    <img :src="Session.getInfo('avatar')" alt="Profile" class="w-8 h-8 rounded-full" />
+                    <div class="flex flex-col items-start">
+                        <span class="text-sm text-gray-300">{{ Session.getInfo('username') }}</span>
+                        <span class="text-xs text-gray-400">{{ role }}</span>
+                    </div>
                 </button>
             </div>
         </div>
@@ -63,6 +74,13 @@ import {
     X as XIcon,
 } from 'lucide-vue-next';
 import Settings from '@/mythicalclient/Settings';
+import { useI18n } from 'vue-i18n';
+import Session from '@/mythicalclient/Session';
+
+const role =
+    (Session.getInfo('role_real_name') ?? '').charAt(0).toUpperCase() +
+    (Session.getInfo('role_real_name') ?? '').slice(1);
+const { t } = useI18n();
 
 defineProps<{
     isSidebarOpen: boolean;

@@ -12,13 +12,14 @@ import successAlertSfx from '@/assets/sounds/success.mp3';
 import { useI18n } from 'vue-i18n';
 import { useSound } from '@vueuse/sound';
 import { useRouter } from 'vue-router';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 
-document.title = t('tickets.pages.create_ticket.title');
+MythicalDOM.setPageTitle(t('tickets.pages.create_ticket.title'));
 
 interface Department {
     id: number;

@@ -44,6 +44,8 @@ Components:
                 title: 'Error'
                 generic: 'An error occurred. Please try again later'
                 footer: 'Please contact support for assistance'
+    ThreeDEngine:
+        LoadingError: "Failed to initialize 3D environment"
 
 #-------------------------------------------------------------#
 #
@@ -329,6 +331,16 @@ account:
                     button:
                         label: Deactivate Account
                         loading: Deactivating...
+                clear:
+                    title: Application Data
+                    subTitle: Manage and clear application data incase you see outdated data.
+                    cache:
+                        title: Cache Usage
+                        total: 'Total cached data: {totalSize}'
+                        button: 'Clear Cache & Reload'
+                        description: 'This will clear all cached data and reload the application.'
+                        confirm: 'Yes, clear data'
+                        cancel: 'Cancel'
         billing:
             alerts:
                 success:
@@ -513,3 +525,28 @@ components:
         settings: Settings
         users: Users
         apikeys: API Keys
+    search:
+        placeholder: 'Search (Ctrl + K)'
+        no_results: 'No results found'
+        items:
+            dashboard: 'Access your main dashboard'
+            services: 'View and manage your services'
+            invoices: 'Access your billing and invoices'
+            tickets: 'View and manage support tickets'
+            knowledge: 'Browse help articles and documentation'
+    notifications:
+        title: 'Notifications'
+        credits: 'You have {credits} credits left'
+    errors:
+        go_back: 'Go Back'
+        go_home: 'Go Home'
+    dashboard:
+        title: 'My Dashboard'
+        portal_home: 'Portal Home'
+        client_area: 'Client Area'
+        welcome_back: 'Welcome back'
+    profile:
+        tickets: 'Tickets'
+        services: 'Services'
+        invoices: 'Invoices'
+        logout: 'Logout'

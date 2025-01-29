@@ -5,12 +5,14 @@ import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
 import { useRouter } from 'vue-router';
 import Session from '@/mythicalclient/Session';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
+
 const router = useRouter();
 const { t } = useI18n();
 
 const is2FAEnabled = Session.getInfo('2fa_enabled') === 'true' ? ref(true) : ref(false);
 
-document.title = t('account.pages.security.page.title');
+MythicalDOM.setPageTitle(t('account.pages.security.page.title'));
 
 const enable2FA = () => {
     // Add logic to enable 2FA

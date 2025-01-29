@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import LayoutAccount from './Layout.vue';
 import TextInput from '@/components/client/ui/TextForms/TextInput.vue';
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
@@ -7,8 +7,11 @@ import Session from '@/mythicalclient/Session';
 import { useI18n } from 'vue-i18n';
 import Swal from 'sweetalert2';
 import Auth from '@/mythicalclient/Auth';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
+import Button from '@/components/client/ui/Button.vue';
 
 const { t } = useI18n();
+MythicalDOM.setPageTitle(t('account.pages.settings.page.title'));
 
 const form = reactive({
     firstName: Session.getInfo('first_name'),
@@ -17,8 +20,6 @@ const form = reactive({
     avatar: Session.getInfo('avatar'),
     background: Session.getInfo('background'),
 });
-
-document.title = t('account.pages.settings.page.title');
 
 const saveChanges = async () => {
     try {
@@ -91,6 +92,76 @@ const resetFields = async () => {
     form.avatar = Session.getInfo('avatar');
     form.background = Session.getInfo('background');
 };
+
+const formatBytes = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+const getTotalStorageSize = (): number => {
+    try {
+        let total = 0;
+
+        // Calculate localStorage size
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key) {
+                    const value = localStorage.getItem(key);
+                    total += new Blob([value || '']).size;
+                }
+            }
+        } catch {
+            return 0;
+        }
+
+        // Calculate sessionStorage size
+        try {
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key) {
+                    const value = sessionStorage.getItem(key);
+                    total += new Blob([value || '']).size;
+                }
+            }
+        } catch {
+            return 0;
+        }
+
+        return total;
+    } catch {
+        return 0;
+    }
+};
+
+const clearAllData = async () => {
+    const result = await Swal.fire({
+        title: t('account.pages.settings.page.clear.cache.title'),
+        text: t('account.pages.settings.page.clear.cache.description'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: t('account.pages.settings.page.clear.cache.confirm'),
+        cancelButtonText: t('account.pages.settings.page.clear.cache.cancel'),
+        confirmButtonColor: '#dc2626',
+        background: '#1f2937',
+        color: '#fff',
+    });
+
+    if (result.isConfirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload();
+    }
+};
+
+onMounted(() => {
+    totalSize.value = getTotalStorageSize();
+});
+
+const totalSize = ref(getTotalStorageSize());
 </script>
 
 <style scoped>
@@ -165,20 +236,12 @@ const resetFields = async () => {
         </div>
         <br />
         <div class="flex flex-wrap gap-3">
-            <button
-                @click="saveChanges"
-                type="button"
-                class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
-            >
+            <Button @click="saveChanges" variant="primary" type="submit">
                 {{ t('account.pages.settings.page.form.update_button.label') }}
-            </button>
-            <button
-                @click="resetFields"
-                type="button"
-                class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded text-sm font-medium transition-colors"
-            >
+            </Button>
+            <Button @click="resetFields" variant="secondary" type="submit">
                 {{ t('account.pages.settings.page.form.update_button.reset') }}
-            </button>
+            </Button>
         </div>
     </CardComponent>
     <br />
@@ -197,12 +260,37 @@ const resetFields = async () => {
                 {{ t('account.pages.settings.page.delete.lines.2') }}
             </p>
             <br />
-            <button
-                type="button"
-                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded text-sm font-medium transition-colors"
-            >
+            <Button type="button" variant="danger">
                 {{ t('account.pages.settings.page.delete.button.label') }}
-            </button>
+            </Button>
+        </div>
+    </CardComponent>
+    <br />
+    <CardComponent
+        :cardTitle="t('account.pages.settings.page.clear.title')"
+        :cardDescription="t('account.pages.settings.page.clear.subTitle')"
+    >
+        <div class="space-y-6">
+            <div class="p-4 bg-gray-800/50 rounded-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-lg font-medium">{{ t('account.pages.settings.page.clear.cache.title') }}</h3>
+                        <p class="text-sm text-gray-400 mt-1">
+                            {{
+                                t('account.pages.settings.page.clear.cache.total', {
+                                    totalSize: formatBytes(totalSize),
+                                })
+                            }}
+                        </p>
+                    </div>
+                    <Button @click="clearAllData" variant="danger" class="px-4 py-2">
+                        {{ t('account.pages.settings.page.clear.cache.button') }}
+                    </Button>
+                </div>
+                <p class="text-sm text-gray-300 mt-4">
+                    {{ t('account.pages.settings.page.clear.cache.description') }}
+                </p>
+            </div>
         </div>
     </CardComponent>
 </template>

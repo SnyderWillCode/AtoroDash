@@ -1,0 +1,52 @@
+{
+  "Change Comment": {
+    "prefix": "changecomment",
+    "body": [
+      "/* ---------------------------",
+      " * Author: $1 Date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      " * ",
+      " * Changes: ",
+      " * - $2",
+      " * ",
+      " * ",
+      " * ---------------------------*/"
+    ],
+    "description": "Snippet for a change comment with author and date"
+  },
+  "S_GetTranslation": {
+    "prefix": "S_GetTranslation",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["Translation.getTranslation('$1')"],
+    "description": "Get a translation from i18n!"
+  },
+  "S_GetTranslationTemplate": {
+    "prefix": "S_GetTranslationTemplate",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["{{ Translation.getTranslation('$1') }}"],
+    "description": "Get a translation from i18n!"
+  },
+  "S_GetSetting": {
+    "prefix": "S_GetSetting",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["const { getSetting } = useSettings()\ngetSetting('$1')"],
+    "description": "Get a setting using the settings composable"
+  },
+  "S_GetSettingVue": {
+    "prefix": "S_GetSetting",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["{{ getSetting('$1') }}"],
+    "description": "Get a setting in template using the settings composable"
+  },
+  "S_GetSessionInfo": {
+    "prefix": "S_GetSessionInfo",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["Session.getInfo('$1')"],
+    "description": "Get a session info like username or other user details!"
+  },
+  "S_GetSessionInfoVue": {
+    "prefix": "S_GetSessionInfo",
+    "scope": "vue,ts,tsx,js,jsx,html",
+    "body": ["{{ Session.getInfo('$1') }}"],
+    "description": "Get a session info like username or other user details!"
+  }
+}

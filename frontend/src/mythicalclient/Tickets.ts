@@ -53,7 +53,10 @@ class Tickets {
         return data;
     }
 
-    static async updateTicketStatus(ticketId: number, status: 'open' | 'closed' | 'waiting' | 'replied' | 'inprogress') {
+    static async updateTicketStatus(
+        ticketId: number,
+        status: 'open' | 'closed' | 'waiting' | 'replied' | 'inprogress',
+    ) {
         const response = await fetch(`/api/user/ticket/${ticketId}/status`, {
             method: 'POST',
             body: new URLSearchParams({
@@ -70,7 +73,7 @@ class Tickets {
 
         const response = await fetch(`/api/user/ticket/${ticketId}/attachments`, {
             method: 'POST',
-            body: formData
+            body: formData,
         });
         const data = await response.json();
         return data;

@@ -2,6 +2,8 @@
 import { useRouter } from 'vue-router';
 const router = useRouter();
 import Layout from './../Layout.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 defineProps({
     icon: {
@@ -39,13 +41,13 @@ const goHome = () => {
                     @click="goBack"
                     class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                 >
-                    Go Back
+                    {{ t('components.errors.go_back') }}
                 </button>
                 <button
                     @click="goHome"
                     class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
                 >
-                    Go Home
+                    {{ t('components.errors.go_home') }}
                 </button>
             </div>
         </div>

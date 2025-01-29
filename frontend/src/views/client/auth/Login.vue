@@ -13,14 +13,14 @@ import successAlertSfx from '@/assets/sounds/success.mp3';
 import Auth from '@/mythicalclient/Auth';
 import Cookies from 'js-cookie';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 Cookies.remove('user_token');
-
-document.title = t('auth.pages.login.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.login.page.title'));
 
 const loading = ref(false);
 const form = reactive({

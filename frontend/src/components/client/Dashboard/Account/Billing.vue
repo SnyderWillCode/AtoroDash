@@ -14,6 +14,7 @@ import Session from '@/mythicalclient/Session';
 import Auth from '@/mythicalclient/Auth';
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
 
@@ -28,7 +29,7 @@ const form = reactive({
     postcode: Session.getInfo('postcode'),
 });
 
-document.title = t('account.pages.billing.page.title');
+MythicalDOM.setPageTitle(t('account.pages.billing.page.title'));
 
 const saveChanges = async () => {
     try {

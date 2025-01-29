@@ -5,10 +5,10 @@ import Mails from '@/mythicalclient/Mails';
 import { format } from 'date-fns';
 import { h, onErrorCaptured, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { t } = useI18n();
-
-document.title = t('account.pages.emails.page.title');
+MythicalDOM.setPageTitle(t('account.pages.emails.page.title'));
 
 interface Email {
     id: string;

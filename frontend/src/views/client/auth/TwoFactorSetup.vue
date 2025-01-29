@@ -15,6 +15,7 @@ import VueQrcode from 'vue-qrcode';
 import Session from '@/mythicalclient/Session';
 import StorageMonitor from '@/mythicalclient/StorageMonitor';
 import Auth from '@/mythicalclient/Auth';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 new StorageMonitor();
 
@@ -44,7 +45,7 @@ const form = reactive({
     turnstileResponse: '',
 });
 
-document.title = t('auth.pages.twofactor_setup.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.twofactor_setup.page.title'));
 
 function onDataUrlChange(dataUrl: string) {
     console.log(dataUrl);

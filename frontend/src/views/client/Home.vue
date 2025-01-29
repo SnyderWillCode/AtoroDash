@@ -2,7 +2,6 @@
     <LayoutDashboard>
         <div class="p-6 space-y-6">
             <Header />
-
             <div class="grid gap-6 lg:grid-cols-4">
                 <!-- Left Column -->
                 <div class="space-y-6">
@@ -37,10 +36,8 @@ import Stats from '@/components/client/Dashboard/Main/Stats.vue';
 import BillingInfo from '@/components/client/Dashboard/Main/BillingInfo.vue';
 import TicketList from '@/components/client/Dashboard/Main/TicketList.vue';
 import UserInfo from '@/components/client/Dashboard/Main/UserInfo.vue';
-import { useI18n } from 'vue-i18n';
 import Header from '@/components/client/Dashboard/Main/Header.vue';
-import Settings from '@/mythicalclient/Settings';
-const { t } = useI18n();
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
-document.title = Settings.getSetting('app_name') + ' - ' + t('dashboard.title');
+MythicalDOM.setPageTitle(MythicalDOM.getTranslation('dashboard.title'));
 </script>

@@ -10,9 +10,9 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
-
 import { useSound } from '@vueuse/sound';
 import Auth from '@/mythicalclient/Auth';
+import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
@@ -29,7 +29,7 @@ const form = reactive({
     turnstileResponse: '',
 });
 
-document.title = t('auth.pages.register.page.title');
+MythicalDOM.setPageTitle(t('auth.pages.register.page.title'));
 
 const handleSubmit = async () => {
     loading.value = true;

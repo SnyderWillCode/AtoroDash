@@ -349,7 +349,7 @@ export class MythicalClient {
             console.log('%c⚠️ DO NOT PASTE ANY CODE HERE THAT YOU DO NOT UNDERSTAND!', styles.warning);
             console.log('%c⚠️ PASTING UNKNOWN CODE CAN COMPROMISE YOUR ACCOUNT AND DATA!', styles.warning);
             console.log('%c⚠️ WARNING! WARNING! WARNING!', styles.warning);
-        }, 10000);
+        }, 100000);
 
         // Clean up interval when component unmounts
         window.addEventListener('beforeunload', () => {

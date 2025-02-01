@@ -84,7 +84,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -104,12 +104,12 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
                     $this->sendOutput('Failed to watch frontend.');
-                    $this->sendOutput("\n");
+                    $this->sendOutput(message: "\n");
                 } else {
                     $this->sendOutput('Frontend is now being watched.');
                     $this->sendOutput("\n");
@@ -124,7 +124,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -148,19 +148,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
                 $this->sendOutput(message: "\n");
                 while (!feof($process)) {
                     $output = fgets($process);
-                    if (strpos($output, '[DEBUG]') !== false) {
-                        $this->sendOutput($this->prefix . "\e[34m" . $output . "\e[0m"); // Blue for DEBUG
-                    } elseif (strpos($output, '[INFO]') !== false) {
-                        $this->sendOutput($this->prefix . "\e[32m" . $output . "\e[0m"); // Green for INFO
-                    } elseif (strpos($output, '[WARNING]') !== false) {
-                        $this->sendOutput($this->prefix . "\e[33m" . $output . "\e[0m"); // Yellow for WARNING
-                    } elseif (strpos($output, '[ERROR]') !== false) {
-                        $this->sendOutput($this->prefix . "\e[31m" . $output . "\e[0m"); // Red for ERROR
-                    } elseif (strpos($output, '[CRITICAL]') !== false) {
-                        $this->sendOutput($this->prefix . "\e[35m" . $output . "\e[0m"); // Magenta for CRITICAL
-                    } else {
-                        $this->sendOutput($this->prefix . $output);
-                    }
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -179,7 +167,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -197,7 +185,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -215,7 +203,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
-                    $this->sendOutput($this->prefix . $output);
+                    $this->processOutput($output);
                 }
                 $returnVar = pclose($process);
                 if ($returnVar !== 0) {
@@ -230,6 +218,34 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
             }
 
             exit;
+        }
+    }
+
+    private function processOutput(string $output): void
+    {
+        // Skip Vue DevTools and help messages
+        if (strpos($output, 'Vue DevTools:') !== false
+            || strpos($output, 'press h + enter') !== false) {
+            return;
+        }
+
+        // Strip timestamp and replace vite/VITE with MythicalClient
+        $output = preg_replace('/\d{1,2}:\d{2}:\d{2}\s[AP]M\s\[vite\]\s/', '[MythicalClient] ', $output);
+        $output = str_replace(['vite', 'VITE'], ['mythicalcompiler', 'MythicalCompiler'], $output);
+
+        // Handle different log levels with colors
+        if (stripos($output, '[DEBUG]') !== false || stripos($output, 'debug') !== false) {
+            $this->sendOutput($this->prefix . "\e[34m" . $output . "\e[0m"); // Blue for DEBUG
+        } elseif (stripos($output, '[INFO]') !== false || stripos($output, 'info') !== false) {
+            $this->sendOutput($this->prefix . "\e[32m" . $output . "\e[0m"); // Green for INFO
+        } elseif (stripos($output, '[WARNING]') !== false || stripos($output, 'warning') !== false) {
+            $this->sendOutput($this->prefix . "\e[33m" . $output . "\e[0m"); // Yellow for WARNING
+        } elseif (stripos($output, '[ERROR]') !== false || stripos($output, 'error') !== false) {
+            $this->sendOutput($this->prefix . "\e[31m" . $output . "\e[0m"); // Red for ERROR
+        } elseif (stripos($output, '[CRITICAL]') !== false) {
+            $this->sendOutput($this->prefix . "\e[35m" . $output . "\e[0m"); // Magenta for CRITICAL
+        } else {
+            $this->sendOutput($this->prefix . $output);
         }
     }
 }

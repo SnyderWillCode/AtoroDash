@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_addons` DROP `display_name`;

@@ -38,9 +38,11 @@ class Messages extends Database
             if (!$result) {
                 return [];
             }
+
             return $result;
         } catch (\Exception $e) {
             self::db_Error('Failed to get messages by ticket id: ' . $e->getMessage());
+
             return [];
         }
     }

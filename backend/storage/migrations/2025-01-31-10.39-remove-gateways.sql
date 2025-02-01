@@ -1,0 +1,1 @@
+DELETE FROM mythicalclient_addons_types WHERE `mythicalclient_addons_types`.`id` = 2;

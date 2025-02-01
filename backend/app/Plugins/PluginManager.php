@@ -34,8 +34,24 @@ class PluginManager
                         } else {
                             if (PluginConfig::isConfigValid($config)) {
                                 if (!in_array($plugin, self::$plugins)) {
-                                    $instance->getLogger()->debug('Plugin ' . $plugin . 'was loaded in the memory!');
-                                    self::$plugins[] = $plugin;
+                                    if (PluginDependencies::checkDependencies($config)) {
+                                        $instance->getLogger()->debug('Plugin ' . $plugin . ' was loaded in the memory!');
+                                        self::$plugins[] = $plugin;
+                                        if ($config['plugin']['type'] == 'event') {
+                                            $instance->getLogger()->debug('Plugin ' . $plugin . ' is an event plugin!');
+                                            PluginDB::registerPlugin($config['plugin']['identifier'], 1, $config['plugin']['name']);
+                                        } elseif ($config['plugin']['type'] == 'provider') {
+                                            $instance->getLogger()->debug('Plugin ' . $plugin . ' is a provider plugin!');
+                                            PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
+                                        } elseif ($config['plugin']['type'] == 'components') {
+                                            $instance->getLogger()->debug(message: 'Plugin ' . $plugin . ' is a components plugin!');
+                                            PluginDB::registerPlugin($config['plugin']['identifier'], 4, $config['plugin']['name']);
+                                        } else {
+                                            $instance->getLogger()->warning('Plugin ' . $plugin . ' has an invalid type!');
+                                        }
+                                    } else {
+                                        $instance->getLogger()->error('Plugin ' . $plugin . ' has unmet dependencies!');
+                                    }
                                 } else {
                                     $instance->getLogger()->error('Duplicated plugin identifier: ' . $plugin . '');
                                 }

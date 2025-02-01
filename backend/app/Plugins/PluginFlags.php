@@ -21,12 +21,12 @@ class PluginFlags
     public static function getFlags(): array
     {
         return [
-            'ignorePlaceholders',
             'hasInstallScript',
             'hasRemovalScript',
             'hasUpdateScript',
             'developerIgnoreInstallScript',
             'developerEscalateInstallScript',
+            'userEscalateInstallScript',
         ];
     }
 

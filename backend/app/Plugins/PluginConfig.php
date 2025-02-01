@@ -71,8 +71,11 @@ class PluginConfig
     {
         try {
             $app = App::getInstance(true);
-            $app->getLogger()->debug('Processing config.. ' . $config['plugin']['name'] . '');
+            if (empty($config)) {
+                $app->getLogger()->warning('Plugin config is empty.');
 
+                return false;
+            }
             $config_Requirements = self::getRequired();
             $config = $config['plugin'];
 

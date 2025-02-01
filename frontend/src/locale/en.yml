@@ -44,8 +44,6 @@ Components:
                 title: 'Error'
                 generic: 'An error occurred. Please try again later'
                 footer: 'Please contact support for assistance'
-    ThreeDEngine:
-        LoadingError: "Failed to initialize 3D environment"
 
 #-------------------------------------------------------------#
 #

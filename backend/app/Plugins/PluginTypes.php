@@ -16,7 +16,6 @@ namespace MythicalClient\Plugins;
 class PluginTypes
 {
     public static $event = 'event';
-    public static $gateway = 'gateway';
     public static $provider = 'provider';
     public static $components = 'components';
 
@@ -29,7 +28,6 @@ class PluginTypes
     {
         return [
             'event',
-            'gateway',
             'components',
             'provider',
         ];

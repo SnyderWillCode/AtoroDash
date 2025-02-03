@@ -103,7 +103,7 @@ class Orders extends \MythicalClient\Chat\Database
      */
     public static function updateStatus(int $id, string $status): bool
     {
-        if (!in_array($status, ['processed', 'processing', 'failed'])) {
+        if (!in_array($status, ['processed', 'processing', 'failed', 'deployed', 'deploying'])) {
             return false;
         }
 
@@ -121,6 +121,30 @@ class Orders extends \MythicalClient\Chat\Database
             return false;
         }
     }
+	/**
+	 * Update order days left.
+	 * 
+	 * @param int $id 
+	 * @param int $days
+	 * 
+	 * @return bool
+	 */
+	public static function updateDaysLeft(int $id, int $days): bool
+	{
+		try {
+			$conn = self::getPdoConnection();
+			$query = $conn->prepare('UPDATE ' . self::TABLE_NAME . ' SET days_left = :days WHERE id = :id AND deleted = "false"');
+
+			return $query->execute([
+				'id' => $id,
+				'days' => $days,
+			]);
+		} catch (\Exception $e) {
+			self::db_Error('Failed to update order days left: ' . $e->getMessage());
+
+			return false;
+		}
+	}
 
     /**
      * Soft delete an order.

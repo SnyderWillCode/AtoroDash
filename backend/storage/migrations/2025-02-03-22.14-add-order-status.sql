@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_orders` CHANGE `status` `status` ENUM('processed','processing','failed','deploying','deployed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'processing';

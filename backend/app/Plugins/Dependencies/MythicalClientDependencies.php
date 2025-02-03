@@ -17,9 +17,12 @@ class MythicalClientDependencies implements Dependencies
 {
     public static function isInstalled(string $identifier): bool
     {
-        /**
-         * Scan the plugins directory for the mythicalclient.yml file.
-         */
-        return true;
+        global $pluginManager;
+		$installedPlugins = $pluginManager->getLoadedMemoryPlugins();
+		if (in_array($identifier, $installedPlugins)) {
+			return true;
+		} else {
+			return false;
+		}
     }
 }

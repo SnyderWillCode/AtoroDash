@@ -15,7 +15,6 @@ plugin:
     - php-ext=pdo
     - composer=pragmarx/google2fa
     - php=8.1
-    - plugin=mythicalclient
   type: provider
 config:
   - name: "url"

@@ -7,7 +7,8 @@
     "autoload": {
         "psr-4": {
             "MythicalClient\\": "app/",
-            "MythicalClient\\Storage\\Addons\\": "storage/addons/"
+            "MythicalClient\\Storage\\Addons\\": "storage/addons/",
+			"MythicalClient\\Cron\\": "storage/cron/php/"
         }
     },
     "config": {

@@ -4,7 +4,7 @@
         <div class="space-y-2 text-sm">
             <div class="flex justify-between">
                 <span class="text-purple-200">Current Balance:</span>
-                <span class="text-white font-medium">$250.00</span>
+                <span class="text-white font-medium">{{ Session.getInfo('credits')  }} EUR</span>
             </div>
             <div class="flex justify-between">
                 <span class="text-purple-200">Next Invoice:</span>
@@ -25,4 +25,5 @@
 </template>
 <script lang="ts" setup>
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
+import Session from '@/mythicalclient/Session';
 </script>

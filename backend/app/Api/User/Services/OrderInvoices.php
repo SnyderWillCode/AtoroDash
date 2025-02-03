@@ -21,7 +21,7 @@ use MythicalClient\Chat\Orders\OrdersConfig;
 use MythicalClient\Chat\Orders\OrdersInvoices;
 use MythicalClient\Chat\Services\ServiceCategories;
 
-$router->add('/api/user/invoices', function () {
+$router->get('/api/user/invoices', function () {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
@@ -34,7 +34,7 @@ $router->add('/api/user/invoices', function () {
     ]);
 });
 
-$router->add('/api/user/invoice/(.*)', function ($id) {
+$router->get('/api/user/invoice/(.*)', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $appInstance->allowOnlyGET();
@@ -73,4 +73,44 @@ $router->add('/api/user/invoice/(.*)', function ($id) {
             'message' => $e->getMessage(),
         ]);
     }
+});
+
+$router->post('/api/user/invoice/(.*)/pay', function ($id) {
+	App::init();
+	$appInstance = App::getInstance(true);
+	$session = new Session($appInstance);
+
+	$invoice = OrdersInvoices::getInvoice($id);
+
+	if (!$invoice) {
+		$appInstance->NotFound('Invoice not found', []);
+		return;
+	}
+
+	$orderInfo = Orders::getOrder($invoice['order']);
+	$serviceInfo = Services::getService($orderInfo['service']);
+	$price = (int) $serviceInfo['price'];
+
+	// Payment logic here
+	if ((int) $session->getInfo(UserColumns::CREDITS,false) < $price) {
+		$appInstance->Forbidden('Insufficient credits', [
+			'error' => 'ERR_INSUFFICIENT_CREDITS',
+		]);
+		return;
+	}
+	if ($invoice['status'] === 'paid') {
+		$appInstance->Forbidden('Invoice already paid', [
+			'error' => 'ERR_INVOICE_ALREADY_PAID',
+		]);
+		return;
+	}
+	$newBalance = (int) $session->getInfo(UserColumns::CREDITS,false) - $price;
+	$session->setInfo(UserColumns::CREDITS, $newBalance,false);
+	OrdersInvoices::updateStatus($id, "paid");
+	Orders::updateStatus($invoice['order'], "processed");
+	Orders::updateDaysLeft($invoice['order'], 30);
+
+	$appInstance->OK('Invoice status', [
+		'price' => $price,
+	]);
 });

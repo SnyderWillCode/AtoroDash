@@ -32,6 +32,14 @@ $router->add('/api/system/settings', function (): void {
         ConfigInterface::TURNSTILE_KEY_PUB => $config->getSetting(ConfigInterface::TURNSTILE_KEY_PUB, 'XXXX'),
         ConfigInterface::LEGAL_TOS => $config->getSetting(ConfigInterface::LEGAL_TOS, '/tos'),
         ConfigInterface::LEGAL_PRIVACY => $config->getSetting(ConfigInterface::LEGAL_PRIVACY, '/privacy'),
+		
+        ConfigInterface::COMPANY_NAME => $config->getSetting(ConfigInterface::COMPANY_NAME, 'MythicalClient'),
+        ConfigInterface::COMPANY_ADDRESS => $config->getSetting(ConfigInterface::COMPANY_ADDRESS, '1234 Main St'),
+        ConfigInterface::COMPANY_CITY => $config->getSetting(ConfigInterface::COMPANY_CITY, 'MythicalCity'),
+        ConfigInterface::COMPANY_STATE => $config->getSetting(ConfigInterface::COMPANY_STATE, 'MythicalState'),
+        ConfigInterface::COMPANY_ZIP => $config->getSetting(ConfigInterface::COMPANY_ZIP, '12345'),
+        ConfigInterface::COMPANY_COUNTRY => $config->getSetting(ConfigInterface::COMPANY_COUNTRY, 'MythicalCountry'),
+        ConfigInterface::COMPANY_VAT => $config->getSetting(ConfigInterface::COMPANY_VAT, '1234567890'),
     ];
 
     App::OK('Sure here are the settings you were looking for', ['settings' => $settings]);

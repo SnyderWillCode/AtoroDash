@@ -1,18 +1,3 @@
-interface ServicePrice {
-    id: number;
-    service: number;
-    type: number;
-    monthly: string | null;
-    quarterly: string | null;
-    semi_annually: string | null;
-    annually: string | null;
-    biennially: string | null;
-    triennially: string | null;
-    deleted: string;
-    locked: string;
-    date: string;
-}
-
 interface Service {
     id: number;
     category: number;
@@ -30,7 +15,7 @@ interface Service {
     deleted: string;
     locked: string;
     date: string;
-    prices: ServicePrice[];
+    price: number;
 }
 
 interface CoreDebug {
@@ -87,7 +72,7 @@ export class Services {
         const response = await fetch(`/api/user/services/${category}/services`, {
             method: 'GET',
         });
-        const data = await response.json() as ApiResponse;
+        const data = (await response.json()) as ApiResponse;
 
         // Store in cache
         this.setCache(cacheKey, data.services);
@@ -125,7 +110,7 @@ export class Services {
     private static setCache(key: string, data: Service[]): void {
         this.cache.set(key, {
             data,
-            timestamp: Date.now()
+            timestamp: Date.now(),
         });
     }
 
@@ -145,5 +130,5 @@ export class Services {
     }
 }
 
-export type { Service, ServicePrice, ApiResponse };
+export type { Service, ApiResponse };
 export default Services;

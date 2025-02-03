@@ -108,7 +108,6 @@ class ServiceCategories {
         }
     }
 
-
     /**
      * Get the service category ID by URI
      * @param uri - The URI of the service category
@@ -127,17 +126,20 @@ class ServiceCategories {
         }
     }
 
-    private static categoryInfoCache: Map<number, {
-        id: number;
-        name: string;
-        uri: string;
-        description: string;
-        futures: Array<{
+    private static categoryInfoCache: Map<
+        number,
+        {
             id: number;
-            category: number;
             name: string;
-        }>;
-    }> = new Map();
+            uri: string;
+            description: string;
+            futures: Array<{
+                id: number;
+                category: number;
+                name: string;
+            }>;
+        }
+    > = new Map();
 
     public static async getCategoryInfo(id: number) {
         try {
@@ -160,8 +162,6 @@ class ServiceCategories {
             return null;
         }
     }
-
-
 }
 
 export default ServiceCategories;

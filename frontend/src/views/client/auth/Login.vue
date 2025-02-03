@@ -20,6 +20,8 @@ const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 Cookies.remove('user_token');
+localStorage.clear();
+sessionStorage.clear();
 MythicalDOM.setPageTitle(t('auth.pages.login.page.title'));
 
 const loading = ref(false);

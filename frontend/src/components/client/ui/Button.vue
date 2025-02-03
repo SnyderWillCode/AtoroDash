@@ -15,6 +15,9 @@
                 // Success variant
                 'bg-green-500/20 text-green-400 hover:bg-green-500/30': variant === 'success',
             },
+            {
+                'px-2 py-1 text-sm': small,
+            },
             className,
         ]"
         @click="$emit('click', $event)"
@@ -34,6 +37,7 @@ interface Props {
     variant?: 'primary' | 'secondary' | 'danger' | 'success';
     disabled?: boolean;
     loading?: boolean;
+    small?: boolean;
     className?: string;
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+use MythicalClient\Plugins\PluginManager;
+
 /*
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
@@ -73,3 +75,10 @@ if (!extension_loaded('sodium')) {
 if (version_compare(PHP_VERSION, '8.1.0', '<')) {
     exit('This application requires at least PHP 8.1.0');
 }
+
+
+/**
+ * Initialize the plugin manager.
+ */
+$pluginManager = new PluginManager();
+global $pluginManager;

@@ -95,6 +95,21 @@ const routes = [
         redirect: '/dashboard',
     },
     {
+        path: '/order/:category/:service',
+        name: 'Order',
+        component: () => import('@/views/client/services/order.vue'),
+    },
+    {
+        path: '/invoices',
+        name: 'Invoices',
+        component: () => import('@/views/client/invoices/List.vue'),
+    },
+    {
+        path: '/invoice/:id',
+        name: 'Invoice Detail',
+        component: () => import('@/views/client/invoices/[id].vue'),
+    },
+    {
         path: '/mc-admin',
         name: 'Admin Home',
         component: () => import('@/views/admin/Home.vue'),

@@ -30,16 +30,6 @@ $router->add('/api/user/services/(.*)/services', function ($category) {
         return;
     }
     $services = Services::getServicesByCategory($category['id']);
-    $servicesWithPrices = [];
-
-    // Add prices to each service and filter out services without prices
-    foreach ($services as $service) {
-        $prices = ServicePrices::getServicesByService($service['id']);
-        if (!empty($prices)) {
-            $service['prices'] = $prices;
-            $servicesWithPrices[] = $service;
-        }
-    }
-
-    $appInstance->OK('Here are all the services!', ['services' => $servicesWithPrices]);
+ 
+    $appInstance->OK('Here are all the services!', ['services' => $services]);
 });

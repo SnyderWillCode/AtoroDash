@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import type { Service, ServicePrice } from '@/mythicalclient/Services/Services';
+import type { Service } from '@/mythicalclient/Services/Services';
 import Services from '@/mythicalclient/Services/Services';
 import CardComponent from '../ui/Card/CardComponent.vue';
 import Button from '../ui/Button.vue';
@@ -15,32 +15,12 @@ const services = ref<Service[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
 const router = useRouter();
-const billingCycles = {
-    monthly: 'Monthly',
-    quarterly: 'Quarterly',
-    semi_annually: 'Semi-Annually',
-    annually: 'Annually',
-    biennially: 'Biennially',
-    triennially: 'Triennially'
-} as const;
-
-const getFirstAvailablePrice = (price: ServicePrice) => {
-    for (const [key, label] of Object.entries(billingCycles)) {
-        if (price[key as keyof typeof billingCycles] !== null) {
-            return {
-                cycle: label,
-                price: price[key as keyof typeof billingCycles]
-            };
-        }
-    }
-    return null;
-};
 
 const formatPrice = (price: string | null): string => {
     if (!price) return 'N/A';
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USD'
+        currency: 'EUR',
     }).format(Number(price));
 };
 
@@ -83,7 +63,7 @@ onMounted(() => {
                             'px-2.5 py-1 rounded-full text-xs font-medium',
                             service.enabled === 'true'
                                 ? 'bg-emerald-500/20 text-emerald-400'
-                                : 'bg-red-500/20 text-red-400'
+                                : 'bg-red-500/20 text-red-400',
                         ]"
                     >
                         {{ service.enabled === 'true' ? 'Available' : 'Unavailable' }}
@@ -117,29 +97,24 @@ onMounted(() => {
 
                     <!-- Pricing -->
                     <div class="space-y-3">
-                        <div v-for="price in service.prices" :key="price.id"
-                             class="bg-gray-800/50 rounded-lg p-4 border border-purple-900/50">
-                            <template v-if="getFirstAvailablePrice(price)">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <PackageIcon class="w-4 h-4 text-purple-500" />
-                                        <span class="text-gray-300">{{ getFirstAvailablePrice(price)?.cycle }}</span>
-                                    </div>
-                                    <span class="text-lg font-bold text-white">
-                                        {{ formatPrice(getFirstAvailablePrice(price)?.price || null) }}
-                                    </span>
-                                </div>
-
-                                <!-- Setup Fee -->
-                                <div v-if="service.setup_fee > 0"
-                                     class="mt-2 text-sm text-gray-500 flex items-center gap-2">
-                                    <span class="w-4 h-4 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">+</span>
-                                    {{ formatPrice(service.setup_fee.toString()) }} setup fee
-                                </div>
-                            </template>
-                            <div v-else class="text-gray-500 text-center py-2">
-                                No pricing available
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <PackageIcon class="w-4 h-4 text-purple-500" />
+                                <span class="text-gray-300">Monthly</span>
                             </div>
+                            <span class="text-lg font-bold text-white" v-if="service.price !== 0">
+                                {{ formatPrice(service.price.toString()) }}
+                            </span>
+                            <span class="text-lg font-bold text-white" v-else> Free </span>
+                        </div>
+
+                        <!-- Setup Fee -->
+                        <div v-if="service.setup_fee > 0" class="mt-2 text-sm text-gray-500 flex items-center gap-2">
+                            <span
+                                class="w-4 h-4 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400"
+                                >+</span
+                            >
+                            {{ formatPrice(service.setup_fee.toString()) }} setup fee
                         </div>
                     </div>
 

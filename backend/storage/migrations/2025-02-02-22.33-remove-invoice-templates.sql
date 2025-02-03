@@ -1,0 +1,1 @@
+DROP TABLE `mythicalclient_invoice_templates`;

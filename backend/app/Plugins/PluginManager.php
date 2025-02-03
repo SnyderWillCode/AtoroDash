@@ -17,9 +17,12 @@ use MythicalClient\App;
 
 class PluginManager
 {
-    private static $plugins = [];
+    private array $plugins = [];
+	private array $providers = [];
+	private array $components = [];
+	private array $events = [];
 
-    public static function loadKernel(): void
+    public function loadKernel(): void
     {
         try {
             $instance = App::getInstance(true);
@@ -33,18 +36,21 @@ class PluginManager
                             $instance->getLogger()->warning('Plugin config is empty for: ' . $plugin);
                         } else {
                             if (PluginConfig::isConfigValid($config)) {
-                                if (!in_array($plugin, self::$plugins)) {
+                                if (!in_array($plugin, $this->plugins)) {
                                     if (PluginDependencies::checkDependencies($config)) {
                                         $instance->getLogger()->debug('Plugin ' . $plugin . ' was loaded in the memory!');
-                                        self::$plugins[] = $plugin;
+                                        $this->plugins[] = $plugin;
                                         if ($config['plugin']['type'] == 'event') {
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is an event plugin!');
+											$this->events[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 1, $config['plugin']['name']);
                                         } elseif ($config['plugin']['type'] == 'provider') {
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is a provider plugin!');
-                                            PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
+                                            $this->providers[] = $plugin;
+											PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
                                         } elseif ($config['plugin']['type'] == 'components') {
                                             $instance->getLogger()->debug(message: 'Plugin ' . $plugin . ' is a components plugin!');
+											$this->components[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 4, $config['plugin']['name']);
                                         } else {
                                             $instance->getLogger()->warning('Plugin ' . $plugin . ' has an invalid type!');
@@ -74,15 +80,29 @@ class PluginManager
      *
      * @return array The loaded memory plugins
      */
-    public static function getLoadedMemoryPlugins(): array
+    public function getLoadedMemoryPlugins(): array
     {
         $instance = App::getInstance(true);
         try {
-            return self::$plugins;
+            return $this->plugins;
         } catch (\Exception $e) {
             $instance->getLogger()->error('Failed to get plugin names: ' . $e->getMessage());
-
             return [];
         }
     }
+
+	public function getLoadedProviders(): array
+	{
+		return $this->providers;
+	}
+
+	public function getLoadedComponents(): array
+	{
+		return $this->components;
+	}
+
+	public function getLoadedEvents(): array
+	{
+		return $this->events;
+	}
 }

@@ -1,2 +1,4 @@
 dockerfiles/mariadb/data
 .installed
+package.json
+yarn.lock

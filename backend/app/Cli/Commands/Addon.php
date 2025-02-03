@@ -26,9 +26,10 @@ class Addon extends App implements CommandBuilder
          * Initialize the plugin manager.
          */
         require __DIR__ . '/../../../boot/kernel.php';
+        global $pluginManager;
         define('APP_ADDONS_DIR', __DIR__ . '/../../../storage/addons');
         define('APP_DEBUG', false);
-        \MythicalClient\Plugins\PluginManager::loadKernel();
+        $pluginManager->loadKernel();
 
         if (count($args) > 0) {
             switch ($args[1]) {
@@ -41,12 +42,11 @@ class Addon extends App implements CommandBuilder
                 case 'list':
                     self::getInstance()->send('&5&lMythical&d&lDash &7- &d&lAddons');
                     self::getInstance()->send('');
-                    $addons = \MythicalClient\Plugins\PluginManager::getLoadedMemoryPlugins();
+                    $addons = $pluginManager->getLoadedMemoryPlugins();
 
                     $types = [
                         PluginTypes::$event,
                         PluginTypes::$provider,
-                        PluginTypes::$gateway,
                         PluginTypes::$components,
                     ];
 
@@ -58,10 +58,6 @@ class Addon extends App implements CommandBuilder
                         } elseif ($type == PluginTypes::$provider) {
                             self::getInstance()->send('&5&lProviders Plugins:');
                             self::getInstance()->send('&f(Typical plugins that process purchases and create services!)');
-                            self::getInstance()->send('');
-                        } elseif ($type == PluginTypes::$gateway) {
-                            self::getInstance()->send('&5&lGateways Plugins:');
-                            self::getInstance()->send('&f(Typical plugins that handle payment gateways!)');
                             self::getInstance()->send('');
                         } elseif ($type == PluginTypes::$components) {
                             self::getInstance()->send('&5&lComponents Plugins:');

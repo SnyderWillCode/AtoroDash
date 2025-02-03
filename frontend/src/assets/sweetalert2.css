@@ -333,8 +333,7 @@ div:where(.swal2-container) button:where(.swal2-close) {
     margin-bottom: -1.2em;
     padding: 0;
     overflow: hidden;
-    transition:
-        color 0.2s ease !important;
+    transition: color 0.2s ease !important;
     border: none;
     border-radius: 5px;
     background: rgba(0, 0, 0, 0);

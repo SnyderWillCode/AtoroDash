@@ -31,6 +31,7 @@ class App extends MythicalAPP
 
     public function __construct(bool $softBoot)
     {
+		global $pluginManager;
         /**
          * Load the environment variables.
          */
@@ -106,7 +107,7 @@ class App extends MythicalAPP
         /**
          * Initialize the plugin manager.
          */
-        Plugins\PluginManager::loadKernel();
+        $pluginManager->loadKernel();
         define('LOGGER', $this->getLogger());
 
         $router = new rt();

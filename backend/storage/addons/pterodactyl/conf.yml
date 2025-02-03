@@ -1,0 +1,28 @@
+plugin:
+  name: "Pterodactyl Panel"
+  identifier: "pterodactyl"
+  description: "Pterodactyl plugin for mythicalclient to create and manage servers on a Pterodactyl Panel instance!"
+  version: "1.0.0"
+  author: 
+    - NaysKutzu
+    - Pterodactyl Panel
+  url: "https://pterodactyl.io"
+  icon: "https://cdn.pterodactyl.io/logos/new/pterodactyl_logo_transparent.png"
+  flags: 
+    - hasInstallScript
+  target: "0"
+  dependencies:
+    - php-ext=pdo
+    - composer=pragmarx/google2fa
+    - php=8.1
+    - plugin=mythicalclient
+  type: provider
+config:
+  - name: "url"
+    type: string
+    default: "https://pterodactyl.io"
+    nullable: false
+  - name: "api_key"
+    type: string
+    default: "1234567890"
+    nullable: false

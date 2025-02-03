@@ -44,6 +44,11 @@ Components:
                 title: 'Error'
                 generic: 'An error occurred. Please try again later'
                 footer: 'Please contact support for assistance'
+    Invoices:
+        title: 'Recent Invoices'
+        viewMore: 'View All Invoices'
+        order: 'Order #{id}'
+        due: 'Due'
 
 #-------------------------------------------------------------#
 #
@@ -548,3 +553,23 @@ components:
         services: 'Services'
         invoices: 'Invoices'
         logout: 'Logout'
+
+invoices:
+    pages:
+        invoices:
+            title: 'Invoices'
+            noInvoices: 'No invoices found'
+            noInvoicesDesc: "You don't have any invoices yet"
+            alerts:
+                error:
+                    generic: 'An error occurred. Please try again later'
+            table:
+                title: 'Invoices'
+                order: 'Order'
+                status: 'Status'
+                gateway: 'Payment Gateway'
+                created: 'Created'
+                due: 'Due Date'
+                actions: 'Actions'
+            actions:
+                view: 'View'

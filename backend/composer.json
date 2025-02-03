@@ -6,7 +6,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "MythicalClient\\": "app/"
+            "MythicalClient\\": "app/",
+            "MythicalClient\\Storage\\Addons\\": "storage/addons/"
         }
     },
     "config": {

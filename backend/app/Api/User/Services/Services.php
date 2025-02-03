@@ -14,7 +14,6 @@
 use MythicalClient\App;
 use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\Services\Services;
-use MythicalClient\Chat\Services\ServicePrices;
 use MythicalClient\Chat\Services\ServiceCategories;
 
 $router->add('/api/user/services/(.*)/services', function ($category) {
@@ -30,6 +29,6 @@ $router->add('/api/user/services/(.*)/services', function ($category) {
         return;
     }
     $services = Services::getServicesByCategory($category['id']);
- 
+
     $appInstance->OK('Here are all the services!', ['services' => $services]);
 });

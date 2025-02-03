@@ -18,9 +18,9 @@ use MythicalClient\App;
 class PluginManager
 {
     private array $plugins = [];
-	private array $providers = [];
-	private array $components = [];
-	private array $events = [];
+    private array $providers = [];
+    private array $components = [];
+    private array $events = [];
 
     public function loadKernel(): void
     {
@@ -42,15 +42,15 @@ class PluginManager
                                         $this->plugins[] = $plugin;
                                         if ($config['plugin']['type'] == 'event') {
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is an event plugin!');
-											$this->events[] = $plugin;
+                                            $this->events[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 1, $config['plugin']['name']);
                                         } elseif ($config['plugin']['type'] == 'provider') {
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is a provider plugin!');
                                             $this->providers[] = $plugin;
-											PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
+                                            PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
                                         } elseif ($config['plugin']['type'] == 'components') {
                                             $instance->getLogger()->debug(message: 'Plugin ' . $plugin . ' is a components plugin!');
-											$this->components[] = $plugin;
+                                            $this->components[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 4, $config['plugin']['name']);
                                         } else {
                                             $instance->getLogger()->warning('Plugin ' . $plugin . ' has an invalid type!');
@@ -87,22 +87,23 @@ class PluginManager
             return $this->plugins;
         } catch (\Exception $e) {
             $instance->getLogger()->error('Failed to get plugin names: ' . $e->getMessage());
+
             return [];
         }
     }
 
-	public function getLoadedProviders(): array
-	{
-		return $this->providers;
-	}
+    public function getLoadedProviders(): array
+    {
+        return $this->providers;
+    }
 
-	public function getLoadedComponents(): array
-	{
-		return $this->components;
-	}
+    public function getLoadedComponents(): array
+    {
+        return $this->components;
+    }
 
-	public function getLoadedEvents(): array
-	{
-		return $this->events;
-	}
+    public function getLoadedEvents(): array
+    {
+        return $this->events;
+    }
 }

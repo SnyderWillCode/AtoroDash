@@ -40,11 +40,11 @@ interface ConfigInterface
     public const LEGAL_TOS = 'legal_tos_url';
     public const LEGAL_PRIVACY = 'legal_privacy_url';
 
-	public const COMPANY_NAME = 'company_name';
-	public const COMPANY_ADDRESS = 'company_address';
-	public const COMPANY_CITY = 'company_city';
-	public const COMPANY_STATE = 'company_state';
-	public const COMPANY_ZIP = 'company_zip';
-	public const COMPANY_COUNTRY = 'company_country';
-	public const COMPANY_VAT = 'company_vat';
+    public const COMPANY_NAME = 'company_name';
+    public const COMPANY_ADDRESS = 'company_address';
+    public const COMPANY_CITY = 'company_city';
+    public const COMPANY_STATE = 'company_state';
+    public const COMPANY_ZIP = 'company_zip';
+    public const COMPANY_COUNTRY = 'company_country';
+    public const COMPANY_VAT = 'company_vat';
 }

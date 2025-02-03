@@ -1,66 +1,76 @@
 <?php
 
-use MythicalClient\App;
-use MythicalClient\Chat\columns\UserColumns;
-use MythicalClient\Chat\Orders\Orders;
-use MythicalClient\Chat\Orders\OrdersConfig;
-use MythicalClient\Chat\User\Session;
-use MythicalClient\Chat\Services\Services;
-use MythicalClient\Chat\Services\ServiceCategories;
-use MythicalClient\Plugins\PluginDB;
-use MythicalClient\Plugins\Providers\PluginProviderHelper;
-use MythicalClient\Chat\Orders\OrdersInvoices;
+/*
+ * This file is part of MythicalClient.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * # MythicalSystems License v2.0
+ *
+ * ## Copyright (c) 2021–2025 MythicalSystems and Cassian Gherman
+ *
+ * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
+ */
 
+use MythicalClient\App;
+use MythicalClient\Plugins\PluginDB;
+use MythicalClient\Chat\User\Session;
+use MythicalClient\Chat\Orders\Orders;
+use MythicalClient\Chat\Services\Services;
+use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\Orders\OrdersConfig;
+use MythicalClient\Chat\Orders\OrdersInvoices;
+use MythicalClient\Chat\Services\ServiceCategories;
 
 $router->add('/api/user/invoices', function () {
-	App::init();
-	$appInstance = App::getInstance(true);
-	$appInstance->allowOnlyGET();
-	$session = new Session($appInstance);
+    App::init();
+    $appInstance = App::getInstance(true);
+    $appInstance->allowOnlyGET();
+    $session = new Session($appInstance);
 
-	$invoices = OrdersInvoices::getUserInvoices($session->getInfo(UserColumns::UUID, false));
+    $invoices = OrdersInvoices::getUserInvoices($session->getInfo(UserColumns::UUID, false));
 
-	$appInstance->OK('Invoices fetched', [
-		'invoices' => $invoices
-	]);
+    $appInstance->OK('Invoices fetched', [
+        'invoices' => $invoices,
+    ]);
 });
 
 $router->add('/api/user/invoice/(.*)', function ($id) {
-	App::init();
-	$appInstance = App::getInstance(true);
-	$appInstance->allowOnlyGET();
-	$session = new Session($appInstance);
+    App::init();
+    $appInstance = App::getInstance(true);
+    $appInstance->allowOnlyGET();
+    $session = new Session($appInstance);
 
-	$invoice = OrdersInvoices::getInvoice($id);
+    $invoice = OrdersInvoices::getInvoice($id);
 
-	if (!$invoice) {
-		$appInstance->NotFound('Invoice not found', []);
-		return;
-	}
+    if (!$invoice) {
+        $appInstance->NotFound('Invoice not found', []);
 
-	try {
-		$orderInfo = Orders::getOrder($invoice['order']);
-		$invoice['order'] = $orderInfo;
+        return;
+    }
 
-		$serviceInfo = Services::getService($orderInfo['service']);
-		$invoice['order']['service'] = $serviceInfo;
+    try {
+        $orderInfo = Orders::getOrder($invoice['order']);
+        $invoice['order'] = $orderInfo;
 
-		$categoryInfo = ServiceCategories::getCategoryById($serviceInfo['category']);
-		$invoice['order']['service']['category'] = $categoryInfo;
+        $serviceInfo = Services::getService($orderInfo['service']);
+        $invoice['order']['service'] = $serviceInfo;
 
-		$providerInfo = PluginDB::convertIdToName((int) $serviceInfo['provider']);
-		$invoice['order']['service']['provider'] = $providerInfo;
+        $categoryInfo = ServiceCategories::getCategoryById($serviceInfo['category']);
+        $invoice['order']['service']['category'] = $categoryInfo;
 
-		$orderConfig = OrdersConfig::getOrderConfig($orderInfo['id']);
-		$invoice['order']['service']['config'] = $orderConfig;
+        $providerInfo = PluginDB::convertIdToName((int) $serviceInfo['provider']);
+        $invoice['order']['service']['provider'] = $providerInfo;
 
-		$appInstance->OK('Invoice fetched', [
-			'invoice' => $invoice,
-		]);
-	} catch (\Exception $e) {
-		$appInstance->InternalServerError('Failed to fetch invoice', [
-			'error' => 'ERR_INTERNAL_SERVER_ERROR',
-			'message' => $e->getMessage()
-		]);
-	}
+        $orderConfig = OrdersConfig::getOrderConfig($orderInfo['id']);
+        $invoice['order']['service']['config'] = $orderConfig;
+
+        $appInstance->OK('Invoice fetched', [
+            'invoice' => $invoice,
+        ]);
+    } catch (Exception $e) {
+        $appInstance->InternalServerError('Failed to fetch invoice', [
+            'error' => 'ERR_INTERNAL_SERVER_ERROR',
+            'message' => $e->getMessage(),
+        ]);
+    }
 });

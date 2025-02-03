@@ -31,7 +31,7 @@ class App extends MythicalAPP
 
     public function __construct(bool $softBoot)
     {
-		global $pluginManager;
+        global $pluginManager;
         /**
          * Load the environment variables.
          */

@@ -32,7 +32,7 @@ $router->add('/api/system/settings', function (): void {
         ConfigInterface::TURNSTILE_KEY_PUB => $config->getSetting(ConfigInterface::TURNSTILE_KEY_PUB, 'XXXX'),
         ConfigInterface::LEGAL_TOS => $config->getSetting(ConfigInterface::LEGAL_TOS, '/tos'),
         ConfigInterface::LEGAL_PRIVACY => $config->getSetting(ConfigInterface::LEGAL_PRIVACY, '/privacy'),
-		
+
         ConfigInterface::COMPANY_NAME => $config->getSetting(ConfigInterface::COMPANY_NAME, 'MythicalClient'),
         ConfigInterface::COMPANY_ADDRESS => $config->getSetting(ConfigInterface::COMPANY_ADDRESS, '1234 Main St'),
         ConfigInterface::COMPANY_CITY => $config->getSetting(ConfigInterface::COMPANY_CITY, 'MythicalCity'),

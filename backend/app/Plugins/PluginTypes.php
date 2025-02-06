@@ -18,7 +18,6 @@ class PluginTypes
     public static $event = 'event';
     public static $provider = 'provider';
     public static $components = 'components';
-	public static $gateway = 'gateway';
 
     /**
      * Get the types.
@@ -30,8 +29,7 @@ class PluginTypes
         return [
             'event',
             'components',
-            'provider',
-			'gateway',
+            'provider'
         ];
     }
 

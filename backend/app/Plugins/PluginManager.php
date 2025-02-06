@@ -21,7 +21,6 @@ class PluginManager
     private array $providers = [];
     private array $components = [];
     private array $events = [];
-	private array $gateways = [];
 
     public function loadKernel(): void
     {
@@ -53,11 +52,7 @@ class PluginManager
                                             $instance->getLogger()->debug(message: 'Plugin ' . $plugin . ' is a components plugin!');
                                             $this->components[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 4, $config['plugin']['name']);
-                                        } elseif ($config['plugin']['type'] == 'gateway') {
-											$instance->getLogger()->debug(message: 'Plugin ' . $plugin . ' is a gateway plugin!');
-											$this->gateways[] = $plugin;
-											PluginDB::registerPlugin($config['plugin']['identifier'], 8, $config['plugin']['name']);
-										} else {
+                                        } else {
                                             $instance->getLogger()->warning('Plugin ' . $plugin . ' has an invalid type!');
                                         }
                                     } else {
@@ -112,8 +107,4 @@ class PluginManager
         return $this->events;
     }
 
-	public function getLoadedGateways(): array
-	{
-		return $this->gateways;
-	}
 }

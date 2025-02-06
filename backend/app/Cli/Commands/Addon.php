@@ -48,7 +48,6 @@ class Addon extends App implements CommandBuilder
                         PluginTypes::$event,
                         PluginTypes::$provider,
                         PluginTypes::$components,
-						PluginTypes::$gateway
                     ];
 
                     foreach ($types as $type) {
@@ -63,10 +62,6 @@ class Addon extends App implements CommandBuilder
                         } elseif ($type == PluginTypes::$components) {
                             self::getInstance()->send('&5&lComponents Plugins:');
                             self::getInstance()->send('&f(Typical plugins that add new components to the frontend!)');
-                            self::getInstance()->send('');
-                        } else if ($type == PluginTypes::$gateway) {
-                            self::getInstance()->send('&5&lGateways Plugins:');
-                            self::getInstance()->send('&f(Typical plugins that add new gateways like PayPal, Stripe, etc!)');
                             self::getInstance()->send('');
                         }
                         foreach ($addons as $plugin) {

@@ -76,41 +76,44 @@ $router->get('/api/user/invoice/(.*)', function ($id) {
 });
 
 $router->post('/api/user/invoice/(.*)/pay', function ($id) {
-	App::init();
-	$appInstance = App::getInstance(true);
-	$session = new Session($appInstance);
+    App::init();
+    $appInstance = App::getInstance(true);
+    $session = new Session($appInstance);
 
-	$invoice = OrdersInvoices::getInvoice($id);
+    $invoice = OrdersInvoices::getInvoice($id);
 
-	if (!$invoice) {
-		$appInstance->NotFound('Invoice not found', []);
-		return;
-	}
+    if (!$invoice) {
+        $appInstance->NotFound('Invoice not found', []);
 
-	$orderInfo = Orders::getOrder($invoice['order']);
-	$serviceInfo = Services::getService($orderInfo['service']);
-	$price = (int) $serviceInfo['price'];
+        return;
+    }
 
-	// Payment logic here
-	if ((int) $session->getInfo(UserColumns::CREDITS,false) < $price) {
-		$appInstance->Forbidden('Insufficient credits', [
-			'error' => 'ERR_INSUFFICIENT_CREDITS',
-		]);
-		return;
-	}
-	if ($invoice['status'] === 'paid') {
-		$appInstance->Forbidden('Invoice already paid', [
-			'error' => 'ERR_INVOICE_ALREADY_PAID',
-		]);
-		return;
-	}
-	$newBalance = (int) $session->getInfo(UserColumns::CREDITS,false) - $price;
-	$session->setInfo(UserColumns::CREDITS, $newBalance,false);
-	OrdersInvoices::updateStatus($id, "paid");
-	Orders::updateStatus($invoice['order'], "processed");
-	Orders::updateDaysLeft($invoice['order'], 30);
+    $orderInfo = Orders::getOrder($invoice['order']);
+    $serviceInfo = Services::getService($orderInfo['service']);
+    $price = (int) $serviceInfo['price'];
 
-	$appInstance->OK('Invoice status', [
-		'price' => $price,
-	]);
+    // Payment logic here
+    if ((int) $session->getInfo(UserColumns::CREDITS, false) < $price) {
+        $appInstance->Forbidden('Insufficient credits', [
+            'error' => 'ERR_INSUFFICIENT_CREDITS',
+        ]);
+
+        return;
+    }
+    if ($invoice['status'] === 'paid') {
+        $appInstance->Forbidden('Invoice already paid', [
+            'error' => 'ERR_INVOICE_ALREADY_PAID',
+        ]);
+
+        return;
+    }
+    $newBalance = (int) $session->getInfo(UserColumns::CREDITS, false) - $price;
+    $session->setInfo(UserColumns::CREDITS, $newBalance, false);
+    OrdersInvoices::updateStatus($id, 'paid');
+    Orders::updateStatus($invoice['order'], 'processed');
+    Orders::updateDaysLeft($invoice['order'], 30);
+
+    $appInstance->OK('Invoice status', [
+        'price' => $price,
+    ]);
 });

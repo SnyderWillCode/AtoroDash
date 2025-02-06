@@ -1,6 +1,9 @@
 {
 	"cSpell.words": [
 		"Adminannouncements",
+		"fastcgi",
+		"filesize",
+		"letsencrypt",
 		"lucide",
 		"modyfi",
 		"mythicalclient",
@@ -9,6 +12,7 @@
 		"qrcode",
 		"recommand",
 		"Regen",
+		"sendfile",
 		"shortdescription",
 		"SOURCECODE",
 		"supportbuddy",
@@ -19,7 +23,6 @@
 	"json.maxItemsComputed": 10000,
 	"editor.largeFileOptimizations": false,
 	"editor.renderWhitespace": "all",
-	"files.maxMemoryForLargeFilesMB": 16384,
 	"editor.useTabStops": true,
 	"editor.tabFocusMode": false,
 	"workbench.sideBar.location": "left",

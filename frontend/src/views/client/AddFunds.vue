@@ -12,13 +12,12 @@ import Session from '@/mythicalclient/Session';
 import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 import Swal from 'sweetalert2';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
-import successAlertSfx from '@/assets/sounds/success.mp3';
 import { useSound } from '@vueuse/sound';
+import Settings from '@/mythicalclient/Settings';
 
 const router = useRouter();
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
-const { play: playSuccess } = useSound(successAlertSfx);
 
 MythicalDOM.setPageTitle(t('billing.pages.add_funds.title'));
 
@@ -28,10 +27,32 @@ const form = reactive({
     payment_method: '',
 });
 
-const paymentMethods = [
-    { value: 'stripe', label: 'Credit Card (Stripe)' },
-    { value: 'paypal', label: 'PayPal' },
-];
+const paymentMethods = ref<{value: string, label: string}[]>([]);
+
+if (Settings.getSetting('enable_stripe') === 'true') {
+    paymentMethods.value.push({
+        value: 'stripe',
+        label: 'Stripe'
+    });
+}
+
+if (Settings.getSetting('enable_paypal') === 'true') {
+    paymentMethods.value.push({
+        value: 'paypal',
+        label: 'PayPal'
+    });
+}
+
+if (paymentMethods.value.length === 0) {
+    Swal.fire({
+		icon: 'error',
+		title: t('billing.pages.add_funds.alerts.error.title'),
+		text: t('billing.pages.add_funds.alerts.error.no_gateway'),
+		showConfirmButton: true,
+	});
+    router.push('/');
+}
+
 
 const handleSubmit = async () => {
     if (!form.amount || !form.payment_method) {
@@ -59,19 +80,8 @@ const handleSubmit = async () => {
 
     try {
         loading.value = true;
-        // TODO: Implement payment processing logic here
-        // const response = await Payment.processPayment(form.amount, form.payment_method);
-
-        // Temporary success simulation
         await new Promise(resolve => setTimeout(resolve, 1500));
-        playSuccess();
-        Swal.fire({
-            icon: 'success',
-            title: t('billing.pages.add_funds.alerts.success.title'),
-            text: t('billing.pages.add_funds.alerts.success.payment_processed'),
-            showConfirmButton: true,
-        });
-        router.push('/');
+        location.href = `/api/stripe/process?coins=`+amount;
     } catch (error) {
         playError();
         console.error('Payment processing error:', error);

@@ -598,6 +598,8 @@ billing:
                 missing_fields: Please fill in all required fields.
                 invalid_amount: Please enter a valid amount greater than 0.
                 payment_failed: Payment processing failed. Please try again.
+                footer: Please contact support for assistance.
+                no_gateway: No payment gateway found.
             success:
                 title: Success
                 payment_processed: Payment processed successfully. Your funds have been added to your account.

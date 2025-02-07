@@ -70,5 +70,4 @@ interface ConfigInterface
 	public const STRIPE_SECRET_KEY = 'stripe_secret_key';
 	public const STRIPE_PUBLISHABLE_KEY = 'stripe_publishable_key';
 	public const STRIPE_WEBHOOK_ID = 'stripe_webhook_id';
-	public const STRIPE_IS_SANDBOX = 'stripe_is_sandbox';
 }

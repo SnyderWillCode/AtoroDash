@@ -40,6 +40,8 @@ $router->add('/api/system/settings', function (): void {
         ConfigInterface::COMPANY_ZIP => $config->getSetting(ConfigInterface::COMPANY_ZIP, '12345'),
         ConfigInterface::COMPANY_COUNTRY => $config->getSetting(ConfigInterface::COMPANY_COUNTRY, 'MythicalCountry'),
         ConfigInterface::COMPANY_VAT => $config->getSetting(ConfigInterface::COMPANY_VAT, '1234567890'),
+
+
     ];
 
     App::OK('Sure here are the settings you were looking for', ['settings' => $settings]);

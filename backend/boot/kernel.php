@@ -48,44 +48,6 @@ if (!is_writable(__DIR__ . '/../storage')) {
     exit('Please make sure the storage directory is writable.');
 }
 
-if (!extension_loaded('mysqli')) {
-    exit('MySQL extension is not installed!');
-}
-
-if (!extension_loaded('curl')) {
-    exit('Curl extension is not installed!');
-}
-
-if (!extension_loaded('gd')) {
-    exit('GD extension is not installed!');
-}
-
-if (!extension_loaded('mbstring')) {
-    exit('MBString extension is not installed!');
-}
-
-if (!extension_loaded('openssl')) {
-    exit('OpenSSL extension is not installed!');
-}
-
-if (!extension_loaded('zip')) {
-    exit('Zip extension is not installed!');
-}
-
-if (!extension_loaded('bcmath')) {
-    exit('Bcmath extension is not installed!');
-}
-
-if (!extension_loaded('json')) {
-    exit('JSON extension is not installed!');
-}
-
-if (!extension_loaded('sodium')) {
-    exit('sodium extension is not installed!');
-}
-if (version_compare(PHP_VERSION, '8.1.0', '<')) {
-    exit('This application requires at least PHP 8.1.0');
-}
 
 /**
  * Initialize the plugin manager.

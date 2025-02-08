@@ -579,16 +579,16 @@
         },
         {
             "name": "mythicalsystems/core",
-            "version": "1.0.0.17",
+            "version": "1.0.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MythicalLTD/MythicalCore.git",
-                "reference": "c5783a5a3331ec0260084a4aa6c1b810aefb2545"
+                "reference": "3783128ea7cb82e48842062c63f3f0a6af45fc12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MythicalLTD/MythicalCore/zipball/c5783a5a3331ec0260084a4aa6c1b810aefb2545",
-                "reference": "c5783a5a3331ec0260084a4aa6c1b810aefb2545",
+                "url": "https://api.github.com/repos/MythicalLTD/MythicalCore/zipball/3783128ea7cb82e48842062c63f3f0a6af45fc12",
+                "reference": "3783128ea7cb82e48842062c63f3f0a6af45fc12",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "docs": "https://docs.mythicalsystems.me",
                 "forum": "https://discord.gg/Tswkrhreu3",
                 "issues": "https://github.com/mythicalltd/mythicalcore/issues",
-                "source": "https://github.com/MythicalLTD/MythicalCore/tree/1.0.0.17",
+                "source": "https://github.com/MythicalLTD/MythicalCore/tree/1.0.0.18",
                 "wiki": "https://docs.mythicalsystems.me"
             },
             "funding": [
@@ -655,7 +655,7 @@
                     "type": "GitHub"
                 }
             ],
-            "time": "2024-11-06T23:03:37+00:00"
+            "time": "2025-02-08T14:22:29+00:00"
         },
         {
             "name": "nikolaposa/rate-limit",
@@ -1405,16 +1405,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v16.5.0",
+            "version": "v16.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "3fb22256317344e049fce02ff289af3b776b0464"
+                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/3fb22256317344e049fce02ff289af3b776b0464",
-                "reference": "3fb22256317344e049fce02ff289af3b776b0464",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
+                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
                 "shasum": ""
             },
             "require": {
@@ -1458,9 +1458,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v16.5.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.5.1"
             },
-            "time": "2025-01-27T20:20:33+00:00"
+            "time": "2025-02-07T21:24:29+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3055,16 +3055,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.6",
+            "version": "11.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c"
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3c3ae14c90f244cdda95028c3e469028e8d1c02c",
-                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e1cb706f019e2547039ca2c839898cd5f557ee5d",
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d",
                 "shasum": ""
             },
             "require": {
@@ -3136,7 +3136,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.7"
             },
             "funding": [
                 {
@@ -3152,7 +3152,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-31T07:03:30+00:00"
+            "time": "2025-02-06T16:10:05+00:00"
         },
         {
             "name": "psr/container",

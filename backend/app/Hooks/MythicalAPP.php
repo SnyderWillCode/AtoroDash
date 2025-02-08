@@ -155,6 +155,9 @@ class MythicalAPP extends \MythicalSystems\Api\Api
                         'limit' => RATE_LIMIT,
                     ],
                 ],
+                'license' => [
+                    'valid' => HAS_VALID_LICENSE,
+                ],
             ],
         ];
 

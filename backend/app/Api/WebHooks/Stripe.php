@@ -1,17 +1,11 @@
 <?php
 
 use MythicalClient\App;
-use MythicalClient\Chat\Orders\OrdersInvoices;
 use MythicalClient\Chat\User\User;
-use MythicalClient\Hooks\GitHub;
-use MythicalClient\Chat\Database;
-use MythicalClient\Chat\User\Can;
 use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Chat\Gateways\StripeDB;
-use MythicalClient\Chat\User\UserActivities;
 use MythicalClient\Config\ConfigInterface;
-use MythicalSystems\Helpers\ConfigHelper;
 
 $router->add('/api/webhooks/stripe', function () {
 	App::init();
@@ -88,7 +82,8 @@ $router->add('/api/stripe/process', function (): void {
 								"unit_amount" => $coins * 100,
 								"product_data" => [
 									"name" => "Account Topup",
-									"description" => "Topup your account with " . $coins . " coins!"
+									"description" => "Topup your account with " . $coins . " coins!",
+									"images" => []
 								]
 							]
 						]

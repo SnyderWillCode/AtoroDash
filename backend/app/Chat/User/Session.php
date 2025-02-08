@@ -34,6 +34,7 @@ class Session extends Database
                     $this->app = $app;
                     $this->SESSION_KEY = $_COOKIE['user_token'];
                     $this->updateLastSeen();
+					$this->updateCookie();
                     if ($this->getInfo(UserColumns::TWO_FA_BLOCKED, false) == 'true') {
                         $app->Unauthorized('Please verify 2fa to access this endpoint.', ['error_code' => 'TW0_FA_BLOCKED']);
                     }
@@ -47,6 +48,12 @@ class Session extends Database
             $app->Unauthorized('Please login to access this endpoint.', ['error_code' => 'MISSING_ACCOUNT_TOKEN']);
         }
     }
+
+	public function updateCookie() : void {
+		if (isset($_COOKIE['user_token']) && !empty($_COOKIE['user_token'])) {
+			setcookie('user_token', $_COOKIE['user_token'], time() + 1800, '/');
+		}
+	}
 
     public function __destruct()
     {

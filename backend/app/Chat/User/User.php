@@ -129,11 +129,29 @@ class User extends Database
      */
     public static function getList(): array
     {
-        $con = self::getPdoConnection();
-        $stmt = $con->prepare('SELECT * FROM ' . self::TABLE_NAME);
-        $stmt->execute();
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        try {
+            $con = self::getPdoConnection();
+            $stmt = $con->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE deleted = "false" ORDER BY id ASC');
+            $stmt->execute();
+            
+            $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            
+            // Decrypt sensitive fields for each user
+            foreach ($users as &$user) {
+                if (isset($user['first_name'])) {
+                    $user['first_name'] = App::getInstance(true)->decrypt($user['first_name']);
+                }
+                if (isset($user['last_name'])) {
+                    $user['last_name'] = App::getInstance(true)->decrypt($user['last_name']);
+                }
+            }
+            
+            return $users;
+            
+        } catch (\Exception $e) {
+            Database::db_Error('Failed to get user list: ' . $e->getMessage());
+            return [];
+        }
     }
 
     /**
@@ -292,7 +310,9 @@ class User extends Database
      * Get the user info.
      *
      * @param string $token The token
-     *
+     * @param array $columns The columns to fetch
+     * @param array $columns_encrypted The columns that are encrypted
+     * 
      * @return array The user info
      */
     public static function getInfoArray(string $token, array $columns, array $columns_encrypted): array
@@ -306,17 +326,22 @@ class User extends Database
 
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            foreach ($columns as $index => $column) {
+            if (!$result) {
+                return [];
+            }
+
+            foreach ($columns as $column) {
                 if (in_array($column, $columns_encrypted)) {
-                    $result[$column] = App::getInstance(true)->decrypt($result[$column]);
+                    if (isset($result[$column]) && $result[$column] !== null) {
+                        $result[$column] = App::getInstance(true)->decrypt($result[$column]);
+                    }
                 }
             }
 
-            return $result ? $result : [];
+            return $result;
 
         } catch (\Exception $e) {
             Database::db_Error('Failed to get info: ' . $e->getMessage());
-
             return [];
         }
     }

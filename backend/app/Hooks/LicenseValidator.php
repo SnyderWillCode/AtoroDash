@@ -13,7 +13,7 @@ class LicenseValidator {
     private Client $httpClient;
     
     private const PRODUCT_ID = 2;
-    private const API_URL = "https://activation.mythical.systems/api/v1";
+    private const API_URL = "https://activation.mythical.systems";
     private const CACHE_DURATION = 1; // 30 minutes
     private const CACHE_DIR = APP_CACHE_DIR . '/other';
 
@@ -46,7 +46,7 @@ class LicenseValidator {
                 return true;
             }
 
-            $response = $this->httpClient->post('/validate', [
+            $response = $this->httpClient->post(self::API_URL.'/api/v1/validate', [
                 'json' => [
                     'licenseKey' => $this->licenseKey,
                     'productId' => self::PRODUCT_ID,
@@ -56,8 +56,9 @@ class LicenseValidator {
             ]);
 
             if ($response->getStatusCode() === 200) {
+
                 $this->setCache();
-                App::getInstance(true)->getLogger()->debug("License validation succeeded");
+                App::getInstance(true)->getLogger()->debug("License validation succeeded: " . $response->getBody());
                 return true;
             }
 

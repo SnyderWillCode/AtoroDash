@@ -5,3 +5,4 @@
 /logs/*.txt
 /logs/*.log
 /caches/mails/*.html
+/caches/other/

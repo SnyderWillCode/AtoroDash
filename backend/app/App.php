@@ -28,6 +28,7 @@ use MythicalClient\CloudFlare\CloudFlareRealIP;
 class App extends MythicalAPP
 {
     public static App $instance;
+	public LicenseValidator $licenseValidator;
     public Database $db;
 
     public function __construct(bool $softBoot)
@@ -69,8 +70,8 @@ class App extends MythicalAPP
             /**
              * License validator.
              */
-            $licenseValidator = new LicenseValidator($_ENV['LICENSE_KEY']);
-            if (!$licenseValidator->validate()) {
+            $this->licenseValidator = new LicenseValidator($_ENV['LICENSE_KEY']);
+            if (!$this->licenseValidator->validate()) {
                 $this->getLogger()->warning('License is not valid! Consider buying a license to support the development of MythicalClient!');
                 define('HAS_VALID_LICENSE', false);
             } else {
@@ -138,6 +139,11 @@ class App extends MythicalAPP
             self::InternalServerError($e->getMessage(), null);
         }
     }
+
+	public function getLicenseValidator(): LicenseValidator
+	{
+		return $this->licenseValidator;
+	}
 
     /**
      * Register all api endpoints.

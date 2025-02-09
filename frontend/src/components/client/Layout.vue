@@ -1,5 +1,22 @@
 <!-- src/components/Auth/Layout.vue -->
 
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { LicenseServer } from '@/mythicalclient/LicenseServer';
+
+const showFooter = ref(true);
+
+onMounted(async () => {
+    try {
+        const isValid = await LicenseServer.isLicenseValid();
+        showFooter.value = !isValid;
+    } catch (error) {
+        console.error('Error checking license:', error);
+        showFooter.value = true;
+    }
+});
+</script>
+
 <template>
     <div class="min-h-screen bg-[#0a0a1f] relative overflow-hidden">
         <!-- Background elements -->
@@ -11,8 +28,8 @@
         <div class="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
             <slot></slot>
 
-            <!-- Footer -->
-            <div class="absolute bottom-4 text-center text-sm text-gray-400">
+            <!-- Footer - Only shown if license is not valid -->
+            <div v-if="showFooter" class="absolute bottom-4 text-center text-sm text-gray-400">
                 <a href="https://mythical.systems">MythicalSystems</a>
                 <p>LTD 2020 - {{ new Date().getFullYear() }}</p>
             </div>

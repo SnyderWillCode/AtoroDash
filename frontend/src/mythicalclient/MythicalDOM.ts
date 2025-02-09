@@ -1,4 +1,4 @@
-import Settings from './Settings';
+import { useSettingsStore } from '@/stores/settings';
 import { useI18n } from 'vue-i18n';
 export class MythicalDOM {
     /**
@@ -6,6 +6,7 @@ export class MythicalDOM {
      * @param title The title to set for the page
      */
     public static setPageTitle(title: string): void {
+      const Settings = useSettingsStore();
         document.title = Settings.getSetting('app_name') + ' - ' + title;
     }
 

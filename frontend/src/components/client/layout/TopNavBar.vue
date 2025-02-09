@@ -73,7 +73,8 @@ import {
     Menu as MenuIcon,
     X as XIcon,
 } from 'lucide-vue-next';
-import Settings from '@/mythicalclient/Settings';
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
 import Session from '@/mythicalclient/Session';
 

@@ -5,7 +5,8 @@ import FormCard from '@/components/client/Auth/FormCard.vue';
 import FormInput from '@/components/client/Auth/FormInput.vue';
 import { useRouter } from 'vue-router';
 import Turnstile from 'vue-turnstile';
-import Settings from '@/mythicalclient/Settings';
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
 import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 

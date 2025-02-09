@@ -13,7 +13,8 @@ import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 import Swal from 'sweetalert2';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import { useSound } from '@vueuse/sound';
-import Settings from '@/mythicalclient/Settings';
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 
 const router = useRouter();
 const { t } = useI18n();

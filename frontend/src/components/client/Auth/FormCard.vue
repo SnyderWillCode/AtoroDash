@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { HelpCircleIcon } from 'lucide-vue-next';
-import Settings from '@/mythicalclient/Settings';
 import { useI18n } from 'vue-i18n';
-
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 const { t } = useI18n();
 
 defineProps({

@@ -20,7 +20,8 @@ import {
 } from 'lucide-vue-next';
 import Tickets from '@/mythicalclient/Tickets';
 import Swal from 'sweetalert2';
-import Settings from '@/mythicalclient/Settings';
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 import { useI18n } from 'vue-i18n';
 import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 const { t } = useI18n();

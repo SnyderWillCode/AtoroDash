@@ -191,8 +191,8 @@ import {
 } from 'lucide-vue-next';
 import Session from '@/mythicalclient/Session';
 import StorageMonitor from '@/mythicalclient/StorageMonitor';
-import Settings from '@/mythicalclient/Settings';
-
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 const router = useRouter();
 
 new StorageMonitor();

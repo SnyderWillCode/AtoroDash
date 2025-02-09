@@ -1,5 +1,4 @@
-import Settings from '@/mythicalclient/Settings';
-
+import { useSettingsStore } from '@/stores/settings';
 interface MythicalClientOptions {
     timeout?: number;
     theme?: 'dark' | 'light';
@@ -318,6 +317,7 @@ export class MythicalClient {
         console.log(`%c${randomMessages[Math.floor(Math.random() * randomMessages.length)]}`, styles.success);
 
         // Version Info
+        const Settings = useSettingsStore();
         console.log('%c📦 Version: ' + Settings.getSetting('version'));
 
         // Credits

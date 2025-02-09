@@ -1,15 +1,17 @@
 import './assets/main.css';
 
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import VueSweetalert2 from 'vue-sweetalert2';
 import { createI18n } from 'vue-i18n';
 import EN from '@/locale/en.yml';
-import Settings from '@/mythicalclient/Settings';
 import './assets/sweetalert2.css';
 const app = createApp(App);
+const pinia = createPinia();
 
+app.use(pinia);
 app.use(router);
 app.use(VueSweetalert2);
 
@@ -21,6 +23,5 @@ const i18n = createI18n({
 });
 app.use(i18n);
 
-Settings.initializeSettings();
 
 app.mount('#app');

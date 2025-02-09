@@ -66,5 +66,6 @@
 <script setup lang="ts">
 import { CheckCircle, Heart, HelpCircle, InfoIcon } from 'lucide-vue-next';
 import LayoutDashboard from '@/components/admin/LayoutDashboard.vue';
-import Settings from '@/mythicalclient/Settings';
+import { useSettingsStore } from '@/stores/settings';
+const Settings = useSettingsStore();
 </script>

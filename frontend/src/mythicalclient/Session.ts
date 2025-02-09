@@ -1,6 +1,5 @@
 import router from '@/router';
 import Swal from 'sweetalert2';
-import Settings from '@/mythicalclient/Settings';
 import { useI18n } from 'vue-i18n';
 
 interface SessionResponse {
@@ -77,8 +76,6 @@ class Session {
      */
     private static async handleSessionError(data: SessionResponse): Promise<void> {
         const { t } = useI18n();
-        await Settings.initializeSettings();
-
         // Remove the user_token cookie
         document.cookie = 'user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 

@@ -33,7 +33,8 @@
         "nikolaposa/rate-limit": "^3.2",
 		"guzzlehttp/guzzle": "^7.0",
         "sentry/sentry": "^4.10",
-        "stripe/stripe-php": "^16.5"
+        "stripe/stripe-php": "^16.5",
+        "tebex/tebex-sdk-php": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.1",

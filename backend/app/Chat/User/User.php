@@ -133,9 +133,9 @@ class User extends Database
             $con = self::getPdoConnection();
             $stmt = $con->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE deleted = "false" ORDER BY id ASC');
             $stmt->execute();
-            
+
             $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
+
             // Decrypt sensitive fields for each user
             foreach ($users as &$user) {
                 if (isset($user['first_name'])) {
@@ -145,11 +145,12 @@ class User extends Database
                     $user['last_name'] = App::getInstance(true)->decrypt($user['last_name']);
                 }
             }
-            
+
             return $users;
-            
+
         } catch (\Exception $e) {
             Database::db_Error('Failed to get user list: ' . $e->getMessage());
+
             return [];
         }
     }
@@ -312,7 +313,7 @@ class User extends Database
      * @param string $token The token
      * @param array $columns The columns to fetch
      * @param array $columns_encrypted The columns that are encrypted
-     * 
+     *
      * @return array The user info
      */
     public static function getInfoArray(string $token, array $columns, array $columns_encrypted): array
@@ -342,6 +343,7 @@ class User extends Database
 
         } catch (\Exception $e) {
             Database::db_Error('Failed to get info: ' . $e->getMessage());
+
             return [];
         }
     }

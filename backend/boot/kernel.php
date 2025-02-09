@@ -48,7 +48,6 @@ if (!is_writable(__DIR__ . '/../storage')) {
     exit('Please make sure the storage directory is writable.');
 }
 
-
 /**
  * Initialize the plugin manager.
  */

@@ -81,7 +81,11 @@ const handleSubmit = async () => {
     try {
         loading.value = true;
         await new Promise(resolve => setTimeout(resolve, 1500));
-        location.href = `/api/stripe/process?coins=`+amount;
+        if (form.payment_method === 'stripe') {
+            location.href = `/api/stripe/process?coins=`+amount;
+        } else if (form.payment_method === 'paypal') {
+            location.href = `/api/paypal/process?coins=`+amount;
+        }
     } catch (error) {
         playError();
         console.error('Payment processing error:', error);

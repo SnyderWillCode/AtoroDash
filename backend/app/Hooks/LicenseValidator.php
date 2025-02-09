@@ -1,23 +1,35 @@
 <?php
 
+/*
+ * This file is part of MythicalClient.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * # MythicalSystems License v2.0
+ *
+ * ## Copyright (c) 2021–2025 MythicalSystems and Cassian Gherman
+ *
+ * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
+ */
+
 namespace MythicalClient\Hooks;
 
-use MythicalClient\App;
 use GuzzleHttp\Client;
+use MythicalClient\App;
 use GuzzleHttp\Exception\GuzzleException;
 
-class LicenseValidator {
+class LicenseValidator
+{
+    private const PRODUCT_ID = 2;
+    private const API_URL = 'https://activation.mythical.systems';
+    private const CACHE_DURATION = 1800; // 30 minutes
+    private const CACHE_DIR = APP_CACHE_DIR . '/other';
     private string $licenseKey;
     private string $version;
     private string $cacheFile;
     private Client $httpClient;
-    
-    private const PRODUCT_ID = 2;
-    private const API_URL = "https://activation.mythical.systems";
-    private const CACHE_DURATION = 1; // 30 minutes
-    private const CACHE_DIR = APP_CACHE_DIR . '/other';
 
-    public function __construct(string|null $licenseKey, string $version = "1.0.0") {
+    public function __construct(?string $licenseKey, string $version = '1.0.0')
+    {
         $this->licenseKey = $licenseKey ?? '';
         $this->version = $version;
         $this->cacheFile = self::CACHE_DIR . '/license_validation.json';
@@ -27,8 +39,8 @@ class LicenseValidator {
             'verify' => true,
             'headers' => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
-            ]
+                'Content-Type' => 'application/json',
+            ],
         ]);
 
         // Ensure cache directory exists
@@ -36,90 +48,103 @@ class LicenseValidator {
             mkdir(self::CACHE_DIR, 0755, true);
         }
 
-        App::getInstance(true)->getLogger()->debug("License validator initialized");
+        App::getInstance(true)->getLogger()->debug('License validator initialized');
     }
 
-    public function validate(): bool {
+    public function validate(): bool
+    {
         try {
             if ($this->checkCache()) {
-                App::getInstance(true)->getLogger()->debug("License validation succeeded (cached)");
+                App::getInstance(true)->getLogger()->debug('License validation succeeded (cached)');
+
                 return true;
             }
 
-            $response = $this->httpClient->post(self::API_URL.'/api/v1/validate', [
+            $response = $this->httpClient->post(self::API_URL . '/api/v1/validate', [
                 'json' => [
                     'licenseKey' => $this->licenseKey,
                     'productId' => self::PRODUCT_ID,
                     'productVersion' => $this->version,
-                    'hwid' => $this->getHWID()
-                ]
+                    'hwid' => $this->getHWID(),
+                ],
             ]);
 
             if ($response->getStatusCode() === 200) {
 
                 $this->setCache();
-                App::getInstance(true)->getLogger()->debug("License validation succeeded: " . $response->getBody());
+                App::getInstance(true)->getLogger()->debug('License validation succeeded: ' . $response->getBody());
+
                 return true;
             }
 
-            App::getInstance(true)->getLogger()->warning("License validation failed", false);
+            App::getInstance(true)->getLogger()->warning('License validation failed', false);
+
             return false;
 
         } catch (GuzzleException $e) {
-            App::getInstance(true)->getLogger()->error("License validation error: " . $e->getMessage(), false);
+            App::getInstance(true)->getLogger()->error('License validation error: ' . $e->getMessage(), false);
+
             return false;
         }
     }
 
-    private function checkCache(): bool {
+    private function checkCache(): bool
+    {
         try {
             if (!file_exists($this->cacheFile)) {
-                App::getInstance(true)->getLogger()->debug("License cache file not found");
+                App::getInstance(true)->getLogger()->debug('License cache file not found');
+
                 return false;
             }
 
             $cacheData = @json_decode(file_get_contents($this->cacheFile), true);
             if (!$this->isValidCacheData($cacheData)) {
-                App::getInstance(true)->getLogger()->warning("Invalid license cache data format");
+                App::getInstance(true)->getLogger()->warning('Invalid license cache data format');
+
                 return false;
             }
 
             if (time() - $cacheData['timestamp'] > self::CACHE_DURATION) {
                 @unlink($this->cacheFile);
-                App::getInstance(true)->getLogger()->debug("License cache expired");
+                App::getInstance(true)->getLogger()->debug('License cache expired');
+
                 return false;
             }
 
             return $cacheData['valid'];
 
         } catch (\Throwable $e) {
-            App::getInstance(true)->getLogger()->error("License cache check error: " . $e->getMessage(), false);
+            App::getInstance(true)->getLogger()->error('License cache check error: ' . $e->getMessage(), false);
+
             return false;
         }
     }
 
-    private function setCache(): void {
+    private function setCache(): void
+    {
         try {
             $cacheData = json_encode([
                 'timestamp' => time(),
-                'valid' => true
+                'valid' => true,
             ]);
 
             file_put_contents($this->cacheFile, $cacheData, LOCK_EX);
-            App::getInstance(true)->getLogger()->debug("License cache updated");
+            App::getInstance(true)->getLogger()->debug('License cache updated');
         } catch (\Throwable $e) {
-            App::getInstance(true)->getLogger()->error("License cache set error: " . $e->getMessage(), false);
+            App::getInstance(true)->getLogger()->error('License cache set error: ' . $e->getMessage(), false);
         }
     }
 
-    private function isValidCacheData(?array $data): bool {
+    private function isValidCacheData(?array $data): bool
+    {
         return $data && isset($data['timestamp'], $data['valid']);
     }
 
-    private function getHWID(): string {
+    private function getHWID(): string
+    {
         try {
             $hwid = '';
-            
+
             // Get system-specific identifiers
             $identifiers = $this->getSystemIdentifiers();
             $hwid = implode('', array_filter($identifiers));
@@ -128,25 +153,28 @@ class LicenseValidator {
             if (empty($hwid)) {
                 $hwid = $this->getFallbackIdentifier();
             }
-            
+
             $finalHWID = hash('sha256', $hwid ?: uniqid('fallback_', true));
-            App::getInstance(true)->getLogger()->debug("HWID generated successfully");
+            App::getInstance(true)->getLogger()->debug('HWID generated successfully');
+
             return $finalHWID;
-            
+
         } catch (\Throwable $e) {
-            App::getInstance(true)->getLogger()->error("HWID Generation Error: " . $e->getMessage(), false);
+            App::getInstance(true)->getLogger()->error('HWID Generation Error: ' . $e->getMessage(), false);
+
             return hash('sha256', uniqid('emergency_fallback_', true));
         }
     }
 
-    private function getSystemIdentifiers(): array {
+    private function getSystemIdentifiers(): array
+    {
         $identifiers = [];
 
         if (PHP_OS === 'Linux') {
-            App::getInstance(true)->getLogger()->debug("Generating HWID for Linux");
+            App::getInstance(true)->getLogger()->debug('Generating HWID for Linux');
             $identifiers = $this->getLinuxIdentifiers();
         } else {
-            App::getInstance(true)->getLogger()->debug("Generating HWID for Windows");
+            App::getInstance(true)->getLogger()->debug('Generating HWID for Windows');
             $identifiers = $this->getWindowsIdentifiers();
         }
 
@@ -156,7 +184,8 @@ class LicenseValidator {
         return array_filter($identifiers);
     }
 
-    private function getLinuxIdentifiers(): array {
+    private function getLinuxIdentifiers(): array
+    {
         $identifiers = [];
 
         // CPU Info
@@ -173,11 +202,11 @@ class LicenseValidator {
 
         // MAC Address
         $methods = [
-            "cat /sys/class/net/$(ls /sys/class/net | head -n 1)/address",
+            'cat /sys/class/net/$(ls /sys/class/net | head -n 1)/address',
             "ifconfig -a | grep -Po 'HWaddr \K.*$'",
-            "ip link | grep -Po 'ether \K.*$'"
+            "ip link | grep -Po 'ether \K.*$'",
         ];
-        
+
         foreach ($methods as $method) {
             $mac = @shell_exec($method);
             if ($mac) {
@@ -189,7 +218,8 @@ class LicenseValidator {
         return $identifiers;
     }
 
-    private function getWindowsIdentifiers(): array {
+    private function getWindowsIdentifiers(): array
+    {
         $identifiers = [];
 
         // CPU Info
@@ -199,7 +229,7 @@ class LicenseValidator {
         }
 
         // MAC Address
-        $mac = @shell_exec("getmac /NH /FO CSV | findstr /R \"[0-9A-Fa-f][0-9A-Fa-f]\"");
+        $mac = @shell_exec('getmac /NH /FO CSV | findstr /R "[0-9A-Fa-f][0-9A-Fa-f]"');
         if ($mac) {
             $identifiers['mac'] = preg_replace('/[^A-Fa-f0-9]/', '', $mac);
         }
@@ -207,12 +237,13 @@ class LicenseValidator {
         return $identifiers;
     }
 
-    private function getFallbackIdentifier(): string {
+    private function getFallbackIdentifier(): string
+    {
         return implode('', [
             php_uname(),
             $_SERVER['SERVER_ADDR'] ?? '',
             $_SERVER['SERVER_NAME'] ?? '',
-            $_SERVER['SERVER_SOFTWARE'] ?? ''
+            $_SERVER['SERVER_SOFTWARE'] ?? '',
         ]);
     }
 }

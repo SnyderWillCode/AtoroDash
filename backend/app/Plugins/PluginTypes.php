@@ -29,7 +29,7 @@ class PluginTypes
         return [
             'event',
             'components',
-            'provider'
+            'provider',
         ];
     }
 

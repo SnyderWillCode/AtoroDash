@@ -15,14 +15,14 @@ namespace MythicalClient\Chat\Gateways;
 
 use MythicalClient\Chat\Database;
 
-class StripeDB extends Database
+class PayPalDB extends Database
 {
-    public const TABLE_NAME = 'mythicalclient_stripe_payments';
+    public const TABLE_NAME = 'mythicalclient_paypal_payments';
 
     /**
-     * Create a new Stripe payment record.
+     * Create a new PayPal payment record.
      *
-     * @param string $code Stripe payment code/token
+     * @param string $code PayPal payment code/token
      * @param int $coins Amount of coins
      * @param string $user User UUID
      *
@@ -40,7 +40,7 @@ class StripeDB extends Database
 
             return $stmt->execute();
         } catch (\Exception $e) {
-            self::db_Error('Failed to create Stripe payment: ' . $e->getMessage());
+            self::db_Error('Failed to create PayPal payment: ' . $e->getMessage());
 
             return false;
         }
@@ -64,7 +64,7 @@ class StripeDB extends Database
 
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
-            self::db_Error('Failed to get Stripe payment: ' . $e->getMessage());
+            self::db_Error('Failed to get PayPal payment: ' . $e->getMessage());
 
             return false;
         }
@@ -88,7 +88,7 @@ class StripeDB extends Database
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
-            self::db_Error('Failed to get user Stripe payments: ' . $e->getMessage());
+            self::db_Error('Failed to get user PayPal payments: ' . $e->getMessage());
 
             return [];
         }
@@ -117,7 +117,7 @@ class StripeDB extends Database
 
             return $stmt->execute();
         } catch (\Exception $e) {
-            self::db_Error('Failed to update Stripe payment status: ' . $e->getMessage());
+            self::db_Error('Failed to update PayPal payment status: ' . $e->getMessage());
 
             return false;
         }
@@ -140,7 +140,7 @@ class StripeDB extends Database
 
             return $stmt->execute();
         } catch (\Exception $e) {
-            self::db_Error('Failed to delete Stripe payment: ' . $e->getMessage());
+            self::db_Error('Failed to delete PayPal payment: ' . $e->getMessage());
 
             return false;
         }
@@ -161,7 +161,7 @@ class StripeDB extends Database
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
-            self::db_Error('Failed to get pending Stripe payments: ' . $e->getMessage());
+            self::db_Error('Failed to get pending PayPal payments: ' . $e->getMessage());
 
             return [];
         }
@@ -178,7 +178,7 @@ class StripeDB extends Database
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
-            self::db_Error('Failed to get pending Stripe payments for user: ' . $e->getMessage());
+            self::db_Error('Failed to get pending PayPal payments for user: ' . $e->getMessage());
 
             return [];
         }
@@ -202,7 +202,7 @@ class StripeDB extends Database
 
             return (int) $stmt->fetchColumn() > 0;
         } catch (\Exception $e) {
-            self::db_Error('Failed to check if Stripe payment exists: ' . $e->getMessage());
+            self::db_Error('Failed to check if PayPal payment exists: ' . $e->getMessage());
 
             return false;
         }
@@ -219,7 +219,7 @@ class StripeDB extends Database
 
             return (int) $stmt->fetchColumn() > 0;
         } catch (\Exception $e) {
-            self::db_Error('Failed to check if Stripe payment is pending: ' . $e->getMessage());
+            self::db_Error('Failed to check if PayPal payment is pending: ' . $e->getMessage());
 
             return false;
         }
@@ -235,7 +235,7 @@ class StripeDB extends Database
 
             return $stmt->execute();
         } catch (\Exception $e) {
-            self::db_Error('Failed to cancel last Stripe payment for user: ' . $e->getMessage());
+            self::db_Error('Failed to cancel last PayPal payment for user: ' . $e->getMessage());
 
             return false;
         }

@@ -106,5 +106,4 @@ class PluginManager
     {
         return $this->events;
     }
-
 }

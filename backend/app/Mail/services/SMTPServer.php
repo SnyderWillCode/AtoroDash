@@ -22,9 +22,10 @@ class SMTPServer
 {
     public static function send(string $to, string $subject, string $body)
     {
+		$appInstance = App::getInstance(true);
+		$appInstance->getLogger()->debug('Sending email to ' . $to);
         try {
             $config = new ConfigFactory(Database::getPdoConnection());
-
             if ($config->getSetting(ConfigInterface::SMTP_ENABLED, 'false') == 'true') {
                 if (
                     $config->getSetting(ConfigInterface::SMTP_HOST, null) == null
@@ -33,7 +34,7 @@ class SMTPServer
                     || $config->getSetting(ConfigInterface::SMTP_PASS, null) == null
                     || $config->getSetting(ConfigInterface::SMTP_FROM, null) == null
                 ) {
-                    App::getInstance(true)->getLogger()->info('Failed to send email, SMTP settings are not configured.');
+					$appInstance->getLogger()->info('Failed to send email, SMTP settings are not configured.');
 
                     return;
                 }
@@ -53,17 +54,16 @@ class SMTPServer
                     $mail->Body = $body;
                     $mail->addAddress($to);
                     $mail->send();
+					$appInstance->getLogger()->debug('Email sent');
                 } catch (\Exception $e) {
-                    App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
+					$appInstance->getLogger()->error('Failed to send email: ' . $e->getMessage());
 
                     return;
                 }
 
             }
         } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
+			$appInstance->getLogger()->error('Failed to send email: ' . $e->getMessage());
         }
-        // No exception handling!!
-
     }
 }

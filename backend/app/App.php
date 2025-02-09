@@ -28,7 +28,7 @@ use MythicalClient\CloudFlare\CloudFlareRealIP;
 class App extends MythicalAPP
 {
     public static App $instance;
-	public LicenseValidator $licenseValidator;
+    public LicenseValidator $licenseValidator;
     public Database $db;
 
     public function __construct(bool $softBoot)
@@ -140,10 +140,10 @@ class App extends MythicalAPP
         }
     }
 
-	public function getLicenseValidator(): LicenseValidator
-	{
-		return $this->licenseValidator;
-	}
+    public function getLicenseValidator(): LicenseValidator
+    {
+        return $this->licenseValidator;
+    }
 
     /**
      * Register all api endpoints.

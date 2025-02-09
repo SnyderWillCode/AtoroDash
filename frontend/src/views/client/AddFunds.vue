@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import { useSound } from '@vueuse/sound';
 import { useSettingsStore } from '@/stores/settings';
+
 const Settings = useSettingsStore();
 
 const router = useRouter();
@@ -99,6 +100,10 @@ const handleSubmit = async () => {
         loading.value = false;
     }
 };
+
+if (Session.getInfo('city') == 'N/A' && Session.getInfo('state') == 'N/A' && Session.getInfo('country') == 'N/A') {
+    router.push('/account');
+}
 </script>
 
 <template>
@@ -168,7 +173,9 @@ const handleSubmit = async () => {
                                 <span class="text-gray-300">{{
                                     t('billing.pages.add_funds.summary.current_balance')
                                 }}</span>
-                                <span class="text-white font-medium">{{ Session.getInfo('credits') ?? 0 }} EUR</span>
+                                <span class="text-white font-medium"
+                                    >{{ Session.getInfo('credits') ?? 0 }} {{ Settings.getSetting('currency') }}</span
+                                >
                             </div>
 
                             <div class="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">

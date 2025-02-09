@@ -10,9 +10,11 @@
 <script lang="ts" setup>
 import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
 import { Server as ServerIcon, FileText as FileTextIcon, Ticket as TicketIcon } from 'lucide-vue-next';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const stats = [
-    { icon: ServerIcon, value: '2', label: 'Services' },
-    { icon: FileTextIcon, value: '0', label: 'Unpaid Invoices' },
-    { icon: TicketIcon, value: '1', label: 'Tickets' },
+    { icon: ServerIcon, value: '2', label: t('components.dashboard.stats.services') },
+    { icon: FileTextIcon, value: '0', label: t('components.dashboard.stats.unpaid_invoices') },
+    { icon: TicketIcon, value: '1', label: t('components.dashboard.stats.tickets') },
 ];
 </script>

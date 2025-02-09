@@ -78,20 +78,20 @@ const menuSections = ref([
                 active: isActiveRoute(['/dashboard']),
             },
             {
-                name: 'Services',
+                name: Translation.getTranslation('components.sidebar.services'),
                 icon: ServerIcon,
                 href: '/services',
                 active: isActiveRoute(['/services']),
                 expanded: false,
                 subitems: [
                     {
-                        name: 'All Services',
+                        name: Translation.getTranslation('components.sidebar.all_services'),
                         icon: ServerIcon,
                         href: '/services',
                         active: isActiveRoute(['/services']),
                     },
                     {
-                        name: 'Add Service',
+                        name: Translation.getTranslation('components.sidebar.add_service'),
                         icon: CopyPlusIcon,
                         href: '/services/add',
                         active: isActiveRoute(['/services/add']),
@@ -118,7 +118,7 @@ const menuSections = ref([
                 ],
             },
             {
-                name: 'Invoices',
+                name: Translation.getTranslation('components.sidebar.invoices'),
                 icon: FileTextIcon,
                 href: '/invoices',
                 active: isActiveRoute(['/invoices']),
@@ -126,10 +126,10 @@ const menuSections = ref([
         ],
     },
     {
-        title: 'Support',
+        title: Translation.getTranslation('components.sidebar.support'),
         items: [
             {
-                name: 'Knowledge Base',
+                name: Translation.getTranslation('components.sidebar.knowledge'),
                 icon: GlobeIcon,
                 href: '/knowledge-base',
                 active: isActiveRoute(['/knowledge-base']),
@@ -142,13 +142,13 @@ const menuSections = ref([
                 expanded: false,
                 subitems: [
                     {
-                        name: 'Open Ticket',
+                        name: Translation.getTranslation('components.sidebar.open_ticket'),
                         icon: AlertTriangleIcon,
                         href: '/ticket/create',
                         active: isActiveRoute(['/ticket/create']),
                     },
                     {
-                        name: 'All Tickets',
+                        name: Translation.getTranslation('components.sidebar.all_tickets'),
                         icon: TicketIcon,
                         href: '/ticket',
                         active: isActiveRoute(['/ticket']),

@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
+import Session from '@/mythicalclient/Session';
+
+import { BookMarkedIcon as MarketIcon } from 'lucide-vue-next';
+</script>
+
 <template>
     <!-- Profile Card -->
     <CardComponent>
@@ -19,21 +26,15 @@
                     to="/account"
                     class="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-sm"
                 >
-                    Update
+                    {{ $t('components.profile.update') }}
                 </RouterLink>
                 <a
-                    href="/api/auth/logout"
+                    href="/auth/logout"
                     class="flex-1 px-4 py-2 bg-purple-800 hover:bg-purple-700 text-white rounded transition-colors text-sm"
                 >
-                    Logout
+                    {{ $t('components.profile.logout') }}
                 </a>
             </div>
         </div>
     </CardComponent>
 </template>
-<script lang="ts" setup>
-import CardComponent from '@/components/client/ui/Card/CardComponent.vue';
-import Session from '@/mythicalclient/Session';
-
-import { BookMarkedIcon as MarketIcon } from 'lucide-vue-next';
-</script>

@@ -6,6 +6,10 @@ import CardComponent from '../ui/Card/CardComponent.vue';
 import Button from '../ui/Button.vue';
 import { ServerIcon, PackageIcon, TagIcon, BoxIcon } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
+import { useSettingsStore } from '@/stores/settings';
+import { useI18n } from 'vue-i18n';
+const Settings = useSettingsStore();
+const { t } = useI18n();
 
 const props = defineProps<{
     categoryUri: string;
@@ -18,9 +22,9 @@ const router = useRouter();
 
 const formatPrice = (price: string | null): string => {
     if (!price) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat(Settings.getSetting('app_number_format'), {
         style: 'currency',
-        currency: 'EUR',
+        currency: Settings.getSetting('currency'),
     }).format(Number(price));
 };
 
@@ -29,7 +33,7 @@ const loadServices = async () => {
         loading.value = true;
         services.value = await Services.getServicesByCategory(props.categoryUri);
     } catch (err) {
-        error.value = 'Failed to load services';
+        error.value = t('components.services.list.error');
         console.error(err);
     } finally {
         loading.value = false;
@@ -66,7 +70,11 @@ onMounted(() => {
                                 : 'bg-red-500/20 text-red-400',
                         ]"
                     >
-                        {{ service.enabled === 'true' ? 'Available' : 'Unavailable' }}
+                        {{
+                            service.enabled === 'true'
+                                ? t('components.services.list.available')
+                                : t('components.services.list.unavailable')
+                        }}
                     </span>
                 </div>
 
@@ -92,7 +100,10 @@ onMounted(() => {
                     <!-- Stock Info -->
                     <div v-if="service.stock_enabled === 'true'" class="flex items-center gap-2 mb-4 text-gray-400">
                         <BoxIcon class="w-4 h-4" />
-                        <span>{{ service.stock }}/{{ service.quantity }} available</span>
+                        <span
+                            >{{ service.stock }}/{{ service.quantity }}
+                            {{ t('components.services.list.available') }}</span
+                        >
                     </div>
 
                     <!-- Pricing -->
@@ -100,12 +111,14 @@ onMounted(() => {
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <PackageIcon class="w-4 h-4 text-purple-500" />
-                                <span class="text-gray-300">Monthly</span>
+                                <span class="text-gray-300">{{ t('components.services.list.monthly') }}</span>
                             </div>
                             <span class="text-lg font-bold text-white" v-if="service.price !== 0">
                                 {{ formatPrice(service.price.toString()) }}
                             </span>
-                            <span class="text-lg font-bold text-white" v-else> Free </span>
+                            <span class="text-lg font-bold text-white" v-else>
+                                {{ t('components.services.list.free') }}
+                            </span>
                         </div>
 
                         <!-- Setup Fee -->
@@ -114,7 +127,8 @@ onMounted(() => {
                                 class="w-4 h-4 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400"
                                 >+</span
                             >
-                            {{ formatPrice(service.setup_fee.toString()) }} setup fee
+                            {{ formatPrice(service.setup_fee.toString()) }}
+                            {{ t('components.services.list.setup_fee') }}
                         </div>
                     </div>
 
@@ -129,7 +143,7 @@ onMounted(() => {
                             <template #icon>
                                 <ServerIcon class="w-4 h-4" />
                             </template>
-                            Order Now
+                            {{ t('components.services.list.order') }}
                         </Button>
                     </div>
                 </div>

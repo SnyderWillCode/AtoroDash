@@ -31,14 +31,14 @@ class Mail
     public static function send(string $to, string $subject, string $message): void
     {
         // TODO: Add more drivers
-		$appInstance = App::getInstance(true);
+        $appInstance = App::getInstance(true);
 
         try {
-			$appInstance->getLogger()->debug('Sending email to ' . $to);
+            $appInstance->getLogger()->debug('Sending email to ' . $to);
             SMTPServer::send($to, $subject, $message);
-			$appInstance->getLogger()->debug('Email sent to ' . $to);
+            $appInstance->getLogger()->debug('Email sent to ' . $to);
         } catch (\Exception $e) {
-			$appInstance->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/Mail.php) [send] Failed to send email: ' . $e->getMessage());
+            $appInstance->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/Mail.php) [send] Failed to send email: ' . $e->getMessage());
         }
     }
 

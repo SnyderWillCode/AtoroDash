@@ -19,6 +19,7 @@ interface ConfigInterface
     public const APP_LANG = 'app_lang';
     public const APP_URL = 'app_url';
     public const APP_VERSION = 'app_version';
+    public const APP_NUMBER_FORMAT = 'app_number_format';
     public const APP_TIMEZONE = 'app_timezone';
     public const APP_LOGO = 'app_logo';
     public const SEO_DESCRIPTION = 'seo_description';
@@ -66,4 +67,11 @@ interface ConfigInterface
     public const STRIPE_SECRET_KEY = 'stripe_secret_key';
     public const STRIPE_PUBLISHABLE_KEY = 'stripe_publishable_key';
     public const STRIPE_WEBHOOK_ID = 'stripe_webhook_id';
+
+    /**
+     * Currency Configs.
+     */
+    public const CURRENCY = 'currency';
+    public const CURRENCY_SYMBOL = 'currency_symbol';
+
 }

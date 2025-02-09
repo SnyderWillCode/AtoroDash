@@ -69,7 +69,7 @@ export class LicenseServer {
     private static cacheLicense(isValid: boolean): void {
         const license: LicenseCache = {
             valid: isValid,
-            timestamp: Date.now()
+            timestamp: Date.now(),
         };
         localStorage.setItem(this.CACHE_KEY, JSON.stringify(license));
     }
@@ -79,7 +79,7 @@ export class LicenseServer {
      */
     public static async isLicenseValid(): Promise<boolean> {
         const Settings = useSettingsStore();
-        const appName = Settings.getSetting("app_name");
+        const appName = Settings.getSetting('app_name');
         console.log('Checking license for ' + appName);
 
         const isValid = await this.validateLicense();

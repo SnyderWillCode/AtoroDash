@@ -86,7 +86,7 @@ class PayPal
                 'item_name' => 'Account Topup',
                 'item_number' => $code,
                 'amount' => number_format($amount, 2, '.', ''),
-                'currency_code' => 'EUR',
+                'currency_code' => $this->app->getConfig()->getSetting(ConfigInterface::CURRENCY, 'EUR'),
                 'custom' => $code . '|' . $uuid,
                 'no_shipping' => '1',
                 'no_note' => '1',

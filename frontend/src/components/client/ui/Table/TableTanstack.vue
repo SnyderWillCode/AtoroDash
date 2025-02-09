@@ -10,6 +10,7 @@ import {
 } from '@tanstack/vue-table';
 
 import { ArrowBigRight, ArrowBigLeft, ArrowBigRightDash, ArrowBigLeftDash } from 'lucide-vue-next';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
     data: {
@@ -31,6 +32,8 @@ import type { ColumnDef, SortingState } from '@tanstack/vue-table';
 
 const sorting = ref<SortingState>([]);
 const filter = ref('');
+
+const { t } = useI18n();
 
 const table = useVueTable({
     data: data,
@@ -70,7 +73,7 @@ const table = useVueTable({
                         <input
                             type="text"
                             class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-4 pr-10 py-2 text-sm text-gray-100 placeholder-gray-500 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 focus:outline-none"
-                            placeholder="Search"
+                            :placeholder="t('components.table.search')"
                             v-model="filter"
                         />
                         <button class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400">
@@ -133,11 +136,12 @@ const table = useVueTable({
             <!-- Pagination Info -->
             <div class="flex justify-between items-center text-sm text-gray-400 mt-4">
                 <div>
-                    Page {{ table.getState().pagination.pageIndex + 1 }} of {{ table.getPageCount() }} -
-                    {{ table.getFilteredRowModel().rows.length }} results
+                    {{ t('components.table.page') }} {{ table.getState().pagination.pageIndex + 1 }}
+                    {{ t('components.table.of') }} {{ table.getPageCount() }} -
+                    {{ table.getFilteredRowModel().rows.length }} {{ t('components.table.results') }}
                 </div>
                 <div class="flex items-center gap-2">
-                    <label for="pageSize" class="mr-2">Page Size:</label>
+                    <label for="pageSize" class="mr-2">{{ t('components.table.pageSize') }}:</label>
                     <div class="relative">
                         <select
                             id="pageSize"
@@ -180,21 +184,21 @@ const table = useVueTable({
                     @click="table.setPageIndex(0)"
                     :disabled="!table.getCanPreviousPage()"
                 >
-                    <ArrowBigLeftDash /> First
+                    <ArrowBigLeftDash /> {{ t('components.table.first') }}
                 </button>
                 <button
                     class="flex items-center px-4 py-2 text-sm font-medium bg-gray-800/50 text-gray-400 rounded-lg hover:bg-gray-700/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     :disabled="!table.getCanPreviousPage()"
                     @click="table.previousPage()"
                 >
-                    <ArrowBigLeft /> Prev
+                    <ArrowBigLeft /> {{ t('components.table.previous') }}
                 </button>
                 <button
                     class="flex items-center px-4 py-2 text-sm font-medium bg-gray-800/50 text-gray-400 rounded-lg hover:bg-gray-700/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     :disabled="!table.getCanNextPage()"
                     @click="table.nextPage()"
                 >
-                    Next
+                    {{ t('components.table.next') }}
                     <ArrowBigRight />
                 </button>
                 <button
@@ -202,7 +206,7 @@ const table = useVueTable({
                     @click="table.setPageIndex(table.getPageCount() - 1)"
                     :disabled="!table.getCanNextPage()"
                 >
-                    Last
+                    {{ t('components.table.last') }}
                     <ArrowBigRightDash />
                 </button>
             </div>

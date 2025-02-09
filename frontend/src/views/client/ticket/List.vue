@@ -202,7 +202,7 @@ function createNewTicket() {
                 <div v-else-if="tickets.length === 0" class="text-center py-12 bg-gray-800 rounded-lg" key="empty">
                     <Ticket class="w-16 h-16 text-gray-600 mx-auto mb-4" />
                     <p class="text-xl font-semibold text-gray-300">{{ t('tickets.pages.tickets.noTickets') }}</p>
-                    <p class="text-gray-400 mt-2">{{ t('tickets.pages.tickets.createNewTicket') }}</p>
+                    <p class="text-gray-400 mt-2">{{ t('tickets.pages.tickets.noTickets') }}</p>
                     <button
                         @click="createNewTicket"
                         class="mt-4 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm font-medium transition-colors"

@@ -105,7 +105,7 @@ watch(filteredOptions, () => {
         <div v-if="isDropdownOpen" class="absolute z-10 w-full bg-gray-800 border border-gray-700 rounded-lg mt-1">
             <TextInput
                 v-model="searchQuery"
-                placeholder="Search..."
+                :placeholder="$t('components.search.placeholder')"
                 class="mb-2"
                 ref="searchInputRef"
                 @keydown="handleKeydown"

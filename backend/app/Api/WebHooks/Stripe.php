@@ -89,7 +89,7 @@ $router->add('/api/stripe/process', function (): void {
                         [
                             'quantity' => 1,
                             'price_data' => [
-                                'currency' => 'EUR',
+                                'currency' => $appInstance->getConfig()->getSetting(ConfigInterface::CURRENCY, 'EUR'),
                                 'unit_amount' => $coins * 100,
                                 'product_data' => [
                                     'name' => 'Account Topup',

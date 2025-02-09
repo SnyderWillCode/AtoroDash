@@ -64,7 +64,7 @@ class Session {
                     success: false,
                     error_code: 'SERVER_ERROR',
                     user_info: {},
-                    billing: {}
+                    billing: {},
                 });
             }
             throw error;

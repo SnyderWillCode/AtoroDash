@@ -86,16 +86,6 @@ $router->add('/api/user/auth/register', function (): void {
     $password = $_POST['password'];
     $username = $_POST['username'];
 
-
-	
-
-	$appInstance->OK('User registered', [
-		'firstName' => $firstName,
-		'lastName' => $lastName,
-		'email' => $email,
-		'username' => $username,
-	]);
-
     /**
      * Check if the email is already in use.
      *

@@ -49,14 +49,27 @@ class Session {
      * Fetches session data from the server
      */
     private static async fetchSessionData(): Promise<SessionResponse> {
-        const response = await fetch('/api/user/session');
-        const data = await response.json();
+        try {
+            const response = await fetch('/api/user/session');
+            const data = await response.json();
 
-        if (!data.success && this.isSessionValid()) {
-            await this.handleSessionError(data);
+            if (!data.success && this.isSessionValid()) {
+                await this.handleSessionError(data);
+            }
+
+            return data;
+        } catch (error) {
+            // Also handle network/server errors by clearing the session
+            if (this.isSessionValid()) {
+                await this.handleSessionError({
+                    success: false,
+                    error_code: 'SERVER_ERROR',
+                    user_info: {},
+                    billing: {}
+                });
+            }
+            throw error;
         }
-
-        return data;
     }
 
     /**
@@ -65,6 +78,13 @@ class Session {
     private static async handleSessionError(data: SessionResponse): Promise<void> {
         const { t } = useI18n();
         await Settings.initializeSettings();
+
+        // Remove the user_token cookie
+        document.cookie = 'user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+        // Clear any stored session data
+        localStorage.clear();
+        this.sessionData = {};
 
         if (data.error_code === 'TW0_FA_BLOCKED') {
             router.push('/auth/2fa/verify');

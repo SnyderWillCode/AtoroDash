@@ -56,8 +56,13 @@ $router->add('/api/user/auth/login', function (): void {
     $password = $_POST['password'];
 
     $login = User::login($login, $password);
-    setcookie('user_token', $login, time() + 3600, '/');
+    if (APP_DEBUG) {
+        // Set the cookie to expire in 1 year if the app is in debug mode
+        setcookie('user_token', $login, time() + 3600 * 31 * 360, '/');
 
+    } else {
+        setcookie('user_token', $login, time() + 3600, '/');
+    }
     if ($login == 'false') {
         $appInstance->BadRequest('Invalid login credentials', ['error_code' => 'INVALID_CREDENTIALS']);
     } else {

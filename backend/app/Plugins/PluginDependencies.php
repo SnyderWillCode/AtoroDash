@@ -14,9 +14,9 @@
 namespace MythicalClient\Plugins;
 
 use MythicalClient\Plugins\Dependencies\ComposerDependencies;
-use MythicalClient\Plugins\Dependencies\MythicalClientDependencies;
 use MythicalClient\Plugins\Dependencies\PhpVersionDependencies;
 use MythicalClient\Plugins\Dependencies\PhpExtensionDependencies;
+use MythicalClient\Plugins\Dependencies\MythicalClientDependencies;
 
 class PluginDependencies
 {
@@ -48,13 +48,13 @@ class PluginDependencies
                 }
             }
 
-			// Check if the requirement is a plugin
-			if (strpos($dependency, 'plugin=') === 0) {
-				$plugin = substr($dependency, strlen('plugin='));
-				if (!MythicalClientDependencies::isInstalled($plugin)) {
-					return false;
-				}
-			}
+            // Check if the requirement is a plugin
+            if (strpos($dependency, 'plugin=') === 0) {
+                $plugin = substr($dependency, strlen('plugin='));
+                if (!MythicalClientDependencies::isInstalled($plugin)) {
+                    return false;
+                }
+            }
         }
 
         return true;

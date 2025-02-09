@@ -13,6 +13,5 @@ INSERT INTO
     `mythicalclient_addons_types` (`name`)
 VALUES
     ('event'),
-    ('gateway'),
     ('provider'),
     ('components');

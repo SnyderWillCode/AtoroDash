@@ -4,22 +4,22 @@
         <div class="space-y-2 text-sm">
             <div class="flex justify-between">
                 <span class="text-purple-200">Current Balance:</span>
-                <span class="text-white font-medium">{{ Session.getInfo('credits')  }} EUR</span>
+                <span class="text-white font-medium">{{ Session.getInfo('credits') ?? 0 }} EUR</span>
             </div>
             <div class="flex justify-between">
-                <span class="text-purple-200">Next Invoice:</span>
-                <span class="text-white font-medium">$120.00</span>
+                <span class="text-purple-200">Next Payment:</span>
+                <span class="text-white font-medium">NaN</span>
             </div>
             <div class="flex justify-between">
                 <span class="text-purple-200">Due Date:</span>
-                <span class="text-white font-medium">15 Jul 2023</span>
+                <span class="text-white font-medium">NaN</span>
             </div>
         </div>
         <RouterLink
-            to="/billing"
+            to="/addfunds"
             class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-center text-sm"
         >
-            View Invoices
+            Add Funds
         </RouterLink>
     </CardComponent>
 </template>

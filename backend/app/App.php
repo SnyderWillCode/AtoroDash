@@ -22,6 +22,7 @@ use MythicalClient\Hooks\MythicalAPP;
 use RateLimit\Exception\LimitExceeded;
 use MythicalClient\Config\ConfigFactory;
 use MythicalClient\Logger\LoggerFactory;
+use MythicalClient\Hooks\LicenseValidator;
 use MythicalClient\CloudFlare\CloudFlareRealIP;
 
 class App extends MythicalAPP
@@ -54,6 +55,9 @@ class App extends MythicalAPP
         if ($softBoot) {
             return;
         }
+        /**
+         * Sentry.
+         */
         \Sentry\init([
             'dsn' => 'https://0e107fab7de1d5810a80fc591cb91a45@o4508434822791168.ingest.de.sentry.io/4508675813736528',
             // Specify a fixed sample rate
@@ -61,6 +65,21 @@ class App extends MythicalAPP
             // Set a sampling rate for profiling - this is relative to traces_sample_rate
             'profiles_sample_rate' => 1.0,
         ]);
+        try {
+            /**
+             * License validator.
+             */
+            $licenseValidator = new LicenseValidator($_ENV['LICENSE_KEY']);
+            if (!$licenseValidator->validate()) {
+                $this->getLogger()->warning('License is not valid! Consider buying a license to support the development of MythicalClient!');
+                define('HAS_VALID_LICENSE', false);
+            } else {
+                $this->getLogger()->debug('License is valid! Thank you for supporting the development of MythicalClient!');
+                define('HAS_VALID_LICENSE', true);
+            }
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('License validator error: ' . $e->getMessage());
+        }
         /**
          * Redis.
          */

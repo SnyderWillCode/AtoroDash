@@ -573,3 +573,33 @@ invoices:
                 actions: 'Actions'
             actions:
                 view: 'View'
+billing:
+    pages:
+        add_funds:
+            title: Add Funds
+            back: Back
+            form:
+                title: Add Funds to Your Account
+                description: Select your preferred payment method and enter the amount you wish to add to your account.
+                amount:
+                    label: Amount
+                    placeholder: Enter amount
+                payment_method:
+                    label: Payment Method
+                submit: Add Funds
+                processing: Processing...
+            summary:
+                title: Account Summary
+                current_balance: Current Balance
+                info: Funds will be added to your account immediately after successful payment processing. These funds can be used for any services or products within our platform.
+            alerts:
+                error:
+                    title: Error
+                    missing_fields: Please fill in all required fields.
+                    invalid_amount: Please enter a valid amount greater than 0.
+                    payment_failed: Payment processing failed. Please try again.
+                    footer: Please contact support for assistance.
+                    no_gateway: No payment gateway found.
+                success:
+                    title: Success
+                    payment_processed: Payment processed successfully. Your funds have been added to your account.

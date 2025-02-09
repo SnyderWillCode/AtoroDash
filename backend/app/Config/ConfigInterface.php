@@ -47,4 +47,23 @@ interface ConfigInterface
     public const COMPANY_ZIP = 'company_zip';
     public const COMPANY_COUNTRY = 'company_country';
     public const COMPANY_VAT = 'company_vat';
+
+    /**
+     * Gateway Configs.
+     */
+    public const ENABLE_STRIPE = 'enable_stripe';
+    public const ENABLE_PAYPAL = 'enable_paypal';
+
+    /**
+     * Paypal Configs.
+     */
+    public const PAYPAL_CLIENT_ID = 'paypal_email';
+    public const PAYPAL_IS_SANDBOX = 'paypal_is_sandbox';
+
+    /**
+     * Stripe Configs.
+     */
+    public const STRIPE_SECRET_KEY = 'stripe_secret_key';
+    public const STRIPE_PUBLISHABLE_KEY = 'stripe_publishable_key';
+    public const STRIPE_WEBHOOK_ID = 'stripe_webhook_id';
 }

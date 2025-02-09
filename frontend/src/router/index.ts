@@ -52,6 +52,11 @@ const routes = [
         component: () => import('@/views/client/services/[name].vue'),
     },
     {
+        path: '/addfunds',
+        name: 'Add Funds',
+        component: () => import('@/views/client/AddFunds.vue'),
+    },
+    {
         path: '/ticket',
         name: 'Ticket',
         component: () => import('@/views/client/ticket/List.vue'),

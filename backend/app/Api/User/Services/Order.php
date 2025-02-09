@@ -93,16 +93,16 @@ $router->post('/api/user/services/(.*)/(.*)/order', function ($category, $servic
                     return;
                 }
                 $appInstance->OK('Order created', [
-					'metadata' => [
-					'order' => $order,
-					'invoice' => $invoice,
-					'service' => $service,
-					'requirements' => $requirements,
-					'config' => $ordersConfig,
-					'providerName' => $provider,
-					]
-				]);
-				
+                    'metadata' => [
+                        'order' => $order,
+                        'invoice' => $invoice,
+                        'service' => $service,
+                        'requirements' => $requirements,
+                        'config' => $ordersConfig,
+                        'providerName' => $provider,
+                    ],
+                ]);
+
             } else {
                 $appInstance->InternalServerError('Order processing error', [
                     'error' => 'ERR_INTERNAL_SERVER_ERROR',

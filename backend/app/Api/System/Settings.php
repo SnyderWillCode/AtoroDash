@@ -40,6 +40,15 @@ $router->add('/api/system/settings', function (): void {
         ConfigInterface::COMPANY_ZIP => $config->getSetting(ConfigInterface::COMPANY_ZIP, '12345'),
         ConfigInterface::COMPANY_COUNTRY => $config->getSetting(ConfigInterface::COMPANY_COUNTRY, 'MythicalCountry'),
         ConfigInterface::COMPANY_VAT => $config->getSetting(ConfigInterface::COMPANY_VAT, '1234567890'),
+
+        ConfigInterface::ENABLE_PAYPAL => $config->getSetting(ConfigInterface::ENABLE_PAYPAL, 'false'),
+        ConfigInterface::ENABLE_STRIPE => $config->getSetting(ConfigInterface::ENABLE_STRIPE, 'false'),
+
+        ConfigInterface::PAYPAL_CLIENT_ID => $config->getSetting(ConfigInterface::PAYPAL_CLIENT_ID, ''),
+        ConfigInterface::PAYPAL_IS_SANDBOX => $config->getSetting(ConfigInterface::PAYPAL_IS_SANDBOX, 'false'),
+
+        ConfigInterface::STRIPE_PUBLISHABLE_KEY => $config->getSetting(ConfigInterface::STRIPE_PUBLISHABLE_KEY, ''),
+        ConfigInterface::STRIPE_WEBHOOK_ID => $config->getSetting(ConfigInterface::STRIPE_WEBHOOK_ID, ''),
     ];
 
     App::OK('Sure here are the settings you were looking for', ['settings' => $settings]);

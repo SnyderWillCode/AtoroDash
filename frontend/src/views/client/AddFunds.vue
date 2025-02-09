@@ -27,32 +27,31 @@ const form = reactive({
     payment_method: '',
 });
 
-const paymentMethods = ref<{value: string, label: string}[]>([]);
+const paymentMethods = ref<{ value: string; label: string }[]>([]);
 
 if (Settings.getSetting('enable_stripe') === 'true') {
     paymentMethods.value.push({
         value: 'stripe',
-        label: 'Stripe'
+        label: 'Stripe',
     });
 }
 
 if (Settings.getSetting('enable_paypal') === 'true') {
     paymentMethods.value.push({
         value: 'paypal',
-        label: 'PayPal'
+        label: 'PayPal',
     });
 }
 
 if (paymentMethods.value.length === 0) {
     Swal.fire({
-		icon: 'error',
-		title: t('billing.pages.add_funds.alerts.error.title'),
-		text: t('billing.pages.add_funds.alerts.error.no_gateway'),
-		showConfirmButton: true,
-	});
+        icon: 'error',
+        title: t('billing.pages.add_funds.alerts.error.title'),
+        text: t('billing.pages.add_funds.alerts.error.no_gateway'),
+        showConfirmButton: true,
+    });
     router.push('/');
 }
-
 
 const handleSubmit = async () => {
     if (!form.amount || !form.payment_method) {
@@ -80,11 +79,11 @@ const handleSubmit = async () => {
 
     try {
         loading.value = true;
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         if (form.payment_method === 'stripe') {
-            location.href = `/api/stripe/process?coins=`+amount;
+            location.href = `/api/stripe/process?coins=` + amount;
         } else if (form.payment_method === 'paypal') {
-            location.href = `/api/paypal/process?coins=`+amount;
+            location.href = `/api/paypal/process?coins=` + amount;
         }
     } catch (error) {
         playError();
@@ -143,18 +142,18 @@ const handleSubmit = async () => {
                                 <label class="block text-sm font-medium text-gray-300 mb-2">
                                     {{ t('billing.pages.add_funds.form.payment_method.label') }}
                                 </label>
-                                <SelectInput
-                                    v-model="form.payment_method"
-                                    :options="paymentMethods"
-                                    required
-                                />
+                                <SelectInput v-model="form.payment_method" :options="paymentMethods" required />
                             </div>
 
                             <Button type="submit" variant="primary" class="w-full" :loading="loading">
                                 <template #icon>
                                     <CreditCard class="w-4 h-4" />
                                 </template>
-                                {{ loading ? t('billing.pages.add_funds.form.processing') : t('billing.pages.add_funds.form.submit') }}
+                                {{
+                                    loading
+                                        ? t('billing.pages.add_funds.form.processing')
+                                        : t('billing.pages.add_funds.form.submit')
+                                }}
                             </Button>
                         </form>
                     </CardComponent>
@@ -165,7 +164,9 @@ const handleSubmit = async () => {
                     <CardComponent :cardTitle="t('billing.pages.add_funds.summary.title')">
                         <div class="space-y-4">
                             <div class="flex justify-between items-center p-4 bg-gray-800/50 rounded-lg">
-                                <span class="text-gray-300">{{ t('billing.pages.add_funds.summary.current_balance') }}</span>
+                                <span class="text-gray-300">{{
+                                    t('billing.pages.add_funds.summary.current_balance')
+                                }}</span>
                                 <span class="text-white font-medium">{{ Session.getInfo('credits') ?? 0 }} EUR</span>
                             </div>
 

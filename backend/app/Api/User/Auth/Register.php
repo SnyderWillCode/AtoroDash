@@ -38,14 +38,33 @@ $router->add('/api/user/auth/register', function (): void {
     if (!isset($_POST['email']) || $_POST['email'] == '') {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_EMAIL']);
     }
-
     if (!isset($_POST['password']) || $_POST['password'] == '') {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_PASSWORD']);
     }
-
     if (!isset($_POST['username']) || $_POST['username'] == '') {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_USERNAME']);
     }
+
+    // Add validation for first name (only letters)
+    if (!preg_match('/^[a-zA-Z]+$/', $_POST['firstName'])) {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_FIRST_NAME']);
+    }
+
+    // Add validation for last name (only letters)
+    if (!preg_match('/^[a-zA-Z]+$/', $_POST['lastName'])) {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_LAST_NAME']);
+    }
+
+    // Add validation for username (alphanumeric, no spaces or special chars)
+    if (!preg_match('/^[a-zA-Z0-9]+$/', $_POST['username'])) {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USERNAME']);
+    }
+
+    // Add validation for email
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_EMAIL']);
+    }
+
     /**
      * Process the turnstile response.
      *

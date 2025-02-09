@@ -44,8 +44,9 @@ class User extends Database
     public static function register(string $username, string $password, string $email, string $first_name, string $last_name, string $ip): void
     {
         try {
-            $first_name = App::getInstance(true)->encrypt($first_name);
-            $last_name = App::getInstance(true)->encrypt($last_name);
+			$appInstance = App::getInstance(true);
+            $first_name = $appInstance->encrypt($first_name);
+            $last_name = $appInstance->encrypt($last_name);
 
             /**
              * The UUID generation and logic.
@@ -107,10 +108,14 @@ class User extends Database
             if (Mail::isEnabled()) {
                 try {
                     $verify_token = App::getInstance(true)->generateCode();
+					$appInstance->getLogger()->debug('Verify token: ' . $verify_token);
                     Verification::add($verify_token, $uuid, EmailVerificationColumns::$type_verify);
+					$appInstance->getLogger()->debug('Verification added');
                     Verify::sendMail($uuid, $verify_token);
+					$appInstance->getLogger()->debug('Email sent');
                 } catch (\Exception $e) {
                     App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
+					$appInstance->getLogger()->debug('Failed to send email');
                     self::updateInfo($token, UserColumns::VERIFIED, 'false', false);
                 }
             } else {

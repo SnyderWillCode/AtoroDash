@@ -37,8 +37,8 @@ const handleSubmit = async () => {
         const response = await Auth.register(
             form.firstName,
             form.lastName,
-            form.username,
             form.email,
+            form.username,
             form.password,
             form.turnstileResponse,
         );

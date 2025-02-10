@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import {
     AlertTriangleIcon,
+    BellIcon,
     ChevronDown as ChevronDownIcon,
     CopyPlusIcon,
     FileTextIcon,
@@ -128,6 +129,12 @@ const menuSections = ref([
     {
         title: Translation.getTranslation('components.sidebar.support'),
         items: [
+            {
+                name: Translation.getTranslation('components.sidebar.announcements'),
+                icon: BellIcon,
+                href: '/announcements',
+                active: isActiveRoute(['/announcements']),
+            },
             {
                 name: Translation.getTranslation('components.sidebar.knowledge'),
                 icon: GlobeIcon,

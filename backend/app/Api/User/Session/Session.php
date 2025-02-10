@@ -12,6 +12,7 @@
  */
 
 use MythicalClient\App;
+use MythicalClient\Chat\Database;
 use MythicalClient\Chat\User\User;
 use MythicalClient\Chat\User\Roles;
 use MythicalClient\Chat\User\Billing;
@@ -145,6 +146,15 @@ $router->get('/api/user/session', function (): void {
     $accountToken = $session->SESSION_KEY;
     try {
         $billing = Billing::getBillingData(User::getInfo($accountToken, UserColumns::UUID, false));
+        $stats_invoices_pending = Database::getTableColumnCount('mythicalclient_invoices', [
+            'user' => User::getInfo($accountToken, UserColumns::UUID, false),
+            'status' => 'pending',
+        ]);
+        $stats_tickets = Database::getTableColumnCount('mythicalclient_tickets', [
+            'user' => User::getInfo($accountToken, UserColumns::UUID, false),
+            'status' => 'open',
+        ]);
+        $stats_services = 0;
         $columns = [
             UserColumns::USERNAME,
             UserColumns::EMAIL,
@@ -179,6 +189,11 @@ $router->get('/api/user/session', function (): void {
         $appInstance->OK('Account token is valid', [
             'user_info' => $info,
             'billing' => $billing,
+            'stats' => [
+                'invoices_pending' => $stats_invoices_pending,
+                'tickets' => $stats_tickets,
+                'services' => $stats_services,
+            ],
         ]);
 
     } catch (Exception $e) {

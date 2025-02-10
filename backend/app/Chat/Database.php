@@ -69,11 +69,57 @@ class Database
     public static function getTableRowCount(string $table): int
     {
         try {
-            $query = self::getPdoConnection()->query('SELECT COUNT(*) FROM ' . $table);
+            $query = self::getPdoConnection()->query('SELECT COUNT(*) FROM ' . $table . ' WHERE deleted = "false"');
 
             return (int) $query->fetchColumn();
         } catch (\Exception $e) {
             self::db_Error('Failed to get table row count: ' . $e->getMessage());
+
+            return 0;
+        }
+    }
+
+    /**
+     * Get the table column count.
+     *
+     * @param string $table the table name
+     * @param array $where the where conditions
+     * @param bool $includeDeleted whether to include deleted records
+     *
+     * @return int the number of rows in the table
+     */
+    public static function getTableColumnCount(string $table, array $where = [], bool $includeDeleted = false): int
+    {
+        try {
+            $conditions = [];
+            $params = [];
+
+            // Add non-deleted condition by default unless includeDeleted is true
+            if (!$includeDeleted) {
+                $conditions[] = "deleted = 'false'";
+            }
+
+            // Process where conditions
+            foreach ($where as $key => $value) {
+                if (is_array($value)) {
+                    // Handle special operators like >, <, >=, <=, !=
+                    $conditions[] = "{$value[0]} {$value[1]} ?";
+                    $params[] = $value[2];
+                } else {
+                    // Standard equals condition
+                    $conditions[] = "$key = ?";
+                    $params[] = $value;
+                }
+            }
+
+            $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
+
+            $query = self::getPdoConnection()->prepare('SELECT COUNT(*) FROM ' . $table . ' ' . $whereClause);
+            $query->execute($params);
+
+            return (int) $query->fetchColumn();
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get table column count: ' . $e->getMessage());
 
             return 0;
         }

@@ -17,14 +17,6 @@ const { t } = useI18n();
                     >{{ Session.getInfo('credits') ?? 0 }} {{ Settings.getSetting('currency') }}</span
                 >
             </div>
-            <div class="flex justify-between">
-                <span class="text-purple-200">{{ t('components.dashboard.billing.next_payment') }}:</span>
-                <span class="text-white font-medium">NaN</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-purple-200">{{ t('components.dashboard.billing.due_date') }}:</span>
-                <span class="text-white font-medium">NaN</span>
-            </div>
         </div>
         <RouterLink
             to="/addfunds"

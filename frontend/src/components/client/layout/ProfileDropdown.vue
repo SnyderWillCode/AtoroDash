@@ -87,17 +87,16 @@ interface Props {
         avatar: string;
     };
     stats: {
-        tickets: number;
-        services: number;
-        invoices: number;
+        tickets: string;
+        services: string;
+        invoices: string;
     };
 }
-
 withDefaults(defineProps<Props>(), {
     stats: () => ({
-        tickets: 0,
-        services: 0,
-        invoices: 0,
+        tickets: '0',
+        services: '0',
+        invoices: '0',
     }),
 });
 

@@ -19,8 +19,6 @@
                     <ProductList />
                     <!-- Recent Tickets -->
                     <TicketList />
-                    <!-- Announcements -->
-                    <InvoiceList />
                 </div>
             </div>
             <Announcements />

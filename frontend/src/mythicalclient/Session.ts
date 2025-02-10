@@ -7,6 +7,7 @@ interface SessionResponse {
     error_code?: string;
     user_info: Record<string, unknown>;
     billing: Record<string, unknown>;
+    stats: Record<string, unknown>;
 }
 
 class Session {
@@ -65,6 +66,7 @@ class Session {
                     error_code: 'SERVER_ERROR',
                     user_info: {},
                     billing: {},
+                    stats: {},
                 });
             }
             throw error;
@@ -101,13 +103,14 @@ class Session {
      * Updates session information in memory and localStorage
      */
     private static updateSessionStorage(data: SessionResponse): void {
-        const { user_info, billing } = data;
+        const { user_info, billing, stats } = data;
 
         // Update memory cache
         this.sessionData = {
             ...this.sessionData,
             ...user_info,
             ...billing,
+            ...stats,
         };
 
         // Update localStorage
@@ -115,6 +118,9 @@ class Session {
             localStorage.setItem(key, JSON.stringify(value));
         });
         Object.entries(billing).forEach(([key, value]) => {
+            localStorage.setItem(key, JSON.stringify(value));
+        });
+        Object.entries(stats).forEach(([key, value]) => {
             localStorage.setItem(key, JSON.stringify(value));
         });
     }

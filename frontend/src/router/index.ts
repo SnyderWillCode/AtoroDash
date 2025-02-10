@@ -47,6 +47,11 @@ const routes = [
         component: () => import('@/views/client/Account.vue'),
     },
     {
+        path: '/announcements',
+        name: 'Announcements',
+        component: () => import('@/views/client/Announcements.vue'),
+    },
+    {
         path: '/services/:name',
         name: 'Service Detail',
         component: () => import('@/views/client/services/[name].vue'),

@@ -222,9 +222,9 @@ onMounted(async () => {
                     :isOpen="isProfileOpen"
                     :profileMenu="profileMenu"
                     :stats="{
-                        tickets: 0,
-                        services: 0,
-                        invoices: 0,
+                        tickets: Session.getInfo('tickets'),
+                        services: Session.getInfo('services'),
+                        invoices: Session.getInfo('invoices_pending'),
                     }"
                     :userInfo="{
                         firstName: userInfo.firstName || '',

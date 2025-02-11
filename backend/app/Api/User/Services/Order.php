@@ -50,25 +50,18 @@ $router->post('/api/user/services/(.*)/(.*)/order', function ($category, $servic
     if (in_array($provider, $providers)) {
         $requirements = PluginProviderHelper::getOrderRequirements($provider);
 
-        // Validate that all required fields are present
-        foreach ($requirements as $field => $requirement) {
-            $requestData = json_decode(file_get_contents('php://input'), true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $appInstance->BadRequest('Invalid JSON in request body', [
-                    'error' => 'ERR_INVALID_JSON',
-                ]);
+        // Required fields for an order
+        $requiredFields = ['server_description', /* other required fields */];
 
-                return;
+        // Validate required fields
+        foreach ($requiredFields as $field) {
+            if (!isset($requestData[$field]) || empty($requestData[$field])) {
+                throw new \Exception("Missing required field: {$field}");
             }
-            if ($requirement['required'] && (!isset($requestData[$field]) || empty($requestData[$field]))) {
-                $appInstance->BadRequest('Missing required field', [
-                    'error' => 'ERR_MISSING_REQUIRED_FIELD',
-                    'field' => $field,
-                ]);
-
-                return;
-            }
-            $ordersConfig[$field] = $requestData[$field];
+        }
+        // Process the order
+        foreach ($requirements as $field) {
+            $ordersConfig[$field] = $requestData[$field] ?? ''; // Use null coalescing operator
         }
 
         try {

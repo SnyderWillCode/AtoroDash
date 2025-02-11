@@ -21,14 +21,12 @@
                     <TicketList />
                 </div>
             </div>
-            <Announcements />
         </div>
     </LayoutDashboard>
 </template>
 
 <script setup lang="ts">
 import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
-import Announcements from '@/components/client/Dashboard/Main/Announcements.vue';
 import SupportPin from '@/components/client/Dashboard/Main/SupportPin.vue';
 import ProductList from '@/components/client/Dashboard/Main/ProductList.vue';
 import Stats from '@/components/client/Dashboard/Main/Stats.vue';

@@ -12,7 +12,7 @@ defineProps({
 defineEmits(['submit']);
 </script>
 <template>
-    <div class="w-full max-w-md bg-[#12121f]/90 backdrop-blur-sm rounded-lg shadow-xl p-8">
+    <div class="w-full max-w-md bg-[#12121f]/90 backdrop-blur-xs rounded-lg shadow-xl p-8">
         <!-- Logo and Title -->
         <div class="flex items-center gap-3 mb-6">
             <img :src="Settings.getSetting('app_logo')" alt="Logo" class="w-8 h-8" />

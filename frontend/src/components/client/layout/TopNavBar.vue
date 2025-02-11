@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-900/50 backdrop-blur-sm border-b border-gray-700/50 z-30">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-900/50 backdrop-blur-xs border-b border-gray-700/50 z-30">
         <div class="h-full px-4 flex items-center justify-between">
             <!-- Left: Logo & Menu Button -->
             <div class="flex items-center gap-3">
@@ -13,7 +13,7 @@
                         <img :src="appLogo" alt="MythicalClient" class="h-6 w-6" />
                     </div>
                     <span
-                        class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
+                        class="text-xl font-bold bg-linear-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
                     >
                         {{ appName }}
                     </span>
@@ -27,7 +27,7 @@
                     <input
                         type="text"
                         :placeholder="t('components.search.placeholder')"
-                        class="px-10 py-2 w-64 bg-gray-800/50 border border-gray-700/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                        class="px-10 py-2 w-64 bg-gray-800/50 border border-gray-700/50 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-purple-500/50"
                         @click="$emit('toggle-search')"
                         readonly
                     />

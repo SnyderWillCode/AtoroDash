@@ -155,7 +155,7 @@ loadOrderDetails();
                                             v-model="formData[field]"
                                             :id="field"
                                             :required="requirement.required"
-                                            class="block w-full px-3 py-2 bg-gray-800/50 border border-gray-800/50 rounded-lg text-gray-300 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                                            class="block w-full px-3 py-2 bg-gray-800/50 border border-gray-800/50 rounded-lg text-gray-300 focus:outline-hidden focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                                         >
                                             <option value="" disabled selected>Select an option</option>
                                             <option

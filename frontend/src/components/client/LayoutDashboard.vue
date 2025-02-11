@@ -166,7 +166,7 @@ onMounted(async () => {
 <template>
     <div class="min-h-screen bg-[#0a0a1f] relative overflow-hidden">
         <!-- Background elements -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a1f] via-[#1a0b2e] to-[#0a0a1f]">
+        <div class="absolute inset-0 bg-linear-to-b from-[#0a0a1f] via-[#1a0b2e] to-[#0a0a1f]">
             <div class="stars"></div>
             <div class="mountains"></div>
         </div>
@@ -179,7 +179,7 @@ onMounted(async () => {
                 <!-- Backdrop for mobile sidebar -->
                 <div
                     v-if="isSidebarOpen"
-                    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+                    class="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 lg:hidden"
                     @click="closeSidebar"
                 ></div>
 
@@ -189,7 +189,7 @@ onMounted(async () => {
                     @toggle-search="toggleSearch"
                     @toggle-notifications="toggleNotifications"
                     @toggle-profile="toggleProfile"
-                    class="bg-[#0a0a1f]/80 backdrop-blur-sm border-b border-purple-900/50"
+                    class="bg-[#0a0a1f]/80 backdrop-blur-xs border-b border-purple-900/50"
                 />
 
                 <!-- Sidebar with updated styling -->

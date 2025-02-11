@@ -2,7 +2,7 @@
     <Transition name="dropdown">
         <div
             v-if="isOpen"
-            class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-2xl z-50"
+            class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-xs border border-gray-700/50 rounded-xl shadow-2xl z-50"
             @click.stop
         >
             <!-- User Profile Section -->
@@ -10,7 +10,7 @@
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <div
-                            class="h-12 w-12 rounded-full bg-gradient-to-tr from-purple-500/20 to-blue-500/20 flex items-center justify-center ring-2 ring-purple-500/20"
+                            class="h-12 w-12 rounded-full bg-linear-to-tr from-purple-500/20 to-blue-500/20 flex items-center justify-center ring-2 ring-purple-500/20"
                         >
                             <img :src="userInfo.avatar" alt="User Avatar" class="h-full w-full rounded-full" />
                         </div>

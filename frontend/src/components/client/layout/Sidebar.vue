@@ -181,7 +181,7 @@ const toggleSubitems = (item: MenuItem) => {
 </script>
 <template>
     <aside
-        class="fixed top-0 left-0 h-full w-64 bg-gray-900/50 backdrop-blur-sm border-r border-gray-700/50 transform transition-transform duration-200 ease-in-out z-50 lg:translate-x-0 lg:z-20"
+        class="fixed top-0 left-0 h-full w-64 bg-gray-900/50 backdrop-blur-xs border-r border-gray-700/50 transform transition-transform duration-200 ease-in-out z-50 lg:translate-x-0 lg:z-20"
         :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
         <!-- Sidebar Content -->
@@ -270,7 +270,7 @@ const toggleSubitems = (item: MenuItem) => {
                                                                     <!-- Tooltip for category headline -->
                                                                     <div
                                                                         v-if="category.tooltip"
-                                                                        class="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none"
+                                                                        class="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-xs rounded-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none"
                                                                     >
                                                                         {{ category.tooltip }}
                                                                     </div>

@@ -24,13 +24,13 @@ import { BookMarkedIcon as MarketIcon } from 'lucide-vue-next';
             <div class="flex gap-2 w-full">
                 <RouterLink
                     to="/account"
-                    class="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-sm"
+                    class="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-sm transition-colors text-sm"
                 >
                     {{ $t('components.profile.update') }}
                 </RouterLink>
                 <a
                     href="/auth/logout"
-                    class="flex-1 px-4 py-2 bg-purple-800 hover:bg-purple-700 text-white rounded transition-colors text-sm"
+                    class="flex-1 px-4 py-2 bg-purple-800 hover:bg-purple-700 text-white rounded-sm transition-colors text-sm"
                 >
                     {{ $t('components.profile.logout') }}
                 </a>

@@ -4,7 +4,7 @@
         <!-- Mobile Menu Button -->
         <button
             @click="isSidebarOpen = !isSidebarOpen"
-            class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800/50 rounded-full backdrop-blur-sm"
+            class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800/50 rounded-full backdrop-blur-xs"
         >
             <Menu v-if="!isSidebarOpen" class="w-6 h-6 text-pink-400" />
             <X v-else class="w-6 h-6 text-pink-400" />
@@ -19,9 +19,7 @@
             ]"
         >
             <div class="p-6">
-                <h1
-                    class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent"
-                >
+                <h1 class="text-2xl font-bold bg-linear-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
                     <span class="block text-lg">{{ Settings.getSetting('debug_name') }}</span>
                     <span class="block text-sm text-gray-400">{{ Settings.getSetting('debug_version') }}</span>
                 </h1>
@@ -99,7 +97,7 @@
                         v-model="searchQuery"
                         type="search"
                         placeholder="Search..."
-                        class="w-full bg-gray-700/50 text-gray-100 placeholder-gray-400 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        class="w-full bg-gray-700/50 text-gray-100 placeholder-gray-400 rounded-full py-2 pl-10 pr-4 focus:outline-hidden focus:ring-2 focus:ring-pink-500"
                         @focus="isSearchFocused = true"
                         @blur="handleSearchBlur"
                     />
@@ -125,7 +123,7 @@
                 <div class="relative ml-4">
                     <button
                         @click="isProfileOpen = !isProfileOpen"
-                        class="flex items-center space-x-2 focus:outline-none"
+                        class="flex items-center space-x-2 focus:outline-hidden"
                     >
                         <img :src="Session.getInfo('avatar')" alt="User Avatar" class="w-8 h-8 rounded-full" />
                         <ChevronDown class="w-4 h-4 text-gray-400" :class="{ 'rotate-180': isProfileOpen }" />
@@ -147,7 +145,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-grow p-6 overflow-y-auto">
+            <main class="grow p-6 overflow-y-auto">
                 <div class="p-3">
                     <slot></slot>
                 </div>

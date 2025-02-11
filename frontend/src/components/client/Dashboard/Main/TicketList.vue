@@ -57,7 +57,7 @@ onMounted(fetchRecentTickets);
                 </div>
                 <span
                     :class="[
-                        'px-2 py-1 rounded text-xs font-medium',
+                        'px-2 py-1 rounded-sm text-xs font-medium',
                         ticket.status === t('Components.Tickets.status.Open')
                             ? 'bg-green-500/20 text-green-400'
                             : ticket.status === t('Components.Tickets.status.Closed')
@@ -77,7 +77,7 @@ onMounted(fetchRecentTickets);
         </div>
         <RouterLink
             to="/ticket"
-            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-center text-sm"
+            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-sm transition-colors text-center text-sm"
         >
             {{ t('Components.Tickets.viewMore') }}
         </RouterLink>

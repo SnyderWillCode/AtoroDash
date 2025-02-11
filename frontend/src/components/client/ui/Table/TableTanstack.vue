@@ -72,7 +72,7 @@ const table = useVueTable({
                     <div class="relative w-1/3">
                         <input
                             type="text"
-                            class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-4 pr-10 py-2 text-sm text-gray-100 placeholder-gray-500 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 focus:outline-none"
+                            class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-4 pr-10 py-2 text-sm text-gray-100 placeholder-gray-500 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 focus:outline-hidden"
                             :placeholder="t('components.table.search')"
                             v-model="filter"
                         />
@@ -146,7 +146,7 @@ const table = useVueTable({
                         <select
                             id="pageSize"
                             v-model="table.getState().pagination.pageSize"
-                            class="appearance-none px-4 py-2 text-sm font-medium bg-gray-800/50 text-gray-400 rounded-lg transition-colors focus:outline-none focus:ring-1 focus:ring-purple-500/50"
+                            class="appearance-none px-4 py-2 text-sm font-medium bg-gray-800/50 text-gray-400 rounded-lg transition-colors focus:outline-hidden focus:ring-1 focus:ring-purple-500/50"
                         >
                             <option
                                 v-for="size in [5, 10, 15, 20, 25, 50, 100]"

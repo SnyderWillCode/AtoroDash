@@ -30,7 +30,7 @@ const goHome = () => {
 </script>
 <template>
     <Layout>
-        <div class="w-full max-w-md bg-[#12121f]/90 backdrop-blur-sm rounded-lg shadow-xl p-8 text-center">
+        <div class="w-full max-w-md bg-[#12121f]/90 backdrop-blur-xs rounded-lg shadow-xl p-8 text-center">
             <div class="mb-6">
                 <component :is="icon" class="w-20 h-20 mx-auto text-purple-500" />
             </div>

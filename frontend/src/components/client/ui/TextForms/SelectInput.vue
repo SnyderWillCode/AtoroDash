@@ -11,7 +11,7 @@ const props = defineProps({
     inputClass: {
         type: String,
         default:
-            'w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-4 pr-10 py-2 text-sm text-gray-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 focus:outline-none',
+            'w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-4 pr-10 py-2 text-sm text-gray-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 focus:outline-hidden',
     },
 });
 

@@ -22,7 +22,7 @@
             >
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     <div v-for="future in futures" :key="future.id" class="flex items-start py-4 first:pt-0 last:pb-0">
-                        <CheckCircleIcon class="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                        <CheckCircleIcon class="h-5 w-5 text-green-500 mt-0.5 shrink-0" aria-hidden="true" />
                         <div class="ml-3">
                             <h3 class="text-lg font-medium">{{ future.name }}</h3>
                             <p class="mt-1 text-gray-600 dark:text-gray-300">

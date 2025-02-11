@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="isOpen"
-        class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown"
+        class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-xs border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown"
     >
         <div class="p-4">
             <h3 class="font-semibold mb-4 text-purple-400">{{ t('components.notifications.title') }}</h3>
@@ -11,7 +11,7 @@
                     :key="notification.id"
                     class="flex items-start gap-3 p-2 hover:bg-gray-800/50 rounded-lg transition-colors"
                 >
-                    <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                         <component :is="notification.icon" class="h-4 w-4 text-purple-400" />
                     </div>
                     <div>

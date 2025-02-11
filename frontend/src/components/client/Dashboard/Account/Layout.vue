@@ -20,7 +20,7 @@ import Session from '@/mythicalclient/Session';
 <template>
     <!-- User Info -->
     <div class="flex flex-col sm:flex-row items-start gap-4 mb-8 p-4 bg-gray-800/20 rounded-lg">
-        <img :src="Session.getInfo('avatar')" alt="" class="w-16 h-16 rounded bg-gray-800" />
+        <img :src="Session.getInfo('avatar')" alt="" class="w-16 h-16 rounded-sm bg-gray-800" />
         <div class="flex-1 min-w-0">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1">

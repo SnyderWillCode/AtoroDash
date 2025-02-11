@@ -11,7 +11,7 @@
                     ></path>
                 </svg>
             </div>
-            <div class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+            <div class="text-xl font-bold bg-linear-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
                 {{ $t('components.loading.title') }}
             </div>
         </div>

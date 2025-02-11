@@ -194,14 +194,14 @@ const resetFields = async () => {
             <button
                 @click="saveChanges"
                 type="button"
-                class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
+                class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-sm text-sm font-medium transition-colors"
             >
                 {{ t('account.pages.billing.page.form.update_button.label') }}
             </button>
             <button
                 @click="resetFields"
                 type="button"
-                class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded text-sm font-medium transition-colors"
+                class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-sm text-sm font-medium transition-colors"
             >
                 {{ t('account.pages.billing.page.form.update_button.reset') }}
             </button>

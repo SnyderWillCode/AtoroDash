@@ -17,11 +17,11 @@
                     <div class="text-sm text-purple-500">{{ server.hostname }}</div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">
+                    <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-sm text-xs font-medium">
                         Active
                     </span>
                     <button
-                        class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-sm"
+                        class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-sm transition-colors text-sm"
                     >
                         Manage
                     </button>

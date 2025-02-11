@@ -9,7 +9,7 @@
                 :type="showPassword ? 'text' : type"
                 :value="modelValue"
                 @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value || '')"
-                class="w-full px-4 py-2 bg-[#1a1a2e] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                class="w-full px-4 py-2 bg-[#1a1a2e] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-hidden focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                 :placeholder="placeholder"
                 :required="required"
                 :maxlength="maxChar"

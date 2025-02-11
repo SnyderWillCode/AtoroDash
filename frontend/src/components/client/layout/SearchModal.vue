@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="isSearchOpen"
-        class="fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-50"
+        class="fixed inset-0 bg-gray-900/95 backdrop-blur-xs z-50"
         @click="$emit('close')"
         @keydown.ctrl.k.prevent="$emit('close')"
         @keydown.ctrl.d.prevent="toggleDashboard"
@@ -13,7 +13,7 @@
                     type="text"
                     :placeholder="$t('components.search.placeholder')"
                     v-model="searchQuery"
-                    class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-11 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100"
+                    class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-11 pr-4 py-3 focus:outline-hidden focus:ring-2 focus:ring-purple-500/50 text-gray-100"
                     @keydown.esc="$emit('close')"
                     @input="performSearch"
                     @keydown.enter="handleEnter"

@@ -6,6 +6,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import ViteYaml from '@modyfi/vite-plugin-yaml';
 import { visualizer } from 'rollup-plugin-visualizer';
+import tailwindcss from "@tailwindcss/vite";
+
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -15,6 +17,7 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
     visualizer({ filename: './dist/stats.html' }),
+    tailwindcss(),
   ],
   resolve: {
     alias: {

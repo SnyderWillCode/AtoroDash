@@ -66,7 +66,7 @@ const columnsEmails = [
             h(
                 'button',
                 {
-                    class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600',
+                    class: 'px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600',
                     target: '_blank',
                     rel: 'noopener noreferrer',
                     onClick: () => (window.location.href = `/api/user/session/emails/${row.original.id}/raw`),
@@ -85,7 +85,7 @@ const columnsEmails = [
             <p class="mt-2">Loading emails...</p>
         </div>
 
-        <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+        <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm" role="alert">
             <p>{{ error }}</p>
         </div>
 

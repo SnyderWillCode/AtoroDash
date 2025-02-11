@@ -20,7 +20,7 @@ onMounted(async () => {
 <template>
     <div class="min-h-screen bg-[#0a0a1f] relative overflow-hidden">
         <!-- Background elements -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a1f] via-[#1a0b2e] to-[#0a0a1f]">
+        <div class="absolute inset-0 bg-linear-to-b from-[#0a0a1f] via-[#1a0b2e] to-[#0a0a1f]">
             <div class="stars"></div>
             <div class="mountains"></div>
         </div>

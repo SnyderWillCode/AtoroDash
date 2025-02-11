@@ -116,7 +116,7 @@ const VueDevelopmentConventions = {
 // - Consistently use Tailwind’s configuration for theme colors, spacing, and typography.
 // - Use `dark:` variants and CSS variables to ensure theming and accessibility.
 // - Avoid excessive custom CSS; rely on Tailwind’s utility classes for most styling needs.
-
+// - YOU SHOULD BASED ON TAILWIND V4: and always read [upgrade docs](https://tailwindcss.com/docs/upgrade-guide)
 
 // =========================================
 // 3. PERFORMANCE & OPTIMIZATION

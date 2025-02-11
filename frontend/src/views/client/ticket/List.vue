@@ -184,8 +184,8 @@ function createNewTicket() {
             <Transition name="fade" mode="out-in">
                 <div v-if="loading" class="space-y-4" key="loading">
                     <div v-for="i in 5" :key="i" class="bg-gray-800 rounded-lg p-4 animate-pulse">
-                        <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
-                        <div class="h-4 bg-gray-700 rounded w-1/2"></div>
+                        <div class="h-6 bg-gray-700 rounded-sm w-3/4 mb-2"></div>
+                        <div class="h-4 bg-gray-700 rounded-sm w-1/2"></div>
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@ function createNewTicket() {
                     role="alert"
                     key="error"
                 >
-                    <AlertCircle class="w-5 h-5 flex-shrink-0" />
+                    <AlertCircle class="w-5 h-5 shrink-0" />
                     <p>{{ error }}</p>
                 </div>
 

@@ -160,7 +160,7 @@ onUnmounted(() => {
                 <div
                     v-for="announcement in announcements"
                     :key="announcement.id"
-                    class="flex-none w-[400px] snap-start group/card bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden transition-all duration-300 hover:border-[#a855f7]/50"
+                    class="flex-none w-[400px] snap-start group/card bg-gray-900/50 backdrop-blur-xs border border-gray-700/50 rounded-xl overflow-hidden transition-all duration-300 hover:border-[#a855f7]/50"
                 >
                     <!-- Image container -->
                     <div class="aspect-video relative overflow-hidden">
@@ -202,7 +202,7 @@ onUnmounted(() => {
 
                         <button
                             @click="openAnnouncement(announcement)"
-                            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-center text-sm"
+                            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-sm transition-colors text-center text-sm"
                         >
                             {{ t('Components.Announcements.Card.ReadMore') }}
                         </button>
@@ -230,7 +230,7 @@ onUnmounted(() => {
     <Teleport to="body">
         <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click="closeModal">
             <div
-                class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
+                class="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
                 :class="{ 'opacity-0': !isModalMounted, 'opacity-100': isModalMounted }"
             ></div>
 
@@ -259,7 +259,7 @@ onUnmounted(() => {
                                     :key="index"
                                     :src="image"
                                     :alt="`${selectedAnnouncement.title} - Image ${index + 1}`"
-                                    class="w-full h-full object-cover flex-shrink-0"
+                                    class="w-full h-full object-cover shrink-0"
                                 />
                             </div>
 

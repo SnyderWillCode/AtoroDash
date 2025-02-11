@@ -184,9 +184,9 @@ const downloadInvoice = async () => {
             <Transition name="fade" mode="out-in">
                 <div v-if="loading" class="space-y-4" key="loading">
                     <div class="bg-gray-800 rounded-lg p-6 animate-pulse space-y-4">
-                        <div class="h-8 bg-gray-700 rounded w-1/4"></div>
-                        <div class="h-4 bg-gray-700 rounded w-1/2"></div>
-                        <div class="h-4 bg-gray-700 rounded w-1/3"></div>
+                        <div class="h-8 bg-gray-700 rounded-sm w-1/4"></div>
+                        <div class="h-4 bg-gray-700 rounded-sm w-1/2"></div>
+                        <div class="h-4 bg-gray-700 rounded-sm w-1/3"></div>
                     </div>
                 </div>
 
@@ -196,7 +196,7 @@ const downloadInvoice = async () => {
                     role="alert"
                     key="error"
                 >
-                    <AlertCircle class="w-5 h-5 flex-shrink-0" />
+                    <AlertCircle class="w-5 h-5 shrink-0" />
                     <p>{{ error }}</p>
                 </div>
 

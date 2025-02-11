@@ -153,7 +153,7 @@ export class MythicalClient {
           }
 
           .mythical-step-message {
-              flex-grow: 1;
+              grow: 1;
               font-size: 14px;
               font-weight: 500;
           }

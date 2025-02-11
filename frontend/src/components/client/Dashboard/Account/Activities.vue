@@ -70,7 +70,7 @@ const columnsActivities = [
             <p class="mt-2">Loading activities...</p>
         </div>
 
-        <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+        <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm" role="alert">
             <p>{{ error }}</p>
         </div>
 

@@ -20,7 +20,7 @@ const { t } = useI18n();
         </div>
         <RouterLink
             to="/addfunds"
-            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors text-center text-sm"
+            class="mt-4 block w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-sm transition-colors text-center text-sm"
         >
             {{ t('components.dashboard.billing.add_funds') }}
         </RouterLink>

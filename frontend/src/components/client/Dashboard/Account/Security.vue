@@ -53,7 +53,7 @@ const disable2FA = () => {
     >
         <router-link
             to="/auth/forgot-password"
-            class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
+            class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-sm text-sm font-medium transition-colors"
         >
             {{ t('account.pages.security.page.cards.password.change_button.label') }}
         </router-link>

@@ -23,7 +23,7 @@
                     </div>
                     <a
                         href="https://github.com/sponsors/nayskutzu"
-                        class="bg-gradient-to-r from-pink-500 to-violet-500 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-80"
+                        class="bg-linear-to-r from-pink-500 to-violet-500 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-80"
                     >
                         Donate
                     </a>
@@ -54,7 +54,7 @@
                 </div>
                 <a
                     href="https://www.mythical.systems/docs"
-                    class="bg-gradient-to-r from-violet-500 to-pink-500 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-80"
+                    class="bg-linear-to-r from-violet-500 to-pink-500 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:opacity-80"
                 >
                     Read Docs
                 </a>

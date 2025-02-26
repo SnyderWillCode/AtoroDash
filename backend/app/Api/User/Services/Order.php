@@ -48,20 +48,28 @@ $router->post('/api/user/services/(.*)/(.*)/order', function ($category, $servic
     $providers = $pluginManager->getLoadedProviders();
 
     if (in_array($provider, $providers)) {
+
         $requirements = PluginProviderHelper::getOrderRequirements($provider);
 
-        // Required fields for an order
-        $requiredFields = ['server_description', /* other required fields */];
+        // Validate that all required fields are present
+        foreach ($requirements as $field => $requirement) {
+            $requestData = json_decode(file_get_contents('php://input'), true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $appInstance->BadRequest('Invalid JSON in request body', [
+                    'error' => 'ERR_INVALID_JSON',
+                ]);
 
-        // Validate required fields
-        foreach ($requiredFields as $field) {
-            if (!isset($requestData[$field]) || empty($requestData[$field])) {
-                throw new \Exception("Missing required field: {$field}");
+                return;
             }
-        }
-        // Process the order
-        foreach ($requirements as $field) {
-            $ordersConfig[$field] = $requestData[$field] ?? ''; // Use null coalescing operator
+            if ($requirement['required'] && (!isset($requestData[$field]) || empty($requestData[$field]))) {
+                $appInstance->BadRequest('Missing required field', [
+                    'error' => 'ERR_MISSING_REQUIRED_FIELD',
+                    'field' => $field,
+                ]);
+
+                return;
+            }
+            $ordersConfig[$field] = $requestData[$field];
         }
 
         try {
@@ -149,4 +157,21 @@ $router->get('/api/user/services/(.*)/(.*)/order', function ($category, $service
     } else {
         $appInstance->NotFound('Provider not found', ['error' => 'ERR_PROVIDER_NOT_FOUND', 'providers' => $providers, 'provider' => $provider]);
     }
+});
+
+$router->get('/api/user/orders', function () {
+    App::init();
+    $appInstance = App::getInstance(true);
+    $appInstance->allowOnlyGET();
+    $session = new Session($appInstance);
+
+    $orders = Orders::getAllUserOrders($session->getInfo(UserColumns::UUID, false));
+
+    // Enhance each order with its service information
+    foreach ($orders as &$order) {
+        $service = Services::getServiceByID($order['service']);
+        $order['service'] = $service;
+    }
+
+    $appInstance->OK('Here are your orders', ['orders' => $orders]);
 });

@@ -154,7 +154,12 @@ $router->get('/api/user/session', function (): void {
             'user' => User::getInfo($accountToken, UserColumns::UUID, false),
             'status' => 'open',
         ]);
+        $stats_orders = Database::getTableColumnCount('mythicalclient_orders', [
+            'user' => User::getInfo($accountToken, UserColumns::UUID, false),
+            'status' => 'processed',
+        ]);
         $stats_services = 0;
+
         $columns = [
             UserColumns::USERNAME,
             UserColumns::EMAIL,
@@ -192,6 +197,7 @@ $router->get('/api/user/session', function (): void {
             'stats' => [
                 'invoices_pending' => $stats_invoices_pending,
                 'tickets' => $stats_tickets,
+                'orders' => $stats_orders,
                 'services' => $stats_services,
             ],
         ]);

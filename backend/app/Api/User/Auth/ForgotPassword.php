@@ -17,8 +17,10 @@ use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\CloudFlare\CloudFlareRealIP;
+use MythicalClient\Plugins\Events\Events\AuthEvent;
 
 $router->add('/api/user/auth/forgot', function (): void {
+	global $eventManager;
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
 
@@ -29,6 +31,7 @@ $router->add('/api/user/auth/forgot', function (): void {
      * @var string
      */
     if (!isset($_POST['email']) || $_POST['email'] == '') {
+		$eventManager->emit(AuthEvent::onAuthForgotPasswordFailed(), ['email' => 'UNKNOWN', 'error_code' => 'MISSING_EMAIL']);
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_EMAIL']);
     }
 
@@ -39,10 +42,12 @@ $router->add('/api/user/auth/forgot', function (): void {
      */
     if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
         if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
+			$eventManager->emit(AuthEvent::onAuthForgotPasswordFailed(), ['email' => $_POST['email'], 'error_code' => 'MISSING_TURNSTILE_RESPONSE']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
         if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
+			$eventManager->emit(AuthEvent::onAuthForgotPasswordFailed(), ['email' => $_POST['email'], 'error_code' => 'TURNSTILE_FAILED']);
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }
@@ -51,12 +56,15 @@ $router->add('/api/user/auth/forgot', function (): void {
     if (User::exists(UserColumns::EMAIL, $email)) {
 
         if (User::forgotPassword($email)) {
+            $eventManager->emit(AuthEvent::onAuthForgotPasswordSuccess(), ['email' => $_POST['email']]);
             $appInstance->OK('Successfully sent email', []);
         } else {
+            $eventManager->emit(AuthEvent::onAuthForgotPasswordFailed(), ['email' => $_POST['email'], 'error_code' => 'FAILED_TO_SEND_EMAIL']);
             $appInstance->BadRequest('Failed to send email', ['error_code' => 'FAILED_TO_SEND_EMAIL']);
         }
 
     } else {
+        $eventManager->emit(AuthEvent::onAuthForgotPasswordFailed(), ['email' => $_POST['email'], 'error_code' => 'EMAIL_DOES_NOT_EXIST']);
         $appInstance->BadRequest('Email does not exist', ['error_code' => 'EMAIL_DOES_NOT_EXIST']);
     }
 

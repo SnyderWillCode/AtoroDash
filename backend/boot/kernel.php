@@ -52,4 +52,6 @@ if (!is_writable(__DIR__ . '/../storage')) {
  * Initialize the plugin manager.
  */
 $pluginManager = new PluginManager();
-global $pluginManager;
+$eventManager = $pluginManager->getEventManager();
+
+global $pluginManager, $eventManager;

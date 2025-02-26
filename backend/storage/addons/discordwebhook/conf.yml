@@ -1,0 +1,17 @@
+plugin:
+  name: "Discord Webhook"
+  identifier: "discordwebhook"
+  description: "Discord Webhook plugin for mythicalclient to send messages to a Discord Webhook!"
+  version: "1.0.0"
+  author: 
+    - NaysKutzu
+  url: "https://github.com/NaysKutzu"
+  icon: "https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6918e57475a843f59f_icon_clyde_black_RGB.svg"
+  flags: 
+    - hasInstallScript
+  target: "0"
+  dependencies:
+    - php-ext=pdo
+    - php=8.1
+  type: event
+config:

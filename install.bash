@@ -35,7 +35,7 @@ echo -e "
 \x1b[35;1m┃\x1b[0m any questions or need help, feel free to reach
 \x1b[35;1m┃\x1b[0m us at any of the following:
 \x1b[35;1m┃\x1b[0m
-\x1b[35;1m┃ ☻ \x1b[0msupport@mythicalsystems.xyz
+\x1b[35;1m┃ ☻ \x1b[0msupport@mythical.systems
 \x1b[35;1m┃ ☻ \x1b[0mhttps://github.com/mythicalltd/mythicaldash/issues
 \x1b[35;1m┃ ☻ \x1b[0mhttps://discord.mythical.systems
 "

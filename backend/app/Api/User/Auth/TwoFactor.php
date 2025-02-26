@@ -19,8 +19,10 @@ use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\CloudFlare\CloudFlareRealIP;
+use MythicalClient\Plugins\Events\Events\AuthEvent;
 
 $router->get('/api/user/auth/2fa/setup', function (): void {
+	global $eventManager;
     App::init();
     $appInstance = App::getInstance(true);
 
@@ -38,6 +40,7 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
     $appInstance->allowOnlyPOST();
+    global $eventManager;
     /**
      * Process the turnstile response.
      *
@@ -45,10 +48,12 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
      */
     if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
         if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
+            $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'TURNSTILE_FAILED']);
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
         if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
+            $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'TURNSTILE_FAILED']);
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }
@@ -66,8 +71,10 @@ $router->post('/api/user/auth/2fa/setup', function (): void {
     if ($google2fa->verifyKey($secret, $code, null, null, null)) {
         User::updateInfo($_COOKIE['user_token'], UserColumns::TWO_FA_ENABLED, 'true', encrypted: false);
         User::updateInfo($_COOKIE['user_token'], UserColumns::TWO_FA_BLOCKED, 'false', false);
+        $eventManager->emit(AuthEvent::onAuth2FAVerifySuccess(), ['secret' => $secret]);
         $appInstance->OK('Code valid go on!', ['secret' => $secret]);
     } else {
+        $eventManager->emit(AuthEvent::onAuth2FAVerifyFailed(), ['error_code' => 'INVALID_CODE']);
         $appInstance->Unauthorized('Code invalid', ['error_code' => 'INVALID_CODE']);
     }
 });

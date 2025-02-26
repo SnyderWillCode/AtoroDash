@@ -14,6 +14,7 @@
 namespace MythicalClient\Plugins;
 
 use MythicalClient\App;
+use MythicalClient\Plugins\Events\PluginEventProcessor;
 
 class PluginManager
 {
@@ -24,6 +25,7 @@ class PluginManager
 
     public function loadKernel(): void
     {
+		global $eventManager;
         try {
             $instance = App::getInstance(true);
             $plugins = PluginHelper::getPluginsDir();
@@ -44,7 +46,8 @@ class PluginManager
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is an event plugin!');
                                             $this->events[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 1, $config['plugin']['name']);
-                                        } elseif ($config['plugin']['type'] == 'provider') {
+											PluginEventProcessor::processEvent($config['plugin']['identifier'], $eventManager);
+										} elseif ($config['plugin']['type'] == 'provider') {
                                             $instance->getLogger()->debug('Plugin ' . $plugin . ' is a provider plugin!');
                                             $this->providers[] = $plugin;
                                             PluginDB::registerPlugin($config['plugin']['identifier'], 2, $config['plugin']['name']);
@@ -91,6 +94,10 @@ class PluginManager
             return [];
         }
     }
+
+	public function getEventManager() : PluginEvents {
+		return new PluginEvents();
+	}
 
     public function getLoadedProviders(): array
     {

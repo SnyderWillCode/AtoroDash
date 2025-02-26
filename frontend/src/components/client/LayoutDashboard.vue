@@ -263,8 +263,8 @@ onMounted(async () => {
     left: 0;
     right: 0;
     height: 30vh;
-    background-image: linear-gradient(170deg, transparent 0%, #0a0a1f 80%),
-        linear-gradient(150deg, #1a0b2e 0%, transparent 100%);
+    background-image:
+        linear-gradient(170deg, transparent 0%, #0a0a1f 80%), linear-gradient(150deg, #1a0b2e 0%, transparent 100%);
     clip-path: polygon(0 100%, 20% 65%, 40% 90%, 60% 60%, 80% 85%, 100% 50%, 100% 100%);
 }
 

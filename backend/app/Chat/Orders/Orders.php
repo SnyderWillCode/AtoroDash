@@ -122,6 +122,61 @@ class Orders extends \MythicalClient\Chat\Database
         }
     }
 
+    public static function getAllWithStatus(string $status): array
+    {
+        try {
+            $statuses = ['processed', 'processing', 'failed', 'deployed', 'deploying'];
+            if (!in_array($status, $statuses)) {
+                return [];
+            }
+
+            $conn = self::getPdoConnection();
+            $query = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE status = :status AND deleted = "false"');
+            $query->execute(['status' => $status]);
+
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all orders with status: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    public static function getAllWithStatusAndUser(string $status, string $user): array
+    {
+        try {
+            $statuses = ['processed', 'processing', 'failed', 'deployed', 'deploying'];
+            if (!in_array($status, $statuses)) {
+                return [];
+            }
+
+            $conn = self::getPdoConnection();
+            $query = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE status = :status AND user = :user AND deleted = "false"');
+            $query->execute(['status' => $status, 'user' => $user]);
+
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all orders with status and user: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    public static function getAllUserOrders(string $user): array
+    {
+        try {
+            $conn = self::getPdoConnection();
+            $query = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE user = :user AND deleted = "false"');
+            $query->execute(['user' => $user]);
+
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get all user orders: ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
     /**
      * Update order days left.
      */

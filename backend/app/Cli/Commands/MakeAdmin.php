@@ -14,28 +14,27 @@
 namespace MythicalClient\Cli\Commands;
 
 use MythicalClient\Cli\App;
-use MythicalSystems\Utils\XChaCha20;
 use MythicalClient\Cli\CommandBuilder;
 
 class MakeAdmin extends App implements CommandBuilder
 {
-	public static function execute(array $args): void
-	{
-		$app = App::getInstance();
+    public static function execute(array $args): void
+    {
+        $app = App::getInstance();
 
-		$app->send('&7What account do you want to give admin?');
-		$app->send('');
-		$line = trim(readline('> '));
+        $app->send('&7What account do you want to give admin?');
+        $app->send('');
+        $line = trim(readline('> '));
 
-	}
+    }
 
-	public static function getDescription(): string
-	{
-		return 'Make an account a system admin!';
-	}
+    public static function getDescription(): string
+    {
+        return 'Make an account a system admin!';
+    }
 
-	public static function getSubCommands(): array
-	{
-		return [];
-	}
+    public static function getSubCommands(): array
+    {
+        return [];
+    }
 }

@@ -40,7 +40,7 @@ $router->get('/api/user/invoice/(.*)', function ($id) {
     $appInstance->allowOnlyGET();
     $session = new Session($appInstance);
 
-    $invoice = OrdersInvoices::getInvoice($id);
+    $invoice = OrdersInvoices::getInvoice((int) $id);
 
     if (!$invoice) {
         $appInstance->NotFound('Invoice not found', []);
@@ -75,10 +75,11 @@ $router->get('/api/user/invoice/(.*)', function ($id) {
     }
 });
 
-$router->post('/api/user/invoice/(.*)/pay', function ($id) {
+$router->add('/api/user/invoice/(.*)/pay', function ($id) {
     App::init();
     $appInstance = App::getInstance(true);
     $session = new Session($appInstance);
+    $appInstance->allowOnlyPOST();
 
     $invoice = OrdersInvoices::getInvoice($id);
 
@@ -113,7 +114,5 @@ $router->post('/api/user/invoice/(.*)/pay', function ($id) {
     Orders::updateStatus($invoice['order'], 'processed');
     Orders::updateDaysLeft($invoice['order'], 30);
 
-    $appInstance->OK('Invoice status', [
-        'price' => $price,
-    ]);
+    $appInstance->OK('Invoice Paid', []);
 });

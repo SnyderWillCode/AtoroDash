@@ -242,7 +242,6 @@ export class MythicalClient {
     public download(): void {
         const hasDownloaded = localStorage.getItem('mythical_downloaded');
         if (!this.container && !hasDownloaded) {
-            this.createInterface();
             localStorage.setItem('mythical_downloaded', 'true');
             this.runInstallation();
         }

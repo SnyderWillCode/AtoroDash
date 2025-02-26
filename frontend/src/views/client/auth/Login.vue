@@ -12,7 +12,6 @@ import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import Auth from '@/mythicalclient/Auth';
-import Cookies from 'js-cookie';
 import { useI18n } from 'vue-i18n';
 import { MythicalDOM } from '@/mythicalclient/MythicalDOM';
 
@@ -20,7 +19,6 @@ const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
-Cookies.remove('user_token');
 localStorage.clear();
 sessionStorage.clear();
 MythicalDOM.setPageTitle(t('auth.pages.login.page.title'));

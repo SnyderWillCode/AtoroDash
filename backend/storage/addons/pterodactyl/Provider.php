@@ -27,4 +27,18 @@ class Provider implements PluginProvider
 			],
 		];
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function getOrderConfig(): array {
+		return [];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function getAdminConfig(): array {
+		return [];
+	}
 }

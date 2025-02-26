@@ -1,17 +1,46 @@
 /* ./src/index.css */
 @import 'tailwindcss';
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap') layer(utilities);
+/* Define CSS Custom Properties for mythicalclient theme colors */
+:root {
+    --mythicalclient-50: oklch(0.977 0.014 308.299);
+    --mythicalclient-100: oklch(0.946 0.033 307.174);
+    --mythicalclient-200: oklch(0.902 0.063 306.703);
+    --mythicalclient-300: oklch(0.827 0.119 306.383);
+    --mythicalclient-400: oklch(0.714 0.203 305.504);
+    --mythicalclient-500: oklch(0.627 0.265 303.9);
+    --mythicalclient-600: oklch(0.558 0.288 302.321);
+    --mythicalclient-700: oklch(0.496 0.265 301.924);
+    --mythicalclient-800: oklch(0.438 0.218 303.724);
+    --mythicalclient-900: oklch(0.381 0.176 304.987);
+    --mythicalclient-950: oklch(0.291 0.149 302.717);
+    --mythicalclient-1000: oklch(0.201 0.122 302.717);
+    --mythicalclient-1100: oklch(0.131 0.102 302.717);
+    --mythicalclient-1200: oklch(0.081 0.082 302.717);
+    --mythicalclient-1300: oklch(0.041 0.062 302.717);
+    --mythicalclient-1400: oklch(0.011 0.042 302.717);
+    --mythicalclient-1500: oklch(0.001 0.022 302.717);
+    --mythicalclient-1600: oklch(0.001 0.022 302.717);
+    --mythicalclient-1700: oklch(0.001 0.022 302.717);
+    --mythicalclient-1800: oklch(0.001 0.022 302.717);
+    --mythicalclient-1900: oklch(0.001 0.022 302.717);
+    --mythicalclient-2000: oklch(0.001 0.022 302.717);
+    --mythicalclient-2100: oklch(0.001 0.022 302.717);
+    --mythicalclient-2200: oklch(0.001 0.022 302.717);
+}
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@layer utilities {
+    /* Add any custom utilities here */
+}
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
+    :root {
+        --font-sans:
+            ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
+        --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+    }
+
     *,
     ::after,
     ::before,
@@ -19,24 +48,20 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
-}
 
-@layer base {
     html {
         font-family: 'Poppins', sans-serif;
     }
-}
 
-html,
-body {
-    overscroll-behavior-y: none;
-}
+    html,
+    body {
+        overscroll-behavior-y: none;
+    }
 
-/**
-  Tell the browser that this is a dark theme.
-**/
-:root {
-    color-scheme: dark;
+    /* Tell the browser that this is a dark theme */
+    :root {
+        color-scheme: dark;
+    }
 }
 
 /* Global Scrollbar Styles */
@@ -46,37 +71,37 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #1e1e2e;
+    background: var(--mythicalclient-2200);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #3f3f5f;
+    background: var(--mythicalclient-500);
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #8b5cf6;
+    background: var(--mythicalclient-500);
 }
 
 /* For Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #3f3f5f #1e1e2e;
+    scrollbar-color: var(--mythicalclient-500) var(--mythicalclient-1100);
 }
 
 /* When the scrollbar is actively being used */
 ::-webkit-scrollbar-thumb:active {
-    background: #9f7aea;
+    background: var(--mythicalclient-500);
 }
 
 /* Styling for horizontal scrollbars */
 ::-webkit-scrollbar-corner {
-    background: #1e1e2e;
+    background: var(--mythicalclient-2200);
 }
 
 /* Optional: Style for when the mouse is over the scrollable area */
 :hover::-webkit-scrollbar-thumb {
-    background: #4a4a6a;
+    background: var(--mythicalclient-500);
 }

@@ -19,6 +19,8 @@ use MythicalClient\Chat\User\Session;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Chat\User\UserActivities;
 
+global $eventManager;
+
 $router->get('/api/admin', function (): void {
     App::init();
     $appInstance = App::getInstance(true);

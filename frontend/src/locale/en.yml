@@ -521,6 +521,7 @@ components:
     sidebar:
         dashboard: Dashboard
         services: Services
+        orders: Orders
         add_service: Add Service
         all_services: All Services
         invoices: Invoices
@@ -560,6 +561,7 @@ components:
             services: 'Services'
             unpaid_invoices: 'Unpaid Invoices'
             tickets: 'Tickets'
+            orders: 'Orders'
         billing:
             title: 'Billing Summary'
             current_balance: 'Current Balance'
@@ -596,6 +598,21 @@ components:
             free: 'Free'
             setup_fee: 'Setup Fee'
             order: 'Order Now'
+        order:
+            errors:
+                title: 'Error'
+                invalid_json: 'Invalid request format'
+                missing_field: 'Required field missing: {field}'
+                service_not_found: 'Service not found'
+                category_not_found: 'Category not found'
+                provider_not_found: 'Provider not found'
+                invoice_failed: 'Failed to create invoice'
+                order_failed: 'Failed to create order'
+                insufficient_credits: 'Insufficient credits'
+                generic: 'An error occurred. Please try again.'
+            success:
+                title: 'Success'
+                order_created: 'Order created successfully'
 invoices:
     pages:
         invoices:
@@ -615,6 +632,54 @@ invoices:
                 actions: 'Actions'
             actions:
                 view: 'View'
+        view:
+            title: 'Invoice #{id}'
+            actions:
+                back: 'Back'
+                download_pdf: 'Download PDF'
+                pay_now: 'Pay Now'
+            loading:
+                title: 'Loading invoice...'
+            error:
+                title: 'Error'
+                generic: 'Failed to load invoice'
+            status:
+                pending: 'PENDING'
+                paid: 'PAID'
+                cancelled: 'CANCELLED'
+                refunded: 'REFUNDED'
+            sections:
+                company_info:
+                    title: 'Bill From'
+                    vat: 'VAT: {number}'
+                client_info:
+                    title: 'Bill To'
+                    vat: 'VAT: {number}'
+                summary:
+                    invoice_number: 'Invoice Number'
+                    invoice_date: 'Invoice Date'
+                    due_date: 'Due Date'
+                    status: 'Status'
+                details:
+                    table:
+                        headers:
+                            description: 'Description'
+                            amount: 'Amount'
+                        category: 'Category: {name}'
+                        setup_fee: 'Setup Fee'
+                        total: 'Total'
+            alerts:
+                payment:
+                    success:
+                        title: 'Success'
+                        message: 'Payment processed successfully'
+                    error:
+                        title: 'Error'
+                        insufficient_credits: 'Insufficient credits'
+                        generic: 'Failed to process payment'
+            print:
+                company_name: '{name}'
+                company_details: '{address}\n{city}, {state} {zip}\n{country}'
 billing:
     pages:
         add_funds:
@@ -645,3 +710,18 @@ billing:
                 success:
                     title: Success
                     payment_processed: Payment processed successfully. Your funds have been added to your account.
+orders:
+    pages:
+        orders:
+            title: 'Orders'
+            noOrders: 'No Orders Found'
+            noOrdersDesc: "You haven't placed any orders yet"
+            table:
+                title: 'Orders'
+                service: 'Service'
+                status: 'Status'
+                created: 'Created'
+                price: 'Price'
+            alerts:
+                error:
+                    generic: 'An error occurred. Please try again later'

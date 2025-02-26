@@ -72,6 +72,42 @@ interface ServiceResponse {
     >;
 }
 
+export interface Service {
+    id: number;
+    category: number;
+    name: string;
+    tagline: string;
+    quantity: number;
+    price: number;
+    stock: number;
+    stock_enabled: string;
+    uri: string;
+    shortdescription: string;
+    description: string;
+    setup_fee: number;
+    provider: number;
+    enabled: string;
+    deleted: string;
+    locked: string;
+    date: string;
+}
+
+export interface OrderInterface {
+    id: number;
+    user: string;
+    service: Service;
+    provider: number;
+    status: 'processing' | 'processed';
+    days_left: number;
+    deleted: string;
+    locked: string;
+    date: string;
+}
+
+export interface Orders {
+    orders: Order[];
+}
+
 export interface OrderResponse {
     code: number;
     error: null | string;
@@ -145,6 +181,30 @@ class Order {
             return data;
         } catch (error) {
             console.error('Error submitting order:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get all orders for the current user
+     */
+    public static async getOrders(): Promise<{ success: boolean; orders: OrderInterface[]; error?: string }> {
+        try {
+            const response = await fetch('/api/user/orders', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to fetch orders');
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Error fetching orders:', error);
             throw error;
         }
     }

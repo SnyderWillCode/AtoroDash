@@ -88,7 +88,7 @@ class User extends Database
                 ':email' => $email,
                 ':password' => $password,
                 ':avatar' => $avatar,
-                ':background' => 'https://cdn.mythicalsystems.xyz/background.gif',
+                ':background' => 'https://cdn.mythical.systems/background.gif',
                 ':uuid' => $uuid,
                 ':token' => $token,
                 ':role' => 1,
@@ -258,7 +258,7 @@ class User extends Database
     /**
      * Does the user info exist?
      *
-     * @param UserColumns $info
+     * @return bool If the user info exists
      */
     public static function exists(UserColumns|string $info, string $value): bool
     {

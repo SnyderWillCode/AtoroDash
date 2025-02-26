@@ -12,14 +12,19 @@ class OrderInvoices {
     }
 
     public static async payUserInvoice(id: string) {
-        const response = await fetch(`/api/user/invoice/${id}/pay`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-        return data;
+        try {
+            const response = await fetch(`/api/user/invoice/${id}/pay`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error paying invoice:', error);
+            throw error;
+        }
     }
 }
 export default OrderInvoices;

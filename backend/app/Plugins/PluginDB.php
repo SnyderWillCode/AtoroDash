@@ -29,7 +29,6 @@ class PluginDB extends Database
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             self::db_Error('Failed to get plugins from database: ' . $e->getMessage());
-
             return [];
         }
     }
@@ -38,18 +37,16 @@ class PluginDB extends Database
      * Register a new plugin in the database.
      *
      * @param string $name The unique name/identifier of the plugin
-     * @param int $type The type of plugin (1=event, 2=provider, 4=components)
      * @param string $displayName The display name of the plugin
+	 * @param string $can_deploy Whether the plugin can deploy
      *
      * @return bool True if registration successful, false if already exists
      */
-    public static function registerPlugin(string $name, int $type, string $displayName): bool
+    public static function registerPlugin(string $name, string $displayName, string $can_deploy): bool
     {
+
         try {
             $conn = Database::getPdoConnection();
-
-            // Initialize plugin types first
-            self::initializePluginTypes();
 
             // Check if plugin already exists
             if (self::isPluginRegistered($name)) {
@@ -58,19 +55,17 @@ class PluginDB extends Database
 
             $stmt = $conn->prepare('
                 INSERT INTO mythicalclient_addons 
-                (name, type) 
-                VALUES (:name, :type)
+                (name, display_name, can_deploy) 
+                VALUES (:name, :display_name, :can_deploy)
             ');
 
-            // Bind parameters with their types
             $stmt->bindParam(':name', $name, \PDO::PARAM_STR);
-            $stmt->bindParam(':type', $type, \PDO::PARAM_INT);
-
+            $stmt->bindParam(':display_name', $displayName, \PDO::PARAM_STR);
+            $stmt->bindParam(':can_deploy', $can_deploy, \PDO::PARAM_STR);
             $result = $stmt->execute();
 
             if (!$result) {
                 self::db_Error('Failed to execute plugin registration query');
-
                 return false;
             }
 
@@ -78,7 +73,6 @@ class PluginDB extends Database
 
         } catch (\Exception $e) {
             self::db_Error('Failed to register plugin: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -96,19 +90,17 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $stmt = $conn->prepare("
-			SELECT id 
-			FROM mythicalclient_addons 
-			WHERE name = :name 
-			AND deleted = 'false'
-			LIMIT 1
-		");
+                SELECT id 
+                FROM mythicalclient_addons 
+                WHERE name = :name 
+                AND deleted = 'false'
+                LIMIT 1
+            ");
 
             $stmt->execute([':name' => $name]);
-
             return (bool) $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             self::db_Error('Failed to check if plugin is registered: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -125,11 +117,11 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $stmt = $conn->prepare('
-			UPDATE mythicalclient_addons 
-			SET enabled = :enabled,
-				date = CURRENT_TIMESTAMP
-			WHERE name = :name
-		');
+                UPDATE mythicalclient_addons 
+                SET enabled = :enabled,
+                    date = CURRENT_TIMESTAMP
+                WHERE name = :name
+            ');
 
             $stmt->execute([
                 ':name' => $name,
@@ -153,12 +145,12 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $stmt = $conn->prepare("
-			SELECT enabled 
-			FROM mythicalclient_addons 
-			WHERE name = :name 
-			AND deleted = 'false'
-			LIMIT 1
-		");
+                SELECT enabled 
+                FROM mythicalclient_addons 
+                WHERE name = :name 
+                AND deleted = 'false'
+                LIMIT 1
+            ");
 
             $stmt->execute([':name' => $name]);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -166,7 +158,6 @@ class PluginDB extends Database
             return $result && $result['enabled'] === 'true';
         } catch (\Exception $e) {
             self::db_Error('Failed to check if plugin is enabled: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -182,11 +173,11 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $stmt = $conn->prepare("
-			UPDATE mythicalclient_addons 
-			SET deleted = 'true',
-				date = CURRENT_TIMESTAMP
-			WHERE name = :name
-		");
+                UPDATE mythicalclient_addons 
+                SET deleted = 'true',
+                    date = CURRENT_TIMESTAMP
+                WHERE name = :name
+            ");
 
             $stmt->execute([':name' => $name]);
         } catch (\Exception $e) {
@@ -207,12 +198,12 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $stmt = $conn->prepare("
-			SELECT name, type, enabled, locked 
-			FROM mythicalclient_addons 
-			WHERE name = :name 
-			AND deleted = 'false'
-			LIMIT 1
-		");
+                SELECT name, enabled, locked 
+                FROM mythicalclient_addons 
+                WHERE name = :name 
+                AND deleted = 'false'
+                LIMIT 1
+            ");
 
             $stmt->execute([':name' => $name]);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -220,7 +211,6 @@ class PluginDB extends Database
             return $result ?: null;
         } catch (\Exception $e) {
             self::db_Error('Failed to get plugin info: ' . $e->getMessage());
-
             return null;
         }
     }
@@ -238,10 +228,10 @@ class PluginDB extends Database
             $conn = Database::getPdoConnection();
 
             $sql = "
-			SELECT name, type, enabled, locked 
-			FROM mythicalclient_addons 
-			WHERE deleted = 'false'
-		";
+                SELECT name, enabled, locked 
+                FROM mythicalclient_addons 
+                WHERE deleted = 'false'
+            ";
 
             if (!$includeDisabled) {
                 $sql .= " AND enabled = 'true'";
@@ -253,7 +243,6 @@ class PluginDB extends Database
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             self::db_Error('Failed to list plugins: ' . $e->getMessage());
-
             return [];
         }
     }
@@ -275,39 +264,7 @@ class PluginDB extends Database
             return $stmt->fetch(\PDO::FETCH_ASSOC)['name'];
         } catch (\Exception $e) {
             self::db_Error('Failed to convert ID to name: ' . $e->getMessage());
-
             return '';
-        }
-    }
-
-    /**
-     * Initialize default plugin types if they don't exist.
-     */
-    private static function initializePluginTypes(): void
-    {
-        try {
-            $conn = Database::getPdoConnection();
-
-            // Define default plugin types
-            $types = [
-                1 => 'event',
-                2 => 'provider',
-                4 => 'components',
-            ];
-
-            foreach ($types as $id => $name) {
-                $stmt = $conn->prepare('
-                    INSERT IGNORE INTO mythicalclient_addons_types 
-                    (id, name) 
-                    VALUES (:id, :name)
-                ');
-
-                $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-                $stmt->bindParam(':name', $name, \PDO::PARAM_STR);
-                $stmt->execute();
-            }
-        } catch (\Exception $e) {
-            self::db_Error('Failed to initialize plugin types: ' . $e->getMessage());
         }
     }
 }

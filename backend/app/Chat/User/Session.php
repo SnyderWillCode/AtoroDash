@@ -36,9 +36,6 @@ class Session extends Database
                     $this->updateCookie();
                     $this->setSecurityCookies();
 
-                    // Validate session security
-                    $this->validateSession();
-
                     if ($this->getInfo(UserColumns::TWO_FA_BLOCKED, false) == 'true') {
                         $app->Unauthorized('Please verify 2fa to access this endpoint.', ['error_code' => 'TWO_FA_BLOCKED']);
                     }
@@ -189,42 +186,6 @@ class Session extends Database
         ]));
     }
 
-    /**
-     * Validate the current session for security.
-     */
-    private function validateSession(): void
-    {
-        $currentIp = CloudFlareRealIP::getRealIP();
-        $storedIp = $this->getInfo(UserColumns::LAST_IP, false);
-        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
-        // Validate session fingerprint
-        $currentFingerprint = hash('sha256', $userAgent . $currentIp);
-        $storedFingerprint = $_COOKIE['session_fingerprint'] ?? '';
-
-        if ($storedFingerprint && $currentFingerprint !== $storedFingerprint) {
-            $this->app->getLogger()->warning('Session fingerprint mismatch detected', [
-                'user_token' => $this->SESSION_KEY,
-            ]);
-            $this->forceReauthorization();
-        }
-
-        // Check for IP change (potential session hijacking)
-        if ($storedIp && $currentIp !== $storedIp) {
-            $this->app->getLogger()->warning('IP mismatch detected', [
-                'stored_ip' => $storedIp,
-                'current_ip' => $currentIp,
-                'user_token' => $this->SESSION_KEY,
-            ]);
-            $this->forceReauthorization();
-        }
-
-        // Check session age
-        $lastActivity = $_COOKIE['last_activity'] ?? 0;
-        if ((time() - (int) $lastActivity) > 7200) { // 2 hours
-            $this->app->Unauthorized('Session expired', ['error_code' => 'SESSION_EXPIRED']);
-        }
-    }
 
     /**
      * Force user reauthorization by clearing cookies and session.

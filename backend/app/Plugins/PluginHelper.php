@@ -15,7 +15,7 @@ namespace MythicalClient\Plugins;
 
 use Symfony\Component\Yaml\Yaml;
 
-class PluginHelper extends PluginTypes
+class PluginHelper
 {
     /**
      * Get the plugins directory.
@@ -29,11 +29,8 @@ class PluginHelper extends PluginTypes
             if (is_dir($pluginsDir) && is_readable($pluginsDir) && is_writable($pluginsDir)) {
                 return $pluginsDir;
             }
-
             return '';
-
         } catch (\Exception) {
-
             return '';
         }
     }

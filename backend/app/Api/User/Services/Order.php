@@ -45,7 +45,7 @@ $router->post('/api/user/services/(.*)/(.*)/order', function ($category, $servic
     $provider = PluginDB::convertIdToName((int) $service['provider']);
     global $pluginManager;
     $ordersConfig = [];
-    $providers = $pluginManager->getLoadedProviders();
+    $providers = $pluginManager->getLoadedDeployablePlugins();
 
     if (in_array($provider, $providers)) {
 
@@ -143,7 +143,7 @@ $router->get('/api/user/services/(.*)/(.*)/order', function ($category, $service
 
     $provider = PluginDB::convertIdToName((int) $service['provider']);
     global $pluginManager;
-    $providers = $pluginManager->getLoadedProviders();
+    $providers = $pluginManager->getLoadedDeployablePlugins();
 
     if (in_array($provider, $providers)) {
         $requirements = PluginProviderHelper::getOrderRequirements($provider);

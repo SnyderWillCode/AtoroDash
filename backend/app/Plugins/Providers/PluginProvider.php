@@ -13,7 +13,9 @@
 
 namespace MythicalClient\Plugins\Providers;
 
-interface PluginProvider
+use MythicalClient\Plugins\Events\PluginEventRequirements;
+
+interface PluginProvider extends PluginEventRequirements
 {
     /**
      * Get the order requirements.
@@ -25,8 +27,4 @@ interface PluginProvider
      */
     public static function getOrderConfig(): array;
 
-    /**
-     * Get the plugin admin config.
-     */
-    public static function getAdminConfig(): array;
 }

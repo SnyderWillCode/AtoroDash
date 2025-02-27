@@ -135,6 +135,13 @@ class App extends MythicalAPP
         $router = new rt();
         $this->registerApiRoutes($router);
 		$eventManager->emit(AppEvent::onAppLoad(), []);
+		$eventManager->emit(AppEvent::onRouterReady(), [$router]);
+
+		
+		$router->add('/(.*)', function (): void {
+			self::init();
+			self::NotFound('The api route does not exist!', null);
+		});
 
         try {
             $router->route();
@@ -170,11 +177,6 @@ class App extends MythicalAPP
                     self::InternalServerError($e->getMessage(), null);
                 }
             }
-
-            $router->add('/(.*)', function (): void {
-                self::init();
-                self::NotFound('The api route does not exist!', null);
-            });
         } catch (\Exception $e) {
             self::init();
             self::InternalServerError($e->getMessage(), null);

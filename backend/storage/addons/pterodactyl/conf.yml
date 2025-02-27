@@ -11,11 +11,11 @@ plugin:
   flags: 
     - hasInstallScript
   target: "0"
+  can_deploy: true
   dependencies:
     - php-ext=pdo
     - composer=pragmarx/google2fa
     - php=8.1
-  type: provider
 config:
   - name: "url"
     type: string
@@ -25,3 +25,10 @@ config:
     type: string
     default: "1234567890"
     nullable: false
+routes: 
+  client:
+    - name: "Pterodactyl Panel"
+      path: "/pterodactyl"
+  admin: 
+    - name: "Pterodactyl Panel"
+      path: "/pterodactyl/config"

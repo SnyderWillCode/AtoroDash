@@ -1,0 +1,1 @@
+ALTER TABLE `mythicalclient_addons` ADD `can_deploy` ENUM('false','true') NOT NULL DEFAULT 'false' AFTER `display_name`;

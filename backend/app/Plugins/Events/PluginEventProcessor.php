@@ -19,12 +19,11 @@ class PluginEventProcessor {
         try {
             // Get plugin config to verify it's a event
             $config = PluginHelper::getPluginConfig($identifier);
-            if (empty($config) || $config['plugin']['type'] !== 'event') {
+            if (empty($config)) {
                 return null;
             }
-
             // Build the expected event class name
-            $eventClass = "MythicalClient\\Storage\\Addons\\{$identifier}\\Event";
+			$eventClass = "MythicalClient\\Storage\\Addons\\{$identifier}\\Module";
 
             // Check if class exists and implements PluginEvent
             if (class_exists($eventClass) && is_subclass_of($eventClass, PluginEventRequirements::class)) {

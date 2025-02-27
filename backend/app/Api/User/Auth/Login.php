@@ -65,37 +65,37 @@ $router->add('/api/user/auth/login', function (): void {
 	}
 
 	// Check account verification if mail is enabled
-	if (User::getInfo($login, UserColumns::VERIFIED, false) == 'false' && Mail::isEnabled()) {
+	if (User::getInfo($loginResult, UserColumns::VERIFIED, false) == 'false' && Mail::isEnabled()) {
 		User::logout();
 		$eventManager->emit(AuthEvent::onAuthLoginFailed(), ['login' => $login, 'error_code' => 'ACCOUNT_NOT_VERIFIED']);
 		$appInstance->BadRequest('Account not verified', ['error_code' => 'ACCOUNT_NOT_VERIFIED']);
 	}
 
 	// Check if account is banned
-	if (User::getInfo($login, UserColumns::BANNED, false) != 'NO') {
+	if (!User::getInfo($loginResult, UserColumns::BANNED, false) == 'NO') {
 		User::logout();
 		$eventManager->emit(AuthEvent::onAuthLoginFailed(), ['login' => $login, 'error_code' => 'ACCOUNT_BANNED']);
 		$appInstance->BadRequest('Account is banned', ['error_code' => 'ACCOUNT_BANNED']);
 	}
 
 	// Check if account is deleted
-	if (User::getInfo($login, UserColumns::DELETED, false) == 'true') {
+	if (User::getInfo($loginResult, UserColumns::DELETED, false) == 'true') {
 		User::logout();
 		$eventManager->emit(AuthEvent::onAuthLoginFailed(), ['login' => $login, 'error_code' => 'ACCOUNT_DELETED']);
 		$appInstance->BadRequest('Account is deleted', ['error_code' => 'ACCOUNT_DELETED']);
 	}
 
 	// Handle 2FA if enabled
-	if (User::getInfo($login, UserColumns::TWO_FA_ENABLED, false) == 'true') {
+	if (User::getInfo($loginResult, UserColumns::TWO_FA_ENABLED, false) == 'true') {
 		User::updateInfo($login, UserColumns::TWO_FA_BLOCKED, 'true', false);
 	}
 
 	// Set cookie based on debug mode
 	if (APP_DEBUG) {
 		// Set the cookie to expire in 1 year if the app is in debug mode
-		setcookie('user_token', $login, time() + 3600 * 31 * 360, '/');
+		setcookie('user_token', $loginResult, time() + 3600 * 31 * 360, '/');
 	} else {
-		setcookie('user_token', $login, time() + 3600, '/');
+		setcookie('user_token', $loginResult, time() + 3600, '/');
 	}
 
 	// Emit successful login event before sending response

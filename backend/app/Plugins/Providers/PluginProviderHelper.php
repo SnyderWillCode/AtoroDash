@@ -28,14 +28,8 @@ class PluginProviderHelper
     public static function getProviderClass(string $identifier): ?PluginProvider
     {
         try {
-            // Get plugin config to verify it's a provider
-            $config = PluginHelper::getPluginConfig($identifier);
-            if (empty($config) || $config['plugin']['type'] !== 'provider') {
-                return null;
-            }
-
             // Build the expected provider class name
-            $providerClass = "MythicalClient\\Storage\\Addons\\{$identifier}\\Provider";
+            $providerClass = "MythicalClient\\Storage\\Addons\\{$identifier}\\Module";
 
             // Check if class exists and implements PluginProvider
             if (class_exists($providerClass) && is_subclass_of($providerClass, PluginProvider::class)) {

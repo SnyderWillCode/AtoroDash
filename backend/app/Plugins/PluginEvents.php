@@ -131,7 +131,9 @@ class PluginEvents
 
         if ($listeners !== []) {
             foreach ($listeners as $listener) {
-                $listener(...$arguments);
+                // Convert associative array to indexed array for spread operator
+                $args = array_values($arguments);
+                $listener(...$args);
             }
         }
     }

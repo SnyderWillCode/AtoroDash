@@ -1,5 +1,5 @@
 <?php
-
+namespace MythicalClient\Chat\interface;
 /*
  * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
@@ -11,15 +11,28 @@
  * Breaking any of the following rules will result in a permanent ban from the MythicalSystems community and all of its services.
  */
 
-interface RolesInterface
+class RolesInterface
 {
-    public const DEFAULT = 'default';
-    public const VIP = 'vip';
-    public const SUPPORTBUDDY = 'supportbuddy';
-    public const SUPPORT = 'support';
-    public const SUPPORTLVL3 = 'supportlvl3';
-    public const SUPPORTLVL4 = 'supportlvl4';
-    public const ADMIN = 'admin';
-    public const ADMINISTRATOR = 'administrator';
+    public static string $DEFAULT = 'default';
+    public static string $VIP = 'vip';
+    public static string $SUPPORTBUDDY = 'supportbuddy';
+    public static string $SUPPORT = 'support';
+    public static string $SUPPORTLVL3 = 'supportlvl3';
+    public static string $SUPPORTLVL4 = 'supportlvl4';
+    public static string $ADMIN = 'admin';
+    public static string $ADMINISTRATOR = 'administrator';
 
+	public static function getRoles(): array
+	{
+		return [
+			self::$DEFAULT,
+			self::$VIP,
+			self::$SUPPORTBUDDY,
+			self::$SUPPORT,
+			self::$SUPPORTLVL3,
+			self::$SUPPORTLVL4,
+			self::$ADMIN,
+			self::$ADMINISTRATOR,
+		];
+	}
 }

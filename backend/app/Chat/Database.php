@@ -298,4 +298,32 @@ class Database
         $app = \MythicalClient\App::getInstance(true);
         $app->getLogger()->error($message, true);
     }
+
+    /**
+     * DANGER: This function is dangerous and should only be used in special cases.
+     * DANGER: This function can break the database.
+     * DANGER: This function can corrupt the database.
+     * DANGER: This function can crash the server.
+     * DANGER: This function can brick the server.
+     * DANGER: This function can brick the database.
+     * DANGER: This function can brick the server and the database.
+     *
+     * Run a SQL query.
+     *
+     * @param string $sql the SQL query to run
+     *
+     * @return array the result of the SQL query
+     */
+    public static function runSQL(string $sql): array
+    {
+        try {
+            $query = self::getPdoConnection()->query($sql);
+
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to run SQL: ' . $e->getMessage());
+
+            return [];
+        }
+    }
 }

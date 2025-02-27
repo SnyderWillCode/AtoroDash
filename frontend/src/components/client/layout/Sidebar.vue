@@ -6,7 +6,6 @@ import {
     ChevronDown as ChevronDownIcon,
     CopyPlusIcon,
     FileTextIcon,
-    GlobeIcon,
     LayoutDashboardIcon,
     ServerIcon,
     TicketIcon,
@@ -86,10 +85,10 @@ const menuSections = ref([
                 expanded: false,
                 subitems: [
                     {
-                        name: Translation.getTranslation('components.sidebar.all_services'),
+                        name: Translation.getTranslation('components.sidebar.orders'),
                         icon: ServerIcon,
-                        href: '/services',
-                        active: isActiveRoute(['/services']),
+                        href: '/orders',
+                        active: isActiveRoute(['/orders']),
                     },
                     {
                         name: Translation.getTranslation('components.sidebar.add_service'),
@@ -134,12 +133,6 @@ const menuSections = ref([
                 icon: BellIcon,
                 href: '/announcements',
                 active: isActiveRoute(['/announcements']),
-            },
-            {
-                name: Translation.getTranslation('components.sidebar.knowledge'),
-                icon: GlobeIcon,
-                href: '/knowledge-base',
-                active: isActiveRoute(['/knowledge-base']),
             },
             {
                 name: Translation.getTranslation('components.sidebar.tickets'),

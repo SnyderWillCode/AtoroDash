@@ -299,4 +299,20 @@ class Services extends Database
             return null;
         }
     }
+
+    public static function getServiceByID(int $id): ?array
+    {
+        try {
+            $conn = self::getPdoConnection();
+            $stmt = $conn->prepare('SELECT * FROM ' . self::SERVICE_TABLE . " WHERE id = :id AND deleted = 'false' AND enabled = 'true' LIMIT 1");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            self::db_Error('Failed to get service by ID: ' . $e->getMessage());
+
+            return null;
+        }
+    }
 }

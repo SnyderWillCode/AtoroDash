@@ -13,6 +13,7 @@
 
 namespace MythicalClient;
 
+use MythicalClient\Plugins\Events\Events\AppEvent;
 use RateLimit\Rate;
 use Router\Router as rt;
 use RateLimit\RedisRateLimiter;
@@ -33,7 +34,7 @@ class App extends MythicalAPP
 
     public function __construct(bool $softBoot)
     {
-        global $pluginManager;
+        global $pluginManager, $eventManager;
         /**
          * Load the environment variables.
          */
@@ -56,6 +57,7 @@ class App extends MythicalAPP
         if ($softBoot) {
             return;
         }
+		
         /**
          * Sentry.
          */
@@ -132,6 +134,8 @@ class App extends MythicalAPP
 
         $router = new rt();
         $this->registerApiRoutes($router);
+		$eventManager->emit(AppEvent::onAppLoad(), []);
+
         try {
             $router->route();
         } catch (\Exception $e) {

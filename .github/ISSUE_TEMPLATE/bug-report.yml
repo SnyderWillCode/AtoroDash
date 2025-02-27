@@ -5,7 +5,7 @@ body:
 - type: markdown
   attributes:
     value: |
-      Bug reports should only be used for reporting issues with how the software works. For assistance installing this software, as well as debugging issues with dependencies, please use our [Discord server](https://discord.mythicalsystems.xyz).
+      Bug reports should only be used for reporting issues with how the software works. For assistance installing this software, as well as debugging issues with dependencies, please use our [Discord server](https://discord.mythical.systems).
 
 - type: textarea      
   attributes:
@@ -45,7 +45,7 @@ body:
       Run the following command to collect logs on your system.
       
       Panel: `cd /var/www/framework && php framework logs`
-    placeholder: "https://api.mythicalsystems.xyz/logs/123456&plain"
+    placeholder: "https://api.mythical.systems/logs/123456&plain"
     render: bash
   validations:
     required: false

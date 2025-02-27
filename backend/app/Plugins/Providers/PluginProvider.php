@@ -19,4 +19,14 @@ interface PluginProvider
      * Get the order requirements.
      */
     public static function getOrderRequirements(): array;
+
+    /**
+     * Get the plugin order config.
+     */
+    public static function getOrderConfig(): array;
+
+    /**
+     * Get the plugin admin config.
+     */
+    public static function getAdminConfig(): array;
 }

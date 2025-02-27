@@ -8,6 +8,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import { createI18n } from 'vue-i18n';
 import EN from '@/locale/en.yml';
 import './assets/sweetalert2.css';
+
 const app = createApp(App);
 const pinia = createPinia();
 
@@ -16,6 +17,7 @@ app.use(router);
 app.use(VueSweetalert2);
 
 const i18n = createI18n({
+    legacy: false,
     locale: 'EN',
     messages: {
         EN: EN,

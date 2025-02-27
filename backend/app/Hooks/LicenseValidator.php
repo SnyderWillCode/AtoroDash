@@ -19,7 +19,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class LicenseValidator
 {
-    private const PRODUCT_ID = 2;
+    private const PRODUCT_ID = 1;
     private const API_URL = 'https://activation.mythical.systems';
     private const CACHE_DURATION = 1800; // 30 minutes
     private const CACHE_DIR = APP_CACHE_DIR . '/other';
@@ -43,23 +43,37 @@ class LicenseValidator
             ],
         ]);
 
-        // Ensure cache directory exists
-        if (!is_dir(self::CACHE_DIR)) {
-            mkdir(self::CACHE_DIR, 0755, true);
-        }
+        $this->ensureCacheDirectory();
 
         App::getInstance(true)->getLogger()->debug('License validator initialized');
+    }
+
+    private function ensureCacheDirectory(): void
+    {
+        if (!is_dir(self::CACHE_DIR)) {
+            $created = @mkdir(self::CACHE_DIR, 0755, true);
+            if (!$created) {
+                App::getInstance(true)->getLogger()->error('Failed to create cache directory: ' . self::CACHE_DIR);
+            }
+        }
+
+        // Verify directory is writable
+        if (!is_writable(self::CACHE_DIR)) {
+            App::getInstance(true)->getLogger()->error('Cache directory is not writable: ' . self::CACHE_DIR);
+        }
     }
 
     public function validate(): bool
     {
         try {
-            if ($this->checkCache()) {
-                App::getInstance(true)->getLogger()->debug('License validation succeeded (cached)');
-
-                return true;
+            // First check if we have valid cache
+            $cachedResult = $this->checkCache();
+            if ($cachedResult !== null) {
+                App::getInstance(true)->getLogger()->debug('Using cached license validation result');
+                return $cachedResult;
             }
 
+            // No valid cache, perform actual validation
             $response = $this->httpClient->post(self::API_URL . '/api/v1/validate', [
                 'json' => [
                     'licenseKey' => $this->licenseKey,
@@ -69,69 +83,89 @@ class LicenseValidator
                 ],
             ]);
 
-            if ($response->getStatusCode() === 200) {
+            $responseData = json_decode($response->getBody()->getContents(), true);
+            $isValid = $response->getStatusCode() === 200 && isset($responseData['valid']) && $responseData['valid'] === true;
 
-                $this->setCache();
-                App::getInstance(true)->getLogger()->debug('License validation succeeded: ' . $response->getBody());
-
-                return true;
-            }
-
-            App::getInstance(true)->getLogger()->warning('License validation failed', false);
-
-            return false;
+            // Cache the result
+            $this->setCache($isValid);
+            
+            App::getInstance(true)->getLogger()->debug('License validation result: ' . ($isValid ? 'valid' : 'invalid'));
+            return $isValid;
 
         } catch (GuzzleException $e) {
-            App::getInstance(true)->getLogger()->error('License validation error: ' . $e->getMessage(), false);
-
+            App::getInstance(true)->getLogger()->error('License validation request failed: ' . $e->getMessage());
+            return false;
+        } catch (\Throwable $e) {
+            App::getInstance(true)->getLogger()->error('Unexpected error during license validation: ' . $e->getMessage());
             return false;
         }
     }
 
-    private function checkCache(): bool
+    private function checkCache(): ?bool
     {
         try {
             if (!file_exists($this->cacheFile)) {
-                App::getInstance(true)->getLogger()->debug('License cache file not found');
-
-                return false;
+                return null;
             }
 
-            $cacheData = @json_decode(file_get_contents($this->cacheFile), true);
+            $cacheContent = @file_get_contents($this->cacheFile);
+            if ($cacheContent === false) {
+                App::getInstance(true)->getLogger()->warning('Failed to read license cache file');
+                return null;
+            }
+
+            $cacheData = @json_decode($cacheContent, true);
             if (!$this->isValidCacheData($cacheData)) {
-                App::getInstance(true)->getLogger()->warning('Invalid license cache data format');
-
-                return false;
+                App::getInstance(true)->getLogger()->warning('Invalid cache data format');
+                @unlink($this->cacheFile);
+                return null;
             }
 
+            // Check if cache has expired
             if (time() - $cacheData['timestamp'] > self::CACHE_DURATION) {
+                App::getInstance(true)->getLogger()->debug('License cache has expired');
                 @unlink($this->cacheFile);
-                App::getInstance(true)->getLogger()->debug('License cache expired');
-
-                return false;
+                return null;
             }
 
             return $cacheData['valid'];
 
         } catch (\Throwable $e) {
-            App::getInstance(true)->getLogger()->error('License cache check error: ' . $e->getMessage(), false);
-
-            return false;
+            App::getInstance(true)->getLogger()->error('Error checking license cache: ' . $e->getMessage());
+            return null;
         }
     }
 
-    private function setCache(): void
+    private function setCache(bool $isValid): void
     {
         try {
-            $cacheData = json_encode([
+            $cacheData = [
                 'timestamp' => time(),
-                'valid' => true,
-            ]);
+                'valid' => $isValid,
+                'version' => $this->version,
+                'hwid' => $this->getHWID(),
+            ];
 
-            file_put_contents($this->cacheFile, $cacheData, LOCK_EX);
-            App::getInstance(true)->getLogger()->debug('License cache updated');
+            $written = @file_put_contents(
+                $this->cacheFile, 
+                json_encode($cacheData), 
+                LOCK_EX
+            );
+
+            if ($written === false) {
+                throw new \RuntimeException('Failed to write to cache file');
+            }
+
+            // Verify the cache was written correctly
+            clearstatcache(true, $this->cacheFile);
+            if (!file_exists($this->cacheFile)) {
+                throw new \RuntimeException('Cache file does not exist after writing');
+            }
+
+            App::getInstance(true)->getLogger()->debug('License cache updated successfully');
+
         } catch (\Throwable $e) {
-            App::getInstance(true)->getLogger()->error('License cache set error: ' . $e->getMessage(), false);
+            App::getInstance(true)->getLogger()->error('Failed to set license cache: ' . $e->getMessage());
         }
     }
 

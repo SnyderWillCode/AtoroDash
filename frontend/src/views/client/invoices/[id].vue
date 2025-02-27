@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { format } from 'date-fns';
 import LayoutDashboard from '@/components/client/LayoutDashboard.vue';
@@ -10,6 +10,9 @@ const Settings = useSettingsStore();
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Session from '@/mythicalclient/Session';
+import OrderInvoices from '@/mythicalclient/Services/OrderInvoices';
+import Swal from 'sweetalert2';
+import { useI18n } from 'vue-i18n';
 
 interface Category {
     id: number;
@@ -63,7 +66,7 @@ const companyInfo = ref({
     vat: '',
 });
 const loading = ref(true);
-const error = ref<string | null>(null);
+const errorMessage = ref<string | null>(null);
 
 const getStatusClasses = (status: string): string => {
     const classes: Record<'pending' | 'paid' | 'cancelled' | 'refunded', string> = {
@@ -107,7 +110,7 @@ const fetchData = async () => {
             vat: await Settings.getSetting('company_vat'),
         };
     } catch (err) {
-        error.value = err instanceof Error ? err.message : 'Failed to load invoice';
+        errorMessage.value = err instanceof Error ? err.message : 'Failed to load invoice';
     } finally {
         loading.value = false;
     }
@@ -115,9 +118,68 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const handlePayment = () => {
+const props = defineProps<{
+    error: string | null;
+    field?: string;
+}>();
+
+const { t } = useI18n();
+
+watch(
+    () => props.error,
+    (newError: string | null) => {
+        if (newError) {
+            showError(newError);
+        }
+    },
+);
+
+const showError = (errorCode: string) => {
+    const errorMessage = getErrorMessage(errorCode);
+
+    Swal.fire({
+        title: t('components.services.order.errors.title'),
+        text: errorMessage,
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            popup: 'rounded-lg shadow-lg',
+        },
+    });
+};
+
+const getErrorMessage = (errorCode: string): string => {
+    switch (errorCode) {
+        case 'ERR_INVALID_JSON':
+            return t('components.services.order.errors.invalid_json');
+        case 'ERR_MISSING_REQUIRED_FIELD':
+            return t('components.services.order.errors.missing_field', { field: props.field });
+        case 'ERR_SERVICE_NOT_FOUND':
+            return t('components.services.order.errors.service_not_found');
+        case 'ERR_CATEGORY_NOT_FOUND':
+            return t('components.services.order.errors.category_not_found');
+        case 'ERR_PROVIDER_NOT_FOUND':
+            return t('components.services.order.errors.provider_not_found');
+        case 'ERR_INVOICE_CREATION_FAILED':
+            return t('components.services.order.errors.invoice_failed');
+        case 'ERR_INTERNAL_SERVER_ERROR':
+            return t('components.services.order.errors.order_failed');
+        case 'ERR_INSUFFICIENT_CREDITS':
+            return t('components.services.order.errors.insufficient_credits');
+        default:
+            return t('components.services.order.errors.generic');
+    }
+};
+
+const handlePayment = async () => {
     // Implement payment logic
-    console.log('Processing payment for invoice:', invoice.value?.id);
+    const response = await OrderInvoices.payUserInvoice(route.params.id as string);
+    if (response.success) {
+        router.push('/invoices');
+    } else {
+        showError(response.error);
+    }
 };
 
 const downloadInvoice = async () => {

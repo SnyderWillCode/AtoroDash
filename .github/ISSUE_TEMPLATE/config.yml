@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: Installation Help
-    url: https://discord.mythicalsystems.xyz
+    url: https://discord.mythical.systems
     about: Please visit our Discord for help with your installation.
   - name: General Question
-    url: https://discord.mythicalsystems.xyz
+    url: https://discord.mythical.systems
     about: Please visit our Discord for general questions about MythicalDash.
   - name: Developer Documentation
-    url: https://docs.mythicalsystems.xyz
+    url: https://docs.mythical.systems
     about: Please visit our documentation for help with developing on MythicalDash.
